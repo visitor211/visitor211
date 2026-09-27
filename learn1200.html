@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>國中小英語 1200 單字拼字挑戰</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --success: #16a34a;
+      --error: #dc2626;
+      --warning: #f59e0b;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+    header { background: #ffffff; border-bottom: 1px solid var(--border); padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+    .logo-area { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.15rem; color: var(--primary); }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 14px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all 0.2s ease; user-select: none; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-secondary { background: #fff; border-color: var(--border); color: var(--text-main); }
+    .btn-secondary:hover { background: #f1f5f9; }
+    .btn-audio { background: #e0e7ff; color: var(--primary); border: 1px solid #c7d2fe; font-size: 0.95rem; padding: 10px 18px; border-radius: 20px; }
+    .btn-audio:hover { background: #c7d2fe; }
+    .btn-toggle-cn { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; font-size: 0.82rem; padding: 6px 12px; }
+    .container { max-width: 720px; margin: 24px auto; padding: 0 16px; width: 100%; flex: 1; }
+    .card { background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); padding: 24px; margin-bottom: 20px; }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; background: #e2e8f0; color: #475569; }
+    
+    /* 導航與選單 */
+    .unit-selector-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-top: 14px; }
+    .unit-card { border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; cursor: pointer; transition: all 0.2s; background: #fff; }
+    .unit-card:hover { border-color: var(--primary); background: #eef2ff; }
+    .unit-card.active { border-color: var(--primary); background: #e0e7ff; color: var(--primary); font-weight: 700; }
+
+    /* 單字卡核心區域 */
+    .word-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .audio-group { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0; justify-content: center; }
+    
+    /* 句子與中文遮蔽 */
+    .sentence-box { background: #f8fafc; border-radius: 12px; border: 1px dashed var(--border); padding: 14px 16px; margin: 16px 0; text-align: left; }
+    .sentence-en { font-size: 1.1rem; line-height: 1.6; color: #334155; }
+    .cloze-blank { display: inline-block; min-width: 80px; border-bottom: 2px solid var(--primary); color: var(--primary); font-weight: 700; text-align: center; padding: 0 4px; }
+    
+    .cn-box { margin-top: 10px; padding-top: 10px; border-top: 1px solid #e2e8f0; min-height: 48px; display: flex; align-items: center; justify-content: space-between; }
+    .cn-masked { color: var(--text-muted); font-size: 0.88rem; font-style: italic; background: #f1f5f9; padding: 6px 12px; border-radius: 6px; width: 100%; display: flex; justify-content: space-between; align-items: center; }
+    .cn-revealed { width: 100%; display: flex; justify-content: space-between; align-items: center; animation: fadeIn 0.25s ease; }
+    .cn-word { font-size: 1.15rem; font-weight: 700; color: #0f172a; }
+    .cn-sentence { font-size: 0.85rem; color: #64748b; margin-top: 2px; }
+
+    /* 拼字輸入與回饋 */
+    .input-box { display: flex; gap: 10px; margin-top: 18px; }
+    .spelling-input { flex: 1; padding: 12px 16px; font-size: 1.25rem; font-weight: 600; letter-spacing: 1px; border: 2px solid var(--border); border-radius: 10px; outline: none; transition: border-color 0.2s; }
+    .spelling-input:focus { border-color: var(--primary); }
+    .spelling-input.correct { border-color: var(--success); background: #f0fdf4; }
+    .spelling-input.wrong { border-color: var(--error); background: #fef2f2; }
+
+    .result-alert { margin-top: 14px; padding: 12px 16px; border-radius: 10px; display: none; font-size: 0.95rem; }
+    .result-alert.correct { background: #dcfce7; color: #166534; display: block; }
+    .result-alert.wrong { background: #fee2e2; color: #991b1b; display: block; }
+
+    .diff-display { margin-top: 8px; font-family: monospace; font-size: 1.1rem; }
+    .diff-correct { color: #16a34a; font-weight: 700; }
+    .diff-wrong { color: #dc2626; text-decoration: underline; background: #fee2e2; padding: 0 2px; }
+
+    /* 底部狀態 */
+    .progress-bar-wrap { height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; margin-top: 16px; }
+    .progress-bar { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s; }
+    
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-area">
+      <span>📖 國中小英語 1200 單字測驗</span>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary" onclick="app.showUnitModal()">切換單元</button>
+      <button id="globalCnBtn" class="btn btn-toggle-cn" onclick="app.toggleGlobalChineseMode()">
+        中文預設：隱藏 🙈
+      </button>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- 單元選單視窗 -->
+    <div id="unitCard" class="card">
+      <h3 style="margin-bottom: 8px;">選擇測驗單元</h3>
+      <p style="font-size:0.85rem; color:var(--text-muted);">收錄教育部 1200 基本字彙與生活例句</p>
+      <div class="unit-selector-grid" id="unitGrid"></div>
+    </div>
+
+    <!-- 測驗進行卡片 -->
+    <div id="quizCard" class="card" style="display: none;">
+      <div class="word-card-header">
+        <span class="badge" id="wordNoBadge">No. 1</span>
+        <span style="font-size: 0.85rem; color: var(--text-muted);" id="quizProgressText">1 / 100</span>
+      </div>
+
+      <!-- 發音按鈕群 (採用 Google 雲端音訊，保證小新 Pad 能發聲) -->
+      <div class="audio-group">
+        <button class="btn btn-audio" onclick="app.playAudioCurrentWord()">
+          🔊 播放單字發音
+        </button>
+        <button class="btn btn-audio" style="background:#f0fdf4; color:#166534; border-color:#bbf7d0;" onclick="app.playAudioCurrentSentence()">
+          🗣️ 播放情境例句
+        </button>
+      </div>
+
+      <!-- 英文例句填空區 -->
+      <div class="sentence-box">
+        <div class="sentence-en" id="sentenceEnBox"></div>
+        
+        <!-- 中文翻譯區 (預設隱藏) -->
+        <div class="cn-box">
+          <div id="cnMaskedBox" class="cn-masked">
+            <span>🎧 聽音拼字挑戰中（中文已遮蔽）</span>
+            <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem;" onclick="app.revealChinese(true)">👁️ 顯示中文</button>
+          </div>
+          <div id="cnRevealedBox" class="cn-revealed" style="display:none;">
+            <div>
+              <div class="cn-word" id="cnWordText">中文釋義</div>
+              <div class="cn-sentence" id="cnSentenceText">例句翻譯</div>
+            </div>
+            <button class="btn btn-secondary" style="padding:4px 8px; font-size:0.75rem;" onclick="app.hideChinese()">🙈 隱藏</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 拼字輸入與按鈕 -->
+      <div class="input-box">
+        <input type="text" id="spellingInput" class="spelling-input" placeholder="請輸入單字拼寫..." autocomplete="off" autocapitalize="off" spellcheck="false" />
+        <button class="btn btn-primary" id="submitBtn" onclick="app.submitAnswer()">送出</button>
+      </div>
+
+      <!-- 即時回饋區 -->
+      <div id="resultAlert" class="result-alert"></div>
+
+      <!-- 進度條 -->
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 1200 單字精選題庫範例 (包含生活例句與翻譯)
+    const WORD_DATA = [
+      { id: 1, word: "able", cn: "能夠...的", sentence: "He is able to speak three languages.", sCn: "他能夠說三種語言。" },
+      { id: 2, word: "about", cn: "關於；大約", sentence: "Tell me more about your family.", sCn: "多告訴我一些關於你家人的事。" },
+      { id: 3, word: "abroad", cn: "在國外", sentence: "She plans to study abroad next year.", sCn: "她計畫明年出國留學。" },
+      { id: 4, word: "across", cn: "在...對面；穿過", sentence: "Walk across the street carefully.", sCn: "小心穿過馬路。" },
+      { id: 5, word: "afraid", cn: "害怕的", sentence: "Don't be afraid of making mistakes.", sCn: "不要害怕犯錯。" },
+      { id: 6, word: "afternoon", cn: "下午", sentence: "We usually play basketball in the afternoon.", sCn: "我們通常在下午打籃球。" },
+      { id: 7, word: "airplane", cn: "飛機", sentence: "The airplane is flying high in the sky.", sCn: "飛機在高空中飛行。" },
+      { id: 8, word: "already", cn: "已經", sentence: "I have already finished my homework.", sCn: "我已經寫完作業了。" },
+      { id: 9, word: "animal", cn: "動物", sentence: "The elephant is a very big animal.", sCn: "大象是一種非常巨大的動物。" },
+      { id: 10, word: "answer", cn: "回答；答案", sentence: "Can you answer my question?", sCn: "你能回答我的問題嗎？" },
+      { id: 11, word: "beautiful", cn: "美麗的", sentence: "The flowers in the park are very beautiful.", sCn: "公園裡的花朵非常美麗。" },
+      { id: 12, word: "breakfast", cn: "早餐", sentence: "Eating a good breakfast gives you energy.", sCn: "吃一頓豐富的早餐會給你滿滿的活力。" },
+      { id: 13, word: "comfortable", cn: "舒適的", sentence: "This sofa is very soft and comfortable.", sCn: "這張沙發非常柔軟且舒適。" },
+      { id: 14, word: "delicious", cn: "美味的", sentence: "Mom cooked a delicious dinner for us.", sCn: "媽媽為我們做了一頓美味的晚餐。" },
+      { id: 15, word: "hospital", cn: "醫院", sentence: "He went to the hospital to see a doctor.", sCn: "他去醫院看醫生。" }
+    ];
+
+    class QuizApp {
+      constructor() {
+        this.questions = [...WORD_DATA];
+        this.currentIndex = 0;
+        this.defaultHideChinese = true;
+        this.audioPlayer = new Audio(); // 雲端音訊專用播放器
+        this.initUI();
+      }
+
+      initUI() {
+        this.renderUnits();
+        
+        // 綁定鍵盤 Enter 鍵
+        document.getElementById("spellingInput").addEventListener("keyup", (e) => {
+          if (e.key === "Enter") {
+            const btn = document.getElementById("submitBtn");
+            if (btn.innerText === "下一題 ➔") {
+              this.nextQuestion();
+            } else {
+              this.submitAnswer();
+            }
+          }
+        });
+      }
+
+      renderUnits() {
+        const grid = document.getElementById("unitGrid");
+        grid.innerHTML = `
+          <div class="unit-card active" onclick="app.startQuiz(0)">
+            <div style="font-weight:700;">基礎字彙精選</div>
+            <div style="font-size:0.75rem; color:#64748b;">共 15 題</div>
+          </div>
+        `;
+      }
+
+      startQuiz(unitIndex) {
+        document.getElementById("unitCard").style.display = "none";
+        document.getElementById("quizCard").style.display = "block";
+        this.currentIndex = 0;
+        this.loadCurrentWord();
+      }
+
+      showUnitModal() {
+        document.getElementById("unitCard").style.display = "block";
+        document.getElementById("quizCard").style.display = "none";
+      }
+
+      toggleGlobalChineseMode() {
+        this.defaultHideChinese = !this.defaultHideChinese;
+        const btn = document.getElementById("globalCnBtn");
+        if (this.defaultHideChinese) {
+          btn.innerText = "中文預設：隱藏 🙈";
+          btn.style.background = "#fef3c7";
+          btn.style.color = "#b45309";
+          this.hideChinese();
+        } else {
+          btn.innerText = "中文預設：顯示 👁️";
+          btn.style.background = "#dcfce7";
+          btn.style.color = "#166534";
+          this.revealChinese(false);
+        }
+      }
+
+      loadCurrentWord() {
+        const item = this.questions[this.currentIndex];
+        document.getElementById("wordNoBadge").innerText = `No. ${item.id}`;
+        document.getElementById("quizProgressText").innerText = `${this.currentIndex + 1} / ${this.questions.length}`;
+
+        // 填空例句展示
+        const regex = new RegExp(`\\b${item.word}\\b`, 'gi');
+        const clozeHtml = item.sentence.replace(regex, `<span class="cloze-blank">${'_ '.repeat(item.word.length)}</span>`);
+        document.getElementById("sentenceEnBox").innerHTML = clozeHtml;
+
+        // 中文部分
+        document.getElementById("cnWordText").innerText = `${item.word}：${item.cn}`;
+        document.getElementById("cnSentenceText").innerText = item.sCn;
+
+        if (this.defaultHideChinese) {
+          this.hideChinese();
+        } else {
+          this.revealChinese(false);
+        }
+
+        // 重置輸入與回饋
+        const input = document.getElementById("spellingInput");
+        input.value = "";
+        input.className = "spelling-input";
+        input.disabled = false;
+        input.focus();
+
+        const alertBox = document.getElementById("resultAlert");
+        alertBox.className = "result-alert";
+        alertBox.style.display = "none";
+
+        document.getElementById("submitBtn").innerText = "送出";
+
+        // 更新進度條
+        const percent = ((this.currentIndex + 1) / this.questions.length) * 100;
+        document.getElementById("progressBar").style.width = `${percent}%`;
+
+        // 自動播放單字音訊
+        this.playAudioCurrentWord();
+      }
+
+      revealChinese(manual = false) {
+        document.getElementById("cnMaskedBox").style.display = "none";
+        document.getElementById("cnRevealedBox").style.display = "flex";
+      }
+
+      hideChinese() {
+        document.getElementById("cnMaskedBox").style.display = "flex";
+        document.getElementById("cnRevealedBox").style.display = "none";
+      }
+
+      /* === 核心：像 Google 翻譯一樣的雲端語音播放方案 === */
+      playCloudTts(text) {
+        // 使用 Google 翻譯同款音訊串流介面（tl=en，美式發音）
+        const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${encodeURIComponent(text)}`;
+        
+        this.audioPlayer.pause();
+        this.audioPlayer.src = url;
+        
+        const playPromise = this.audioPlayer.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(err => {
+            // 如果遇到跨域攔截或離線，自動無縫切換備援 Web Speech API
+            console.warn("雲端音訊載入受阻，啟用本機備援語音引擎：", err);
+            this.speakFallback(text);
+          });
+        }
+      }
+
+      // 備援方案：瀏覽器原生的 SpeechSynthesis
+      speakFallback(text) {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const u = new SpeechSynthesisUtterance(text);
+          u.lang = 'en-US';
+          window.speechSynthesis.speak(u);
+        }
+      }
+
+      playAudioCurrentWord() {
+        const item = this.questions[this.currentIndex];
+        this.playCloudTts(item.word);
+      }
+
+      playAudioCurrentSentence() {
+        const item = this.questions[this.currentIndex];
+        this.playCloudTts(item.sentence);
+      }
+
+      submitAnswer() {
+        const item = this.questions[this.currentIndex];
+        const input = document.getElementById("spellingInput");
+        const userVal = input.value.trim().toLowerCase();
+        const targetVal = item.word.toLowerCase();
+        const alertBox = document.getElementById("resultAlert");
+
+        if (!userVal) {
+          alert("請輸入拼字後再送出！");
+          return;
+        }
+
+        // 答題後自動揭開中文釋義
+        this.revealChinese(false);
+
+        // 完整呈現例句（高亮單字）
+        const regex = new RegExp(`\\b${item.word}\\b`, 'gi');
+        document.getElementById("sentenceEnBox").innerHTML = item.sentence.replace(regex, `<strong style="color:var(--primary);">${item.word}</strong>`);
+
+        input.disabled = true;
+
+        if (userVal === targetVal) {
+          // 答對
+          input.className = "spelling-input correct";
+          alertBox.className = "result-alert correct";
+          alertBox.innerHTML = `🎉 <strong>答對了！</strong> 太棒了，拼寫完全正確！`;
+        } else {
+          // 答錯，顯示字母差異對比
+          input.className = "spelling-input wrong";
+          alertBox.className = "result-alert wrong";
+          
+          let diffHtml = "";
+          for (let i = 0; i < targetVal.length; i++) {
+            if (userVal[i] === targetVal[i]) {
+              diffHtml += `<span class="diff-correct">${targetVal[i]}</span>`;
+            } else {
+              diffHtml += `<span class="diff-wrong">${targetVal[i]}</span>`;
+            }
+          }
+
+          alertBox.innerHTML = `
+            ❌ <strong>拼寫有誤！</strong> 正確答案是：<span style="font-weight:700;">${item.word}</span>
+            <div class="diff-display">字母對照：${diffHtml}</div>
+          `;
+        }
+
+        // 將按鈕改為下一題
+        const btn = document.getElementById("submitBtn");
+        btn.innerText = "下一題 ➔";
+        btn.onclick = () => this.nextQuestion();
+      }
+
+      nextQuestion() {
+        if (this.currentIndex < this.questions.length - 1) {
+          this.currentIndex++;
+          this.loadCurrentWord();
+        } else {
+          alert("🎉 恭喜！您已完成本單元的所有測驗！");
+          this.showUnitModal();
+        }
+      }
+    }
+
+    const app = new QuizApp();
+  </script>
+</body>
+</html>
+
