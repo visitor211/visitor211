@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>大考 7000 單字拼字聽力測驗系統 (Level 1 - 6)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+    body {
+      font-family: 'Inter', 'Noto Sans TC', sans-serif;
+    }
+    .shake-anim {
+      animation: shake 0.4s ease-in-out;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+    .pop-anim {
+      animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes pop {
+      0% { transform: scale(0.92); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-blue-100 selection:text-blue-900">
+
+  <header class="bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 text-white flex items-center justify-center shadow-md shadow-blue-500/20 font-bold text-lg">
+          7K
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-slate-900 leading-tight">7000 單字拼字實戰測驗</h1>
+          <p class="text-xs text-slate-500">大考中心高頻單字 Level 1 ~ 6 聽音辨義訓練</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <button id="btn-toggle-notebook" class="relative px-3 py-1.5 text-xs font-medium rounded-lg text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-book-bookmark text-amber-500"></i>
+          <span>錯題本</span>
+          <span id="notebook-count-badge" class="ml-1 px-1.5 py-0.2 rounded-full text-[10px] bg-amber-500 text-white font-bold hidden">0</span>
+        </button>
+        <button id="btn-restart-setup" class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors flex items-center gap-1.5">
+          <i class="fa-solid fa-sliders text-blue-500"></i>
+          <span>測驗設定</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-center">
+
+    <!-- VIEW 1: SETUP SCREEN -->
+    <section id="view-setup" class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200/80 transition-all">
+      <div class="text-center max-w-xl mx-auto mb-8">
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 mb-2">
+          精準背單字．提升英聽與拼字力
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-bold text-slate-800">打造你的客製化單字測驗</h2>
+        <p class="text-sm text-slate-500 mt-2">提供自然發音提示與手動中文輔助，透過鍵盤立即輸入檢驗學習成效。</p>
+      </div>
+
+      <!-- Level Selector -->
+      <div class="mb-6">
+        <label class="block text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+          <i class="fa-solid fa-layer-group text-blue-500"></i>
+          <span>選擇詞彙等級 (Level)</span>
+          <span class="text-xs font-normal text-slate-400">可複選</span>
+        </label>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <button type="button" data-level="1" class="level-btn border-2 border-blue-500 bg-blue-50/60 text-blue-700 font-semibold py-2.5 px-4 rounded-xl flex items-center justify-between text-sm transition-all shadow-sm">
+            <span>Level 1 基礎</span>
+            <span class="text-xs bg-blue-200/80 px-2 py-0.5 rounded-md font-mono">初中/高一</span>
+          </button>
+          <button type="button" data-level="2" class="level-btn border-2 border-slate-200 bg-white text-slate-700 hover:border-slate-300 font-semibold py-2.5 px-4 rounded-xl flex items-center justify-between text-sm transition-all">
+            <span>Level 2 初級</span>
+            <span class="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md font-mono">基測/學測必備</span>
+          </button>
+          <button type="button" data-level="3" class="level-btn border-2 border-slate-200 bg-white text-slate-700 hover:border-slate-300 font-semibold py-2.5 px-4 rounded-xl flex items-center justify-between text-sm transition-all">
+            <span>Level 3 中級</span>
+            <span class="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md font-mono">學測高頻</span>
+          </button>
+          <button type="button" data-level="4" class="level-btn border-2 border-slate-200 bg-white text-slate-700 hover:border-slate-300 font-semibold py-2.5 px-4 rounded-xl flex items-center justify-between text-sm transition-all">
+            <span>Level 4 中高級</span>
+            <span class="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md font-mono">學測頂標</span>
+          </button>
+          <button type="button" data-level="5" class="level-btn border-2 border-slate-200 bg-white text-slate-700 hover:border-slate-300 font-semibold py-2.5 px-4 rounded-xl flex items-center justify-between text-sm transition-all">
+            <span>Level 5 高級</span>
+            <span class="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md font-mono">分科指考必背</span>
+          </button>
+          <button type="button" data-level="6" class="level-btn border-2 border-slate-200 bg-white text-slate-700 hover:border-slate-300 font-semibold py-2.5 px-4 rounded-xl flex items-center justify-between text-sm transition-all">
+            <span>Level 6 進階</span>
+            <span class="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md font-mono">大考壓軸/托福</span>
+          </button>
+        </div>
+        <div class="mt-2 flex gap-2 justify-end">
+          <button id="btn-select-all-levels" type="button" class="text-xs text-blue-600 hover:underline">全選等級</button>
+          <span class="text-xs text-slate-300">|</span>
+          <button id="btn-select-l1l3" type="button" class="text-xs text-slate-500 hover:underline">學測核心 (1-4)</button>
+        </div>
+      </div>
+
+      <!-- Question Count and Mode -->
+      <div class="grid sm:grid-cols-2 gap-6 mb-8">
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-list-ol text-blue-500"></i>
+            <span>測驗題數</span>
+          </label>
+          <div class="grid grid-cols-4 gap-2">
+            <button type="button" data-count="10" class="count-btn border-2 border-blue-500 bg-blue-50 text-blue-700 font-bold py-2 rounded-xl text-sm transition-all">10 題</button>
+            <button type="button" data-count="20" class="count-btn border-2 border-slate-200 bg-white text-slate-700 font-bold py-2 rounded-xl text-sm transition-all">20 題</button>
+            <button type="button" data-count="30" class="count-btn border-2 border-slate-200 bg-white text-slate-700 font-bold py-2 rounded-xl text-sm transition-all">30 題</button>
+            <button type="button" data-count="50" class="count-btn border-2 border-slate-200 bg-white text-slate-700 font-bold py-2 rounded-xl text-sm transition-all">50 題</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-gear text-blue-500"></i>
+            <span>測驗模式</span>
+          </label>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" data-mode="practice" class="mode-btn border-2 border-blue-500 bg-blue-50 text-blue-700 font-medium py-2 px-3 rounded-xl text-xs sm:text-sm text-left transition-all">
+              <span class="font-bold block">練習模式</span>
+              <span class="text-[11px] opacity-80">答錯時可立即訂正重拼</span>
+            </button>
+            <button type="button" data-mode="exam" class="mode-btn border-2 border-slate-200 bg-white text-slate-700 font-medium py-2 px-3 rounded-xl text-xs sm:text-sm text-left transition-all">
+              <span class="font-bold block">挑戰測驗</span>
+              <span class="text-[11px] opacity-70">一題一次機會，產生成績單</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Options -->
+      <div class="mb-8 p-4 bg-slate-50 rounded-2xl flex flex-wrap gap-4 text-xs sm:text-sm text-slate-600">
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="checkbox" id="opt-auto-play" checked class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+          <span>題目出現時自動發音</span>
+        </label>
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="checkbox" id="opt-auto-advance" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+          <span>答對後 1.2 秒自動換題</span>
+        </label>
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="checkbox" id="opt-sound-fx" checked class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+          <span>效果音 (答對/答錯音效)</span>
+        </label>
+      </div>
+
+      <!-- Start Button -->
+      <button id="btn-start-quiz" class="w-full bg-blue-600 hover:bg-blue-700 active:scale-[0.99] text-white font-bold py-3.5 px-6 rounded-2xl shadow-lg shadow-blue-500/25 transition-all text-base flex items-center justify-center gap-2">
+        <i class="fa-solid fa-play"></i>
+        <span>開始單字拼字測驗</span>
+      </button>
+    </section>
+
+    <section id="view-quiz" class="hidden flex flex-col gap-4">
+      <!-- Status & Progress Bar -->
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80">
+        <div class="flex items-center justify-between text-xs sm:text-sm font-medium text-slate-600 mb-2">
+          <div class="flex items-center gap-2">
+            <span id="badge-level" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800">Level 1</span>
+            <span id="quiz-question-counter" class="font-semibold text-slate-800 font-mono">1 / 10</span>
+          </div>
+          <div class="flex items-center gap-4 text-xs font-mono">
+            <span class="flex items-center gap-1 text-emerald-600 font-bold"><i class="fa-solid fa-check"></i> <span id="stat-correct">0</span></span>
+            <span class="flex items-center gap-1 text-rose-500 font-bold"><i class="fa-solid fa-xmark"></i> <span id="stat-wrong">0</span></span>
+            <span class="text-slate-400">準確率: <span id="stat-accuracy" class="text-slate-700 font-bold">100%</span></span>
+          </div>
+        </div>
+        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+          <div id="quiz-progress-bar" class="bg-blue-600 h-full w-0 transition-all duration-300"></div>
+        </div>
+      </div>
+
+      <!-- Main Card -->
+      <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-200/80 flex flex-col items-center text-center relative overflow-hidden">
+        
+        <!-- Audio button and hint section -->
+        <div class="w-full flex flex-col items-center mb-6">
+          <div class="relative group">
+            <button id="btn-pronounce" title="聆聽發音 (快速鍵: 空白鍵 Space)" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white flex flex-col items-center justify-center shadow-lg shadow-blue-500/30 active:scale-95 transition-all focus:outline-none focus:ring-4 focus:ring-blue-200">
+              <i class="fa-solid fa-volume-high text-2xl sm:text-3xl mb-1"></i>
+              <span class="text-[10px] sm:text-xs font-medium tracking-wider uppercase opacity-90">播放發音</span>
+            </button>
+          </div>
+          <span class="text-xs text-slate-400 mt-2 flex items-center gap-1">
+            <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded text-[10px] font-mono">Space</kbd> 重新聆聽
+          </span>
+        </div>
+
+        <!-- Word Properties (Phonetic / Part of speech / Letter Count hint) -->
+        <div class="flex items-center justify-center gap-2 mb-4 flex-wrap">
+          <span id="label-pos" class="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-slate-100 text-slate-600">n.</span>
+          <span id="label-phonetic" class="px-2.5 py-0.5 rounded-md text-xs font-mono bg-indigo-50 text-indigo-700">/ ə'baut /</span>
+          <span id="label-length" class="px-2 py-0.5 rounded-md text-xs font-mono bg-slate-50 border border-slate-200 text-slate-500">5 個字母</span>
+        </div>
+
+        <!-- Chinese Hint Box (DEFAULT: HIDDEN AS REQUESTED) -->
+        <div class="w-full max-w-md mb-6">
+          <div id="chinese-hint-container" class="transition-all">
+            <!-- Hidden state button -->
+            <button id="btn-toggle-chinese" type="button" class="w-full py-2.5 px-4 rounded-xl border border-dashed border-slate-300 hover:border-blue-400 hover:bg-blue-50/50 text-slate-500 hover:text-blue-600 text-xs sm:text-sm font-medium transition-all flex items-center justify-center gap-2 group">
+              <i class="fa-regular fa-eye text-slate-400 group-hover:text-blue-500"></i>
+              <span>點此顯示中文提示 (預設隱藏)</span>
+              <kbd class="ml-1 px-1.5 py-0.5 bg-slate-100 border border-slate-200 rounded text-[10px] text-slate-400">Ctrl+H</kbd>
+            </button>
+
+            <!-- Revealed state card -->
+            <div id="chinese-hint-card" class="hidden p-3.5 bg-amber-50/80 border border-amber-200/80 rounded-2xl text-center">
+              <div class="text-xs text-amber-700 font-semibold mb-0.5">中文釋義提示</div>
+              <div id="text-chinese-def" class="text-base sm:text-lg font-bold text-amber-950">
+                <!-- Filled dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Spelling Input Field -->
+        <div class="w-full max-w-md mb-4 relative">
+          <form id="form-spelling" onsubmit="return false;" class="w-full">
+            <div class="relative">
+              <input 
+                type="text" 
+                id="input-spelling" 
+                autocomplete="off" 
+                autocorrect="off" 
+                autocapitalize="off" 
+                spellcheck="false"
+                placeholder="在此輸入英文單字拼法..."
+                class="w-full text-center text-xl sm:text-2xl font-bold tracking-wider py-3.5 px-4 rounded-2xl border-2 border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder:text-slate-300 placeholder:text-base placeholder:tracking-normal font-mono"
+              />
+              <button 
+                type="button" 
+                id="btn-clear-input"
+                class="absolute right-3.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full text-slate-300 hover:text-slate-500 hover:bg-slate-100 flex items-center justify-center text-xs transition-colors hidden">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          </form>
+          <p class="text-[11px] text-slate-400 mt-1.5">按下 <kbd class="px-1 py-0.5 bg-slate-100 border rounded font-mono">Enter ↵</kbd> 送出驗證答案</p>
+        </div>
+
+        <!-- Feedback Card (Revealed upon submit) -->
+        <div id="feedback-box" class="w-full max-w-md rounded-2xl p-4 mb-4 hidden pop-anim transition-all">
+          <div class="flex items-start gap-3">
+            <div id="feedback-icon" class="w-8 h-8 rounded-full flex items-center justify-center text-white shrink-0 mt-0.5">
+              <!-- Check or Cross icon -->
+            </div>
+            <div class="flex-1 text-left">
+              <div id="feedback-title" class="font-bold text-base"></div>
+              <div id="feedback-detail" class="text-sm mt-1"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Control Buttons -->
+        <div class="w-full max-w-md flex items-center gap-3 mt-2">
+          <button id="btn-submit" type="button" class="flex-1 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold py-3 px-4 rounded-xl text-sm transition-all shadow-md shadow-blue-500/20 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>送出檢查 (Enter)</span>
+          </button>
+          
+          <button id="btn-give-up" type="button" class="bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 font-semibold py-3 px-4 rounded-xl text-sm transition-all flex items-center justify-center gap-1.5 whitespace-nowrap">
+            <i class="fa-regular fa-flag"></i>
+            <span>跳過 / 看答案</span>
+          </button>
+
+          <button id="btn-next-word" type="button" class="hidden flex-1 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold py-3 px-4 rounded-xl text-sm transition-all shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2">
+            <span>下一題</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="view-result" class="hidden bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-200/80 text-center max-w-xl mx-auto w-full">
+      <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full mx-auto flex items-center justify-center text-3xl sm:text-4xl mb-4 bg-blue-50 text-blue-600 shadow-inner">
+        <i class="fa-solid fa-trophy text-amber-500"></i>
+      </div>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800">測驗完成！</h2>
+      <p id="result-subtitle" class="text-slate-500 text-sm mt-1">你的單字拼寫測驗成果統計</p>
+
+      <!-- Score overview cards -->
+      <div class="grid grid-cols-3 gap-3 my-6">
+        <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
+          <div class="text-xs text-slate-400 font-medium">總題數</div>
+          <div id="res-total" class="text-xl sm:text-2xl font-black text-slate-800 font-mono mt-1">10</div>
+        </div>
+        <div class="bg-emerald-50 p-3.5 rounded-2xl border border-emerald-100">
+          <div class="text-xs text-emerald-600 font-medium">正確題數</div>
+          <div id="res-correct" class="text-xl sm:text-2xl font-black text-emerald-600 font-mono mt-1">9</div>
+        </div>
+        <div class="bg-blue-50 p-3.5 rounded-2xl border border-blue-100">
+          <div class="text-xs text-blue-600 font-medium">正確率</div>
+          <div id="res-accuracy" class="text-xl sm:text-2xl font-black text-blue-600 font-mono mt-1">90%</div>
+        </div>
+      </div>
+
+      <!-- Mistake list section if any -->
+      <div id="result-mistakes-box" class="text-left mb-6">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+            <i class="fa-solid fa-triangle-exclamation text-rose-500"></i>
+            <span>本回錯題回顧 (<span id="res-mistake-count">0</span>)</span>
+          </h3>
+          <button id="btn-retest-mistakes" class="text-xs text-blue-600 hover:underline font-semibold">
+            重測本次錯題
+          </button>
+        </div>
+        <div id="result-mistakes-list" class="max-h-52 overflow-y-auto space-y-2 pr-1 text-sm divide-y divide-slate-100 border border-slate-200/80 rounded-2xl p-2 bg-slate-50/60">
+          <!-- Filled dynamically -->
+        </div>
+      </div>
+
+      <!-- Navigation buttons -->
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button id="btn-restart-same" class="flex-1 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold py-3 px-4 rounded-xl text-sm transition-all shadow-md shadow-blue-500/20 flex items-center justify-center gap-2">
+          <i class="fa-solid fa-rotate-right"></i>
+          <span>再來一回</span>
+        </button>
+        <button id="btn-back-setup" class="flex-1 bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 font-semibold py-3 px-4 rounded-xl text-sm transition-all flex items-center justify-center gap-2">
+          <i class="fa-solid fa-sliders"></i>
+          <span>重新設定範圍</span>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="modal-notebook" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl w-full max-w-lg shadow-xl border border-slate-200 overflow-hidden flex flex-col max-h-[85vh] pop-anim">
+      <!-- Modal Header -->
+      <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center font-bold text-sm">
+            <i class="fa-solid fa-bookmark"></i>
+          </div>
+          <h3 class="font-bold text-slate-800 text-base">個人累積錯題本</h3>
+        </div>
+        <button id="btn-close-notebook" class="w-8 h-8 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Notebook Body -->
+      <div class="p-4 flex-1 overflow-y-auto">
+        <div id="notebook-empty-tip" class="py-12 text-center text-slate-400 text-sm">
+          <i class="fa-regular fa-circle-check text-4xl text-slate-300 mb-3 block"></i>
+          目前沒有任何錯題記錄，表現太棒了！
+        </div>
+        <div id="notebook-items-container" class="space-y-2 hidden">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Notebook Footer -->
+      <div class="p-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between gap-3">
+        <button id="btn-clear-notebook" class="text-xs text-rose-500 hover:text-rose-700 font-medium">清空所有紀錄</button>
+        <button id="btn-quiz-notebook" class="bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs py-2 px-4 rounded-xl transition-all shadow-sm flex items-center gap-1.5 disabled:opacity-50">
+          <i class="fa-solid fa-play"></i>
+          <span>特訓錯題本單字</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="mt-auto py-4 text-center text-xs text-slate-400 border-t border-slate-200">
+    <p>涵蓋大學入學考試中心高中英文 7,000 單字表 (Level 1 ~ Level 6) ． 支援 Web Speech 語音發音與音訊合成</p>
+  </footer>
+
+  <script>
+    /**
+     * 7000 Vocabulary Corpus (Levels 1 to 6)
+     * Rich curated word bank extracted directly from the document provided.
+     */
+    const VOCABULARY_DATABASE = [
+      // ===== LEVEL 1 (Elementary / High School 1) =====
+      { word: "able", level: 1, pos: "adj.", phonetic: "[ˈebḷ]", ch: "能，可以" },
+      { word: "about", level: 1, pos: "prep.", phonetic: "[əˈbaʊt]", ch: "關於；在...附近" },
+      { word: "above", level: 1, pos: "prep.", phonetic: "[əˈbʌv]", ch: "在...上面" },
+      { word: "action", level: 1, pos: "n.", phonetic: "[ˈækʃən]", ch: "行動，活動" },
+      { word: "actor", level: 1, pos: "n.", phonetic: "[ˈæktɚ]", ch: "男演員" },
+      { word: "address", level: 1, pos: "n.", phonetic: "[əˈdrɛs]", ch: "地址；致詞" },
+      { word: "afraid", level: 1, pos: "adj.", phonetic: "[əˈfred]", ch: "害怕的，擔憂的" },
+      { word: "again", level: 1, pos: "adv.", phonetic: "[əˈɡɛn]", ch: "再一次，又" },
+      { word: "against", level: 1, pos: "prep.", phonetic: "[əˈɡɛnst]", ch: "反對；依靠" },
+      { word: "agree", level: 1, pos: "v.", phonetic: "[əˈɡri]", ch: "同意，贊同" },
+      { word: "airport", level: 1, pos: "n.", phonetic: "[ˈɛrˌpɔrt]", ch: "機場" },
+      { word: "allow", level: 1, pos: "v.", phonetic: "[əˈlaʊ]", ch: "允許，准許" },
+      { word: "almost", level: 1, pos: "adv.", phonetic: "[ˈɔlmost]", ch: "幾乎，差不多" },
+      { word: "alone", level: 1, pos: "adj./adv.", phonetic: "[əˈlon]", ch: "單獨的；獨自地" },
+      { word: "already", level: 1, pos: "adv.", phonetic: "[ɔlˈrɛdi]", ch: "已經" },
+      { word: "angry", level: 1, pos: "adj.", phonetic: "[ˈæŋɡri]", ch: "生氣的，憤怒的" },
+      { word: "animal", level: 1, pos: "n.", phonetic: "[ˈænəmḷ]", ch: "動物" },
+      { word: "answer", level: 1, pos: "n./v.", phonetic: "[ˈænsɚ]", ch: "回答，答案" },
+      { word: "appear", level: 1, pos: "v.", phonetic: "[əˈpɪr]", ch: "出現；顯得" },
+      { word: "banana", level: 1, pos: "n.", phonetic: "[bəˈnænə]", ch: "香蕉" },
+      { word: "beautiful", level: 1, pos: "adj.", phonetic: "[ˈbjutəfəl]", ch: "美麗的" },
+      { word: "because", level: 1, pos: "conj.", phonetic: "[bɪˈkɔz]", ch: "因為" },
+      { word: "become", level: 1, pos: "v.", phonetic: "[bɪˈkʌm]", ch: "成為，變成" },
+      { word: "before", level: 1, pos: "prep./adv.", phonetic: "[bɪˈfɔr]", ch: "在...之前" },
+      { word: "begin", level: 1, pos: "v.", phonetic: "[bɪˈɡɪn]", ch: "開始" },
+      { word: "behind", level: 1, pos: "prep.", phonetic: "[bɪˈhaɪnd]", ch: "在...後面" },
+      { word: "believe", level: 1, pos: "v.", phonetic: "[bɪˈliv]", ch: "相信" },
+      { word: "between", level: 1, pos: "prep.", phonetic: "[bɪˈtwin]", ch: "在...之間" },
+      { word: "bicycle", level: 1, pos: "n.", phonetic: "[ˈbaɪsɪkḷ]", ch: "腳踏車" },
+      { word: "breakfast", level: 1, pos: "n.", phonetic: "[ˈbrɛkfəst]", ch: "早餐" },
+      { word: "bridge", level: 1, pos: "n.", phonetic: "[brɪdʒ]", ch: "橋樑" },
+      { word: "brother", level: 1, pos: "n.", phonetic: "[ˈbrʌðɚ]", ch: "兄弟" },
+      { word: "building", level: 1, pos: "n.", phonetic: "[ˈbɪldɪŋ]", ch: "建築物" },
+      { word: "butter", level: 1, pos: "n.", phonetic: "[ˈbʌtɚ]", ch: "奶油" },
+      { word: "butterfly", level: 1, pos: "n.", phonetic: "[ˈbʌtɚˌflaɪ]", ch: "蝴蝶" },
+      { word: "camera", level: 1, pos: "n.", phonetic: "[ˈkæmərə]", ch: "照相機" },
+      { word: "candle", level: 1, pos: "n.", phonetic: "[ˈkændḷ]", ch: "蠟燭" },
+      { word: "careful", level: 1, pos: "adj.", phonetic: "[ˈkɛrfəl]", ch: "小心的，仔細的" },
+      { word: "center", level: 1, pos: "n.", phonetic: "[ˈsɛntɚ]", ch: "中心" },
+      { word: "certain", level: 1, pos: "adj.", phonetic: "[ˈsɝtn]", ch: "確定的；某些" },
+      { word: "chicken", level: 1, pos: "n.", phonetic: "[ˈtʃɪkɪn]", ch: "雞；雞肉" },
+      { word: "church", level: 1, pos: "n.", phonetic: "[tʃɝtʃ]", ch: "教堂" },
+      { word: "clever", level: 1, pos: "adj.", phonetic: "[ˈklɛvɚ]", ch: "聰明的" },
+      { word: "clock", level: 1, pos: "n.", phonetic: "[klɑk]", ch: "時鐘" },
+      { word: "common", level: 1, pos: "adj.", phonetic: "[ˈkɑmən]", ch: "常見的，普通的" },
+      { word: "continue", level: 1, pos: "v.", phonetic: "[kənˈtɪnju]", ch: "繼續" },
+      { word: "correct", level: 1, pos: "adj./v.", phonetic: "[kəˈrɛkt]", ch: "正確的；改正" },
+      { word: "country", level: 1, pos: "n.", phonetic: "[ˈkʌntri]", ch: "國家；鄉間" },
+      { word: "cousin", level: 1, pos: "n.", phonetic: "[ˈkʌzn]", ch: "堂表兄弟姊妹" },
+      { word: "danger", level: 1, pos: "n.", phonetic: "[ˈdendʒɚ]", ch: "危險" },
+      { word: "daughter", level: 1, pos: "n.", phonetic: "[ˈdɔtɚ]", ch: "女兒" },
+      { word: "decide", level: 1, pos: "v.", phonetic: "[dɪˈsaɪd]", ch: "決定" },
+      { word: "different", level: 1, pos: "adj.", phonetic: "[ˈdɪfərənt]", ch: "不同的" },
+      { word: "difficult", level: 1, pos: "adj.", phonetic: "[ˈdɪfəˌkʌlt]", ch: "困難的" },
+      { word: "dinner", level: 1, pos: "n.", phonetic: "[ˈdɪnɚ]", ch: "晚餐" },
+      { word: "discover", level: 1, pos: "v.", phonetic: "[dɪˈskʌvɚ]", ch: "發現" },
+      { word: "doctor", level: 1, pos: "n.", phonetic: "[ˈdɑktɚ]", ch: "醫生；博士" },
+      { word: "driver", level: 1, pos: "n.", phonetic: "[ˈdraɪvɚ]", ch: "司機" },
+      { word: "during", level: 1, pos: "prep.", phonetic: "[ˈdjʊrɪŋ]", ch: "在...期間" },
+      { word: "elephant", level: 1, pos: "n.", phonetic: "[ˈɛləfənt]", ch: "大象" },
+      { word: "enough", level: 1, pos: "adj./adv.", phonetic: "[əˈnʌf]", ch: "足夠的" },
+      { word: "example", level: 1, pos: "n.", phonetic: "[ɪɡˈzæmpḷ]", ch: "例子，範例" },
+      { word: "famous", level: 1, pos: "adj.", phonetic: "[ˈfeməs]", ch: "著名的" },
+      { word: "farmer", level: 1, pos: "n.", phonetic: "[ˈfɑrmɚ]", ch: "農夫" },
+      { word: "father", level: 1, pos: "n.", phonetic: "[ˈfɑðɚ]", ch: "父親" },
+      { word: "finger", level: 1, pos: "n.", phonetic: "[ˈfɪŋɡɚ]", ch: "手指" },
+      { word: "finish", level: 1, pos: "v.", phonetic: "[ˈfɪnɪʃ]", ch: "完成，結束" },
+      { word: "flower", level: 1, pos: "n.", phonetic: "[ˈflaʊɚ]", ch: "花朵" },
+      { word: "follow", level: 1, pos: "v.", phonetic: "[ˈfɑlo]", ch: "跟隨；遵循" },
+      { word: "forget", level: 1, pos: "v.", phonetic: "[fɚˈɡɛt]", ch: "忘記" },
+      { word: "friend", level: 1, pos: "n.", phonetic: "[frɛnd]", ch: "朋友" },
+      { word: "future", level: 1, pos: "n.", phonetic: "[ˈfjutʃɚ]", ch: "未來" },
+      { word: "garden", level: 1, pos: "n.", phonetic: "[ˈɡɑrdn]", ch: "花園" },
+      { word: "glasses", level: 1, pos: "n.", phonetic: "[ˈɡlæsɪz]", ch: "眼鏡" },
+      { word: "ground", level: 1, pos: "n.", phonetic: "[ɡraʊnd]", ch: "地面" },
+      { word: "happen", level: 1, pos: "v.", phonetic: "[ˈhæpən]", ch: "發生" },
+      { word: "healthy", level: 1, pos: "adj.", phonetic: "[ˈhɛlθi]", ch: "健康的" },
+      { word: "history", level: 1, pos: "n.", phonetic: "[ˈhɪstəri]", ch: "歷史" },
+      { word: "holiday", level: 1, pos: "n.", phonetic: "[ˈhɑləˌde]", ch: "假日" },
+      { word: "hospital", level: 1, pos: "n.", phonetic: "[ˈhɑspɪtḷ]", ch: "醫院" },
+      { word: "hungry", level: 1, pos: "adj.", phonetic: "[ˈhʌŋɡri]", ch: "飢餓的" },
+      { word: "husband", level: 1, pos: "n.", phonetic: "[ˈhʌzbənd]", ch: "丈夫" },
+      { word: "important", level: 1, pos: "adj.", phonetic: "[ɪmˈpɔrtnt]", ch: "重要的" },
+      { word: "island", level: 1, pos: "n.", phonetic: "[ˈaɪlənd]", ch: "島嶼" },
+      { word: "kitchen", level: 1, pos: "n.", phonetic: "[ˈkɪtʃɪn]", ch: "廚房" },
+      { word: "market", level: 1, pos: "n.", phonetic: "[ˈmɑrkɪt]", ch: "市場" },
+      { word: "minute", level: 1, pos: "n.", phonetic: "[ˈmɪnɪt]", ch: "分鐘" },
+      { word: "mistake", level: 1, pos: "n.", phonetic: "[mɪˈstek]", ch: "錯誤" },
+      { word: "morning", level: 1, pos: "n.", phonetic: "[ˈmɔrnɪŋ]", ch: "早晨" },
+      { word: "mountain", level: 1, pos: "n.", phonetic: "[ˈmaʊntn]", ch: "山脈" },
+      { word: "package", level: 1, pos: "n.", phonetic: "[ˈpækɪdʒ]", ch: "包裹" },
+      { word: "picture", level: 1, pos: "n.", phonetic: "[ˈpɪktʃɚ]", ch: "圖片，畫像" },
+      { word: "player", level: 1, pos: "n.", phonetic: "[ˈpleɚ]", ch: "運動員；玩家" },
+      { word: "police", level: 1, pos: "n.", phonetic: "[pəˈlis]", ch: "警察" },
+      { word: "problem", level: 1, pos: "n.", phonetic: "[ˈprɑbləm]", ch: "問題" },
+      { word: "question", level: 1, pos: "n.", phonetic: "[ˈkwɛstʃən]", ch: "問題，疑問" },
+      { word: "remember", level: 1, pos: "v.", phonetic: "[rɪˈmɛmbɚ]", ch: "記得" },
+      { word: "school", level: 1, pos: "n.", phonetic: "[skul]", ch: "學校" },
+      { word: "second", level: 1, pos: "n./adj.", phonetic: "[ˈsɛkənd]", ch: "秒；第二的" },
+      { word: "sentence", level: 1, pos: "n.", phonetic: "[ˈsɛntəns]", ch: "句子" },
+      { word: "simple", level: 1, pos: "adj.", phonetic: "[ˈsɪmpḷ]", ch: "簡單的" },
+      { word: "sister", level: 1, pos: "n.", phonetic: "[ˈsɪstɚ]", ch: "姊妹" },
+      { word: "student", level: 1, pos: "n.", phonetic: "[ˈstjudnt]", ch: "學生" },
+      { word: "surprise", level: 1, pos: "v./n.", phonetic: "[sɚˈpraɪz]", ch: "使驚訝；驚喜" },
+      { word: "teacher", level: 1, pos: "n.", phonetic: "[ˈtitʃɚ]", ch: "教師" },
+      { word: "together", level: 1, pos: "adv.", phonetic: "[təˈɡɛðɚ]", ch: "一起" },
+      { word: "tomorrow", level: 1, pos: "n./adv.", phonetic: "[təˈmɔro]", ch: "明天" },
+      { word: "umbrella", level: 1, pos: "n.", phonetic: "[ʌmˈbrɛlə]", ch: "雨傘" },
+      { word: "understand", level: 1, pos: "v.", phonetic: "[ˌʌndɚˈstænd]", ch: "理解，了解" },
+      { word: "vegetable", level: 1, pos: "n.", phonetic: "[ˈvɛdʒtəbḷ]", ch: "蔬菜" },
+      { word: "weather", level: 1, pos: "n.", phonetic: "[ˈwɛðɚ]", ch: "天氣" },
+      { word: "window", level: 1, pos: "n.", phonetic: "[ˈwɪndo]", ch: "窗戶" },
+      { word: "yellow", level: 1, pos: "adj./n.", phonetic: "[ˈjɛlo]", ch: "黃色的" },
+      { word: "yesterday", level: 1, pos: "n./adv.", phonetic: "[ˈjɛstɚˌde]", ch: "昨天" },
+
+      // ===== LEVEL 2 =====
+      { word: "ability", level: 2, pos: "n.", phonetic: "[əˈbɪləti]", ch: "能力，才能" },
+      { word: "abroad", level: 2, pos: "adv.", phonetic: "[əˈbrɔd]", ch: "在國外，到國外" },
+      { word: "accept", level: 2, pos: "v.", phonetic: "[əkˈsɛpt]", ch: "接受，認可" },
+      { word: "active", level: 2, pos: "adj.", phonetic: "[ˈæktɪv]", ch: "活潑的，積極的" },
+      { word: "advance", level: 2, pos: "v./n.", phonetic: "[ədˈvæns]", ch: "前進，推進" },
+      { word: "ancient", level: 2, pos: "adj.", phonetic: "[ˈenʃənt]", ch: "古代的，古老的" },
+      { word: "apology", level: 2, pos: "n.", phonetic: "[əˈpɑlədʒi]", ch: "道歉" },
+      { word: "arrange", level: 2, pos: "v.", phonetic: "[əˈrendʒ]", ch: "安排，整理" },
+      { word: "arrest", level: 2, pos: "v./n.", phonetic: "[əˈrɛst]", ch: "逮捕" },
+      { word: "arrive", level: 2, pos: "v.", phonetic: "[əˈraɪv]", ch: "到達" },
+      { word: "article", level: 2, pos: "n.", phonetic: "[ˈɑrtɪkḷ]", ch: "文章；物品" },
+      { word: "attend", level: 2, pos: "v.", phonetic: "[əˈtɛnd]", ch: "出席，參加" },
+      { word: "attention", level: 2, pos: "n.", phonetic: "[əˈtɛnʃən]", ch: "注意力，專心" },
+      { word: "avoid", level: 2, pos: "v.", phonetic: "[əˈvɔɪd]", ch: "避開，避免" },
+      { word: "balance", level: 2, pos: "n./v.", phonetic: "[ˈbæləns]", ch: "平衡" },
+      { word: "battle", level: 2, pos: "n.", phonetic: "[ˈbætḷ]", ch: "戰役，戰鬥" },
+      { word: "believe", level: 2, pos: "v.", phonetic: "[bɪˈliv]", ch: "相信" },
+      { word: "borrow", level: 2, pos: "v.", phonetic: "[ˈbɑro]", ch: "借入" },
+      { word: "bother", level: 2, pos: "v.", phonetic: "[ˈbɑðɚ]", ch: "打擾，煩擾" },
+      { word: "bottle", level: 2, pos: "n.", phonetic: "[ˈbɑtḷ]", ch: "瓶子" },
+      { word: "branch", level: 2, pos: "n.", phonetic: "[bræntʃ]", ch: "樹枝；分行" },
+      { word: "brief", level: 2, pos: "adj.", phonetic: "[brif]", ch: "簡短的" },
+      { word: "broadcast", level: 2, pos: "v./n.", phonetic: "[ˈbrɔdˌkæst]", ch: "廣播" },
+      { word: "business", level: 2, pos: "n.", phonetic: "[ˈbɪznɪs]", ch: "生意；職業" },
+      { word: "calendar", level: 2, pos: "n.", phonetic: "[ˈkæləndɚ]", ch: "日曆" },
+      { word: "cancel", level: 2, pos: "v.", phonetic: "[ˈkænsḷ]", ch: "取消" },
+      { word: "captain", level: 2, pos: "n.", phonetic: "[ˈkæptɪn]", ch: "船長；機長；隊長" },
+      { word: "castle", level: 2, pos: "n.", phonetic: "[ˈkæsḷ]", ch: "城堡" },
+      { word: "century", level: 2, pos: "n.", phonetic: "[ˈsɛntʃʊri]", ch: "世紀，百年" },
+      { word: "character", level: 2, pos: "n.", phonetic: "[ˈkærəktɚ]", ch: "個性；角色；文字" },
+      { word: "charge", level: 2, pos: "v./n.", phonetic: "[tʃɑrdʒ]", ch: "收費；充電；指控" },
+      { word: "chemical", level: 2, pos: "adj./n.", phonetic: "[ˈkɛmɪkḷ]", ch: "化學的；化學製品" },
+      { word: "chocolate", level: 2, pos: "n.", phonetic: "[ˈtʃɑkəlɪt]", ch: "巧克力" },
+      { word: "citizen", level: 2, pos: "n.", phonetic: "[ˈsɪtəzn]", ch: "公民，市民" },
+      { word: "climate", level: 2, pos: "n.", phonetic: "[ˈklaɪmɪt]", ch: "氣候" },
+      { word: "collect", level: 2, pos: "v.", phonetic: "[kəˈlɛkt]", ch: "收集" },
+      { word: "comfortable", level: 2, pos: "adj.", phonetic: "[ˈkʌmfɚtəbḷ]", ch: "舒適的" },
+      { word: "company", level: 2, pos: "n.", phonetic: "[ˈkʌmpəni]", ch: "公司；陪伴" },
+      { word: "compare", level: 2, pos: "v.", phonetic: "[kəmˈpɛr]", ch: "比較" },
+      { word: "complain", level: 2, pos: "v.", phonetic: "[kəmˈplen]", ch: "抱怨" },
+      { word: "complete", level: 2, pos: "adj./v.", phonetic: "[kəmˈplit]", ch: "完整的；完成" },
+      { word: "computer", level: 2, pos: "n.", phonetic: "[kəmˈpjutɚ]", ch: "電腦" },
+      { word: "confirm", level: 2, pos: "v.", phonetic: "[kənˈfɝm]", ch: "確認，證實" },
+      { word: "consider", level: 2, pos: "v.", phonetic: "[kənˈsɪdɚ]", ch: "考慮，認為" },
+      { word: "contain", level: 2, pos: "v.", phonetic: "[kənˈten]", ch: "包含，容納" },
+      { word: "control", level: 2, pos: "v./n.", phonetic: "[kənˈtrol]", ch: "控制" },
+      { word: "convenient", level: 2, pos: "adj.", phonetic: "[kənˈvinjənt]", ch: "便利的" },
+      { word: "conversation", level: 2, pos: "n.", phonetic: "[ˌkɑnvɚˈseʃən]", ch: "會話，對話" },
+      { word: "courage", level: 2, pos: "n.", phonetic: "[ˈkɝɪdʒ]", ch: "勇氣" },
+      { word: "crowd", level: 2, pos: "n.", phonetic: "[kraʊd]", ch: "人群" },
+      { word: "culture", level: 2, pos: "n.", phonetic: "[ˈkʌltʃɚ]", ch: "文化" },
+      { word: "curious", level: 2, pos: "adj.", phonetic: "[ˈkjʊrɪəs]", ch: "好奇的" },
+      { word: "damage", level: 2, pos: "v./n.", phonetic: "[ˈdæmɪdʒ]", ch: "損害，破壞" },
+      { word: "decision", level: 2, pos: "n.", phonetic: "[dɪˈsɪʒən]", ch: "決定" },
+      { word: "decorate", level: 2, pos: "v.", phonetic: "[ˈdɛkəˌret]", ch: "裝飾" },
+      { word: "delicious", level: 2, pos: "adj.", phonetic: "[dɪˈlɪʃəs]", ch: "美味的" },
+      { word: "deliver", level: 2, pos: "v.", phonetic: "[dɪˈlɪvɚ]", ch: "投遞，傳送" },
+      { word: "dentist", level: 2, pos: "n.", phonetic: "[ˈdɛntɪst]", ch: "牙醫" },
+      { word: "describe", level: 2, pos: "v.", phonetic: "[dɪˈskraɪb]", ch: "描寫，描繪" },
+      { word: "design", level: 2, pos: "v./n.", phonetic: "[dɪˈzaɪn]", ch: "設計" },
+      { word: "develop", level: 2, pos: "v.", phonetic: "[dɪˈvɛləp]", ch: "發展，開發" },
+      { word: "dictionary", level: 2, pos: "n.", phonetic: "[ˈdɪkʃəˌnɛri]", ch: "字典" },
+      { word: "difference", level: 2, pos: "n.", phonetic: "[ˈdɪfərəns]", ch: "差異，不同" },
+      { word: "discuss", level: 2, pos: "v.", phonetic: "[dɪˈskʌs]", ch: "討論" },
+      { word: "distance", level: 2, pos: "n.", phonetic: "[ˈdɪstəns]", ch: "距離" },
+      { word: "education", level: 2, pos: "n.", phonetic: "[ˌɛdʒʊˈkeʃən]", ch: "教育" },
+      { word: "elevator", level: 2, pos: "n.", phonetic: "[ˈɛləˌvetɚ]", ch: "電梯" },
+      { word: "encourage", level: 2, pos: "v.", phonetic: "[ɪnˈkɝɪdʒ]", ch: "鼓勵" },
+      { word: "energy", level: 2, pos: "n.", phonetic: "[ˈɛnɚdʒi]", ch: "精力，活力，能源" },
+      { word: "entrance", level: 2, pos: "n.", phonetic: "[ˈɛntrəns]", ch: "入口" },
+      { word: "envelope", level: 2, pos: "n.", phonetic: "[ˈɛnvəˌlop]", ch: "信封" },
+      { word: "environment", level: 2, pos: "n.", phonetic: "[ɪnˈvaɪrənmənt]", ch: "環境" },
+      { word: "excellent", level: 2, pos: "adj.", phonetic: "[ˈɛksələnt]", ch: "優秀的，傑出的" },
+      { word: "exercise", level: 2, pos: "v./n.", phonetic: "[ˈɛksɚˌsaɪz]", ch: "運動，鍛鍊" },
+      { word: "experience", level: 2, pos: "n./v.", phonetic: "[ɪkˈspɪrɪəns]", ch: "經驗；體驗" },
+      { word: "explain", level: 2, pos: "v.", phonetic: "[ɪkˈsplen]", ch: "解釋，說明" },
+      { word: "festival", level: 2, pos: "n.", phonetic: "[ˈfɛstəvḷ]", ch: "節日" },
+      { word: "foreigner", level: 2, pos: "n.", phonetic: "[ˈfɔrənɚ]", ch: "外國人" },
+      { word: "government", level: 2, pos: "n.", phonetic: "[ˈɡʌvɚnmənt]", ch: "政府" },
+      { word: "important", level: 2, pos: "adj.", phonetic: "[ɪmˈpɔrtnt]", ch: "重要的" },
+      { word: "improve", level: 2, pos: "v.", phonetic: "[ɪmˈpruv]", ch: "改善，改進" },
+      { word: "include", level: 2, pos: "v.", phonetic: "[ɪnˈklud]", ch: "包含" },
+      { word: "international", level: 2, pos: "adj.", phonetic: "[ˌɪntɚˈnæʃənḷ]", ch: "國際的" },
+      { word: "language", level: 2, pos: "n.", phonetic: "[ˈlæŋɡwɪdʒ]", ch: "語言" },
+      { word: "library", level: 2, pos: "n.", phonetic: "[ˈlaɪˌbrɛri]", ch: "圖書館" },
+      { word: "magazine", level: 2, pos: "n.", phonetic: "[ˌmæɡəˈzin]", ch: "雜誌" },
+      { word: "medicine", level: 2, pos: "n.", phonetic: "[ˈmɛdəsn]", ch: "藥物，醫學" },
+      { word: "museum", level: 2, pos: "n.", phonetic: "[mjuˈziəm]", ch: "博物館" },
+      { word: "natural", level: 2, pos: "adj.", phonetic: "[ˈnætʃərəl]", ch: "自然的，天然的" },
+      { word: "necessary", level: 2, pos: "adj.", phonetic: "[ˈnɛsəˌsɛri]", ch: "必要的" },
+      { word: "neighbor", level: 2, pos: "n.", phonetic: "[ˈnebɚ]", ch: "鄰居" },
+      { word: "opinion", level: 2, pos: "n.", phonetic: "[əˈpɪnjən]", ch: "意見，看法" },
+      { word: "passenger", level: 2, pos: "n.", phonetic: "[ˈpæsndʒɚ]", ch: "乘客" },
+      { word: "patient", level: 2, pos: "adj./n.", phonetic: "[ˈpeʃənt]", ch: "有耐心的；病人" },
+      { word: "popular", level: 2, pos: "adj.", phonetic: "[ˈpɑpjəlɚ]", ch: "受歡迎的，流行的" },
+      { word: "practice", level: 2, pos: "v./n.", phonetic: "[ˈpræktɪs]", ch: "練習，實踐" },
+      { word: "protect", level: 2, pos: "v.", phonetic: "[prəˈtɛkt]", ch: "保護" },
+      { word: "quality", level: 2, pos: "n.", phonetic: "[ˈkwɑləti]", ch: "品質" },
+      { word: "quarter", level: 2, pos: "n.", phonetic: "[ˈkwɔrtɚ]", ch: "四分之一；一刻鐘" },
+      { word: "receive", level: 2, pos: "v.", phonetic: "[rɪˈsiv]", ch: "接收，收到" },
+      { word: "restaurant", level: 2, pos: "n.", phonetic: "[ˈrɛstərənt]", ch: "餐廳" },
+      { word: "science", level: 2, pos: "n.", phonetic: "[ˈsaɪəns]", ch: "科學" },
+      { word: "secretary", level: 2, pos: "n.", phonetic: "[ˈsɛkrəˌtɛri]", ch: "秘書" },
+      { word: "society", level: 2, pos: "n.", phonetic: "[səˈsaɪəti]", ch: "社會" },
+      { word: "successful", level: 2, pos: "adj.", phonetic: "[səkˈsɛsfəl]", ch: "成功的" },
+      { word: "supermarket", level: 2, pos: "n.", phonetic: "[ˈsupɚˌmɑrkɪt]", ch: "超級市場" },
+      { word: "telephone", level: 2, pos: "n./v.", phonetic: "[ˈtɛləˌfon]", ch: "電話" },
+      { word: "traffic", level: 2, pos: "n.", phonetic: "[ˈtræfɪk]", ch: "交通" },
+      { word: "vacation", level: 2, pos: "n.", phonetic: "[veˈkeʃən]", ch: "假期" },
+      { word: "village", level: 2, pos: "n.", phonetic: "[ˈvɪlɪdʒ]", ch: "村莊" },
+      { word: "volunteer", level: 2, pos: "n./v.", phonetic: "[ˌvɑlənˈtɪr]", ch: "志工，自願者" },
+      { word: "wonderful", level: 2, pos: "adj.", phonetic: "[ˈwʌndɚfəl]", ch: "極好的，精彩的" },
+
+      // ===== LEVEL 3 =====
+      { word: "accident", level: 3, pos: "n.", phonetic: "[ˈæksədənt]", ch: "意外事故，災禍" },
+      { word: "accurate", level: 3, pos: "adj.", phonetic: "[ˈækjərɪt]", ch: "準確的，精確的" },
+      { word: "achieve", level: 3, pos: "v.", phonetic: "[əˈtʃiv]", ch: "達成，實現" },
+      { word: "activity", level: 3, pos: "n.", phonetic: "[ækˈtɪvəti]", ch: "活動" },
+      { word: "admire", level: 3, pos: "v.", phonetic: "[ədˈmaɪr]", ch: "欽佩，欣賞" },
+      { word: "advantage", level: 3, pos: "n.", phonetic: "[ədˈvæntɪdʒ]", ch: "優點，優勢" },
+      { word: "adventure", level: 3, pos: "n.", phonetic: "[ədˈvɛntʃɚ]", ch: "冒險" },
+      { word: "advertise", level: 3, pos: "v.", phonetic: "[ˈædvɚˌtaɪz]", ch: "做廣告，宣傳" },
+      { word: "announce", level: 3, pos: "v.", phonetic: "[əˈnaʊns]", ch: "宣佈，發布" },
+      { word: "apparent", level: 3, pos: "adj.", phonetic: "[əˈpærənt]", ch: "明顯的" },
+      { word: "appreciate", level: 3, pos: "v.", phonetic: "[əˈpriʃiˌet]", ch: "欣賞；感激" },
+      { word: "approach", level: 3, pos: "v./n.", phonetic: "[əˈprotʃ]", ch: "接近；方法" },
+      { word: "approve", level: 3, pos: "v.", phonetic: "[əˈpruv]", ch: "贊成，核准" },
+      { word: "arrival", level: 3, pos: "n.", phonetic: "[əˈraɪvḷ]", ch: "到達" },
+      { word: "attempt", level: 3, pos: "v./n.", phonetic: "[əˈtɛmpt]", ch: "企圖，嘗試" },
+      { word: "attitude", level: 3, pos: "n.", phonetic: "[ˈætəˌtjud]", ch: "態度" },
+      { word: "attract", level: 3, pos: "v.", phonetic: "[əˈtrækt]", ch: "吸引" },
+      { word: "audience", level: 3, pos: "n.", phonetic: "[ˈɔdiəns]", ch: "觀眾，聽眾" },
+      { word: "automatic", level: 3, pos: "adj.", phonetic: "[ˌɔtəˈmætɪk]", ch: "自動的" },
+      { word: "available", level: 3, pos: "adj.", phonetic: "[əˈveləbḷ]", ch: "可取得的，有空的" },
+      { word: "average", level: 3, pos: "adj./n.", phonetic: "[ˈævərɪdʒ]", ch: "平均的；平均值" },
+      { word: "background", level: 3, pos: "n.", phonetic: "[ˈbækˌɡraʊnd]", ch: "背景；經歷" },
+      { word: "benefit", level: 3, pos: "n./v.", phonetic: "[ˈbɛnəfɪt]", ch: "利益；有益於" },
+      { word: "brilliant", level: 3, pos: "adj.", phonetic: "[ˈbrɪljənt]", ch: "聰穎的；燦爛的" },
+      { word: "budget", level: 3, pos: "n.", phonetic: "[ˈbʌdʒɪt]", ch: "預算" },
+      { word: "candidate", level: 3, pos: "n.", phonetic: "[ˈkændɪˌdet]", ch: "候選人" },
+      { word: "capable", level: 3, pos: "adj.", phonetic: "[ˈkepəbḷ]", ch: "有能力的" },
+      { word: "capital", level: 3, pos: "n.", phonetic: "[ˈkæpətḷ]", ch: "首都；資本；大寫" },
+      { word: "celebrate", level: 3, pos: "v.", phonetic: "[ˈsɛləˌbret]", ch: "慶祝" },
+      { word: "challenge", level: 3, pos: "n./v.", phonetic: "[ˈtʃælɪndʒ]", ch: "挑戰" },
+      { word: "champion", level: 3, pos: "n.", phonetic: "[ˈtʃæmpɪən]", ch: "冠軍" },
+      { word: "channel", level: 3, pos: "n.", phonetic: "[ˈtʃænḷ]", ch: "頻道；海峽" },
+      { word: "commercial", level: 3, pos: "adj./n.", phonetic: "[kəˈmɝʃəl]", ch: "商業的；電視廣告" },
+      { word: "communicate", level: 3, pos: "v.", phonetic: "[kəˈmjunəˌket]", ch: "溝通，傳達" },
+      { word: "compete", level: 3, pos: "v.", phonetic: "[kəmˈpit]", ch: "競爭，比賽" },
+      { word: "concern", level: 3, pos: "v./n.", phonetic: "[kənˈsɝn]", ch: "關心，涉及" },
+      { word: "concert", level: 3, pos: "n.", phonetic: "[ˈkɑnsɚt]", ch: "音樂會，演唱會" },
+      { word: "conclusion", level: 3, pos: "n.", phonetic: "[kənˈkluʒən]", ch: "結論" },
+      { word: "condition", level: 3, pos: "n.", phonetic: "[kənˈdɪʃən]", ch: "狀況；條件" },
+      { word: "confident", level: 3, pos: "adj.", phonetic: "[ˈkɑnfədənt]", ch: "有信心的" },
+      { word: "conflict", level: 3, pos: "n./v.", phonetic: "[ˈkɑnflɪkt]", ch: "衝突，矛盾" },
+      { word: "connect", level: 3, pos: "v.", phonetic: "[kəˈnɛkt]", ch: "連接，關聯" },
+      { word: "constant", level: 3, pos: "adj.", phonetic: "[ˈkɑnstənt]", ch: "持續不斷的，恆定的" },
+      { word: "continent", level: 3, pos: "n.", phonetic: "[ˈkɑntənənt]", ch: "大陸，大洲" },
+      { word: "creative", level: 3, pos: "adj.", phonetic: "[kriˈetɪv]", ch: "有創意的" },
+      { word: "creature", level: 3, pos: "n.", phonetic: "[ˈkritʃɚ]", ch: "生物" },
+      { word: "current", level: 3, pos: "adj./n.", phonetic: "[ˈkɝənt]", ch: "當前的；水流，洋流" },
+      { word: "customer", level: 3, pos: "n.", phonetic: "[ˈkʌstəmɚ]", ch: "顧客" },
+      { word: "damage", level: 3, pos: "n./v.", phonetic: "[ˈdæmɪdʒ]", ch: "損害" },
+      { word: "debate", level: 3, pos: "n./v.", phonetic: "[dɪˈbet]", ch: "辯論" },
+      { word: "decade", level: 3, pos: "n.", phonetic: "[ˈdɛked]", ch: "十年" },
+      { word: "democracy", level: 3, pos: "n.", phonetic: "[dɪˈmɑkrəsi]", ch: "民主(制度)" },
+      { word: "describe", level: 3, pos: "v.", phonetic: "[dɪˈskraɪb]", ch: "描述，描繪" },
+      { word: "destroy", level: 3, pos: "v.", phonetic: "[dɪˈstrɔɪ]", ch: "毀壞，消滅" },
+      { word: "determine", level: 3, pos: "v.", phonetic: "[dɪˈtɝmɪn]", ch: "決定，下定決心" },
+      { word: "disappoint", level: 3, pos: "v.", phonetic: "[ˌdɪsəˈpɔɪnt]", ch: "使失望" },
+      { word: "disease", level: 3, pos: "n.", phonetic: "[dɪˈziz]", ch: "疾病" },
+      { word: "domestic", level: 3, pos: "adj.", phonetic: "[dəˈmɛstɪk]", ch: "國內的；家庭的" },
+      { word: "dramatic", level: 3, pos: "adj.", phonetic: "[drəˈmætɪk]", ch: "戲劇性的，劇烈的" },
+      { word: "economy", level: 3, pos: "n.", phonetic: "[ɪˈkɑnəmi]", ch: "經濟" },
+      { word: "effective", level: 3, pos: "adj.", phonetic: "[ɪˈfɛktɪv]", ch: "有效的" },
+      { word: "election", level: 3, pos: "n.", phonetic: "[ɪˈlɛkʃən]", ch: "選舉" },
+      { word: "emergency", level: 3, pos: "n.", phonetic: "[ɪˈmɝdʒənsi]", ch: "緊急狀況" },
+      { word: "emotional", level: 3, pos: "adj.", phonetic: "[ɪˈmoʃənḷ]", ch: "情緒的，激動的" },
+      { word: "emphasize", level: 3, pos: "v.", phonetic: "[ˈɛmfəˌsaɪz]", ch: "強調" },
+      { word: "engineer", level: 3, pos: "n.", phonetic: "[ˌɛndʒəˈnɪr]", ch: "工程師" },
+      { word: "environment", level: 3, pos: "n.", phonetic: "[ɪnˈvaɪrənmənt]", ch: "環境" },
+      { word: "evidence", level: 3, pos: "n.", phonetic: "[ˈɛvədəns]", ch: "證據" },
+      { word: "familiar", level: 3, pos: "adj.", phonetic: "[fəˈmɪljɚ]", ch: "熟悉的" },
+      { word: "fashionable", level: 3, pos: "adj.", phonetic: "[ˈfæʃənəbḷ]", ch: "流行的，時髦的" },
+      { word: "feature", level: 3, pos: "n./v.", phonetic: "[ˈfitʃɚ]", ch: "特色；以...為特色" },
+      { word: "frequent", level: 3, pos: "adj.", phonetic: "[ˈfrikwənt]", ch: "頻繁的" },
+      { word: "gradual", level: 3, pos: "adj.", phonetic: "[ˈɡrædʒuəl]", ch: "逐漸的" },
+      { word: "graduate", level: 3, pos: "v./n.", phonetic: "[ˈɡrædʒuˌet]", ch: "畢業；畢業生" },
+      { word: "hesitate", level: 3, pos: "v.", phonetic: "[ˈhɛzəˌtet]", ch: "猶豫，遲疑" },
+      { word: "identity", level: 3, pos: "n.", phonetic: "[aɪˈdɛntəti]", ch: "身分；認同" },
+      { word: "individual", level: 3, pos: "adj./n.", phonetic: "[ˌɪndəˈvɪdʒuəl]", ch: "個人的；個別的人" },
+      { word: "industry", level: 3, pos: "n.", phonetic: "[ˈɪndəstri]", ch: "工業；產業" },
+      { word: "influence", level: 3, pos: "v./n.", phonetic: "[ˈɪnfluəns]", ch: "影響" },
+      { word: "innocent", level: 3, pos: "adj.", phonetic: "[ˈɪnəsnt]", ch: "無辜的；天真的" },
+      { word: "interrupt", level: 3, pos: "v.", phonetic: "[ˌɪntəˈrʌpt]", ch: "打斷，妨礙" },
+      { word: "leadership", level: 3, pos: "n.", phonetic: "[ˈlidɚˌʃɪp]", ch: "領導能力，領導地位" },
+      { word: "majority", level: 3, pos: "n.", phonetic: "[məˈdʒɔrəti]", ch: "多數，過半數" },
+      { word: "material", level: 3, pos: "n.", phonetic: "[məˈtɪrɪəl]", ch: "材料；原料" },
+      { word: "measure", level: 3, pos: "v./n.", phonetic: "[ˈmɛʒɚ]", ch: "測量；措施" },
+      { word: "minority", level: 3, pos: "n.", phonetic: "[maɪˈnɔrəti]", ch: "少數；少數族群" },
+      { word: "negative", level: 3, pos: "adj.", phonetic: "[ˈnɛɡətɪv]", ch: "消極的；負面的" },
+      { word: "nervous", level: 3, pos: "adj.", phonetic: "[ˈnɝvəs]", ch: "緊張的" },
+      { word: "opportunity", level: 3, pos: "n.", phonetic: "[ˌɑpɚˈtjunəti]", ch: "機會" },
+      { word: "passenger", level: 3, pos: "n.", phonetic: "[ˈpæsndʒɚ]", ch: "乘客" },
+      { word: "perform", level: 3, pos: "v.", phonetic: "[pɚˈfɔrm]", ch: "表演；執行" },
+      { word: "permission", level: 3, pos: "n.", phonetic: "[pɚˈmɪʃən]", ch: "許可，允許" },
+      { word: "positive", level: 3, pos: "adj.", phonetic: "[ˈpɑzətɪv]", ch: "積極的；正面的" },
+      { word: "precious", level: 3, pos: "adj.", phonetic: "[ˈprɛʃəs]", ch: "珍貴的" },
+      { word: "previous", level: 3, pos: "adj.", phonetic: "[ˈprivɪəs]", ch: "先前的" },
+      { word: "product", level: 3, pos: "n.", phonetic: "[ˈprɑdʌkt]", ch: "產品" },
+      { word: "promise", level: 3, pos: "v./n.", phonetic: "[ˈprɑmɪs]", ch: "承諾，保證" },
+      { word: "protect", level: 3, pos: "v.", phonetic: "[prəˈtɛkt]", ch: "保護" },
+      { word: "provide", level: 3, pos: "v.", phonetic: "[prəˈvaɪd]", ch: "提供" },
+      { word: "publish", level: 3, pos: "v.", phonetic: "[ˈpʌblɪʃ]", ch: "出版，發行" },
+      { word: "purpose", level: 3, pos: "n.", phonetic: "[ˈpɝpəs]", ch: "目的" },
+      { word: "recognize", level: 3, pos: "v.", phonetic: "[ˈrɛkəɡˌnaɪz]", ch: "認出；承認" },
+      { word: "reduce", level: 3, pos: "v.", phonetic: "[rɪˈdjus]", ch: "減少，降低" },
+      { word: "relationship", level: 3, pos: "n.", phonetic: "[rɪˈleʃənˌʃɪp]", ch: "關係" },
+      { word: "religion", level: 3, pos: "n.", phonetic: "[rɪˈlɪdʒən]", ch: "宗教" },
+      { word: "require", level: 3, pos: "v.", phonetic: "[rɪˈkwaɪr]", ch: "需要，要求" },
+      { word: "respect", level: 3, pos: "v./n.", phonetic: "[rɪˈspɛkt]", ch: "尊敬，敬重" },
+      { word: "responsible", level: 3, pos: "adj.", phonetic: "[rɪˈspɑnsəbḷ]", ch: "負責任的" },
+      { word: "schedule", level: 3, pos: "n./v.", phonetic: "[ˈskɛdʒʊl]", ch: "行程表；排程" },
+      { word: "security", level: 3, pos: "n.", phonetic: "[sɪˈkjʊrəti]", ch: "安全；保全" },
+      { word: "situation", level: 3, pos: "n.", phonetic: "[ˌsɪtʃuˈeʃən]", ch: "情況，局勢" },
+      { word: "standard", level: 3, pos: "n./adj.", phonetic: "[ˈstændɚd]", ch: "標準" },
+      { word: "structure", level: 3, pos: "n.", phonetic: "[ˈstrʌktʃɚ]", ch: "結構，構造" },
+      { word: "success", level: 3, pos: "n.", phonetic: "[səkˈsɛs]", ch: "成功" },
+      { word: "suggest", level: 3, pos: "v.", phonetic: "[səɡˈdʒɛst]", ch: "建議；暗示" },
+      { word: "support", level: 3, pos: "v./n.", phonetic: "[səˈpɔrt]", ch: "支持" },
+      { word: "technology", level: 3, pos: "n.", phonetic: "[tɛkˈnɑlədʒi]", ch: "科技，技術" },
+      { word: "temperature", level: 3, pos: "n.", phonetic: "[ˈtɛmprətʃɚ]", ch: "溫度，體溫" },
+      { word: "traditional", level: 3, pos: "adj.", phonetic: "[trəˈdɪʃənḷ]", ch: "傳統的" },
+      { word: "various", level: 3, pos: "adj.", phonetic: "[ˈvɛrɪəs]", ch: "各式各樣的" },
+      { word: "vehicle", level: 3, pos: "n.", phonetic: "[ˈviɪkḷ]", ch: "車輛，運載工具" },
+
+      // ===== LEVEL 4 =====
+      { word: "abandon", level: 4, pos: "v.", phonetic: "[əˈbændən]", ch: "放棄，拋棄" },
+      { word: "absolute", level: 4, pos: "adj.", phonetic: "[ˈæbsəˌlut]", ch: "絕對的，完全的" },
+      { word: "absorb", level: 4, pos: "v.", phonetic: "[əbˈsɔrb]", ch: "吸收；使全神貫注" },
+      { word: "academic", level: 4, pos: "adj.", phonetic: "[ˌækəˈdɛmɪk]", ch: "學術的" },
+      { word: "accomplish", level: 4, pos: "v.", phonetic: "[əˈkɑmplɪʃ]", ch: "完成，達成" },
+      { word: "accurate", level: 4, pos: "adj.", phonetic: "[ˈækjərɪt]", ch: "準確的" },
+      { word: "accuse", level: 4, pos: "v.", phonetic: "[əˈkjuz]", ch: "指控，控告" },
+      { word: "acquire", level: 4, pos: "v.", phonetic: "[əˈkwaɪr]", ch: "取得，獲得；學到" },
+      { word: "aggressive", level: 4, pos: "adj.", phonetic: "[əˈɡrɛsɪv]", ch: "具侵略性的；積極進取的" },
+      { word: "ambitious", level: 4, pos: "adj.", phonetic: "[æmˈbɪʃəs]", ch: "野心勃勃的，有雄心的" },
+      { word: "analysis", level: 4, pos: "n.", phonetic: "[əˈnæləsɪs]", ch: "分析" },
+      { word: "apologize", level: 4, pos: "v.", phonetic: "[əˈpɑləˌdʒaɪz]", ch: "道歉" },
+      { word: "appreciation", level: 4, pos: "n.", phonetic: "[əˌpriʃiˈeʃən]", ch: "欣賞；感激" },
+      { word: "appropriate", level: 4, pos: "adj.", phonetic: "[əˈproprɪɪt]", ch: "適當的，恰當的" },
+      { word: "artificial", level: 4, pos: "adj.", phonetic: "[ˌɑrtəˈfɪʃəl]", ch: "人工的，人造的" },
+      { word: "authority", level: 4, pos: "n.", phonetic: "[əˈθɔrəti]", ch: "權威，當局" },
+      { word: "barrier", level: 4, pos: "n.", phonetic: "[ˈbærɪɚ]", ch: "障礙，障礙物" },
+      { word: "calculate", level: 4, pos: "v.", phonetic: "[ˈkælkjəˌlet]", ch: "計算，估計" },
+      { word: "campaign", level: 4, pos: "n./v.", phonetic: "[kæmˈpen]", ch: "宣傳活動；競選" },
+      { word: "capacity", level: 4, pos: "n.", phonetic: "[kəˈpæsəti]", ch: "容量；能力" },
+      { word: "category", level: 4, pos: "n.", phonetic: "[ˈkætəˌɡɔri]", ch: "類別，種類" },
+      { word: "collapse", level: 4, pos: "v./n.", phonetic: "[kəˈlæps]", ch: "倒塌，瓦解" },
+      { word: "combination", level: 4, pos: "n.", phonetic: "[ˌkɑmbəˈneʃən]", ch: "結合，組合" },
+      { word: "commercial", level: 4, pos: "adj./n.", phonetic: "[kəˈmɝʃəl]", ch: "商業的；廣告" },
+      { word: "competition", level: 4, pos: "n.", phonetic: "[ˌkɑmpəˈtɪʃən]", ch: "競爭，比賽" },
+      { word: "complicated", level: 4, pos: "adj.", phonetic: "[ˈkɑmpləˌketɪd]", ch: "複雜的" },
+      { word: "concentrate", level: 4, pos: "v.", phonetic: "[ˈkɑnsənˌtret]", ch: "專心，全神貫注" },
+      { word: "concept", level: 4, pos: "n.", phonetic: "[ˈkɑnsɛpt]", ch: "概念，觀念" },
+      { word: "conference", level: 4, pos: "n.", phonetic: "[ˈkɑnfərəns]", ch: "正式會議" },
+      { word: "consequence", level: 4, pos: "n.", phonetic: "[ˈkɑnsəˌkwɛns]", ch: "後果，結果" },
+      { word: "conservative", level: 4, pos: "adj.", phonetic: "[kənˈsɝvətɪv]", ch: "保守的" },
+      { word: "construct", level: 4, pos: "v.", phonetic: "[kənˈstrʌkt]", ch: "建造，構成" },
+      { word: "contribute", level: 4, pos: "v.", phonetic: "[kənˈtrɪbjut]", ch: "貢獻，捐獻" },
+      { word: "convenience", level: 4, pos: "n.", phonetic: "[kənˈvinjəns]", ch: "方便，便利" },
+      { word: "convince", level: 4, pos: "v.", phonetic: "[kənˈvɪns]", ch: "使信服，說服" },
+      { word: "cooperate", level: 4, pos: "v.", phonetic: "[koˈɑpəˌret]", ch: "合作" },
+      { word: "courageous", level: 4, pos: "adj.", phonetic: "[kəˈredʒəs]", ch: "勇敢的" },
+      { word: "critical", level: 4, pos: "adj.", phonetic: "[ˈkrɪtɪkḷ]", ch: "關鍵的；批判的" },
+      { word: "curiosity", level: 4, pos: "n.", phonetic: "[ˌkjʊrɪˈɑsəti]", ch: "好奇心" },
+      { word: "decrease", level: 4, pos: "v./n.", phonetic: "[dɪˈkris]", ch: "減少，減小" },
+      { word: "defend", level: 4, pos: "v.", phonetic: "[dɪˈfɛnd]", ch: "保衛，防守" },
+      { word: "delightful", level: 4, pos: "adj.", phonetic: "[dɪˈlaɪtfəl]", ch: "令人愉快的" },
+      { word: "demonstrate", level: 4, pos: "v.", phonetic: "[ˈdɛmənˌstret]", ch: "示範；證明；示威" },
+      { word: "depression", level: 4, pos: "n.", phonetic: "[dɪˈprɛʃən]", ch: "沮喪；憂鬱；不景氣" },
+      { word: "destination", level: 4, pos: "n.", phonetic: "[ˌdɛstəˈneʃən]", ch: "目的地" },
+      { word: "destruction", level: 4, pos: "n.", phonetic: "[dɪˈstrʌkʃən]", ch: "破壞，毀滅" },
+      { word: "discipline", level: 4, pos: "n./v.", phonetic: "[ˈdɪsəplɪn]", ch: "紀律；訓導" },
+      { word: "distinguish", level: 4, pos: "v.", phonetic: "[dɪˈstɪŋɡwɪʃ]", ch: "區別，辨識" },
+      { word: "distribute", level: 4, pos: "v.", phonetic: "[dɪˈstrɪbjut]", ch: "分發，分配" },
+      { word: "embarrass", level: 4, pos: "v.", phonetic: "[ɪmˈbærəs]", ch: "使尷尬，使難堪" },
+      { word: "emphasis", level: 4, pos: "n.", phonetic: "[ˈɛmfəsɪs]", ch: "強調，重點" },
+      { word: "enthusiasm", level: 4, pos: "n.", phonetic: "[ɪnˈθjuziˌæzəm]", ch: "熱情，熱忱" },
+      { word: "environment", level: 4, pos: "n.", phonetic: "[ɪnˈvaɪrənmənt]", ch: "環境" },
+      { word: "essential", level: 4, pos: "adj.", phonetic: "[ɪˈsɛnʃəl]", ch: "必要的，基本的" },
+      { word: "evaluate", level: 4, pos: "v.", phonetic: "[ɪˈvæljuˌet]", ch: "評估，評價" },
+      { word: "exaggerate", level: 4, pos: "v.", phonetic: "[ɪɡˈzædʒəˌret]", ch: "誇張，誇大" },
+      { word: "expansion", level: 4, pos: "n.", phonetic: "[ɪkˈspænʃən]", ch: "擴展，膨脹" },
+      { word: "explanation", level: 4, pos: "n.", phonetic: "[ˌɛkspləˈneʃən]", ch: "解釋，說明" },
+      { word: "fascinate", level: 4, pos: "v.", phonetic: "[ˈfæsəˌnet]", ch: "使著迷" },
+      { word: "foundation", level: 4, pos: "n.", phonetic: "[faʊnˈdeʃən]", ch: "基金會；基礎" },
+      { word: "frequency", level: 4, pos: "n.", phonetic: "[ˈfrikwənsi]", ch: "頻率" },
+      { word: "frustration", level: 4, pos: "n.", phonetic: "[frʌsˈtreʃən]", ch: "挫折，沮喪" },
+      { word: "fundamental", level: 4, pos: "adj.", phonetic: "[ˌfʌndəˈmɛntḷ]", ch: "根本的，基礎的" },
+      { word: "generation", level: 4, pos: "n.", phonetic: "[ˌdʒɛnəˈreʃən]", ch: "世代" },
+      { word: "generosity", level: 4, pos: "n.", phonetic: "[ˌdʒɛnəˈrɑsəti]", ch: "慷慨，大方" },
+      { word: "guarantee", level: 4, pos: "v./n.", phonetic: "[ˌɡærənˈti]", ch: "保證" },
+      { word: "identical", level: 4, pos: "adj.", phonetic: "[aɪˈdɛntɪkḷ]", ch: "完全相同的" },
+      { word: "illustrate", level: 4, pos: "v.", phonetic: "[ˈɪləˌstret]", ch: "舉例說明；插畫" },
+      { word: "imagination", level: 4, pos: "n.", phonetic: "[ɪˌmædʒəˈneʃən]", ch: "想像力" },
+      { word: "immediate", level: 4, pos: "adj.", phonetic: "[ɪˈmidɪɪt]", ch: "立即的" },
+      { word: "immigrant", level: 4, pos: "n.", phonetic: "[ˈɪməɡrənt]", ch: "移民" },
+      { word: "impression", level: 4, pos: "n.", phonetic: "[ɪmˈprɛʃən]", ch: "印象" },
+      { word: "independent", level: 4, pos: "adj.", phonetic: "[ˌɪndɪˈpɛndənt]", ch: "獨立的" },
+      { word: "individual", level: 4, pos: "n./adj.", phonetic: "[ˌɪndəˈvɪdʒuəl]", ch: "個人；個人的" },
+      { word: "infection", level: 4, pos: "n.", phonetic: "[ɪnˈfɛkʃən]", ch: "感染" },
+      { word: "influence", level: 4, pos: "n./v.", phonetic: "[ˈɪnfluəns]", ch: "影響" },
+      { word: "ingredient", level: 4, pos: "n.", phonetic: "[ɪnˈɡridɪənt]", ch: "成分，食材原料" },
+      { word: "innocence", level: 4, pos: "n.", phonetic: "[ˈɪnəsns]", ch: "天真；無辜" },
+      { word: "inspiration", level: 4, pos: "n.", phonetic: "[ˌɪnspəˈreʃən]", ch: "靈感" },
+      { word: "installation", level: 4, pos: "n.", phonetic: "[ˌɪnstəˈleʃən]", ch: "安裝；設備" },
+      { word: "intelligence", level: 4, pos: "n.", phonetic: "[ɪnˈtɛlədʒəns]", ch: "智力，智慧" },
+      { word: "investigate", level: 4, pos: "v.", phonetic: "[ɪnˈvɛstəˌɡet]", ch: "調查" },
+      { word: "literature", level: 4, pos: "n.", phonetic: "[ˈlɪtərətʃɚ]", ch: "文學" },
+      { word: "magnificent", level: 4, pos: "adj.", phonetic: "[mæɡˈnɪfəsnt]", ch: "壯麗的，宏偉的" },
+      { word: "manufacture", level: 4, pos: "v./n.", phonetic: "[ˌmænjəˈfæktʃɚ]", ch: "製造" },
+      { word: "memorable", level: 4, pos: "adj.", phonetic: "[ˈmɛmərəbḷ]", ch: "值得懷念的" },
+      { word: "motivation", level: 4, pos: "n.", phonetic: "[ˌmotəˈveʃən]", ch: "動機" },
+      { word: "negotiate", level: 4, pos: "v.", phonetic: "[nɪˈɡoʃiˌet]", ch: "談判，協商" },
+      { word: "observation", level: 4, pos: "n.", phonetic: "[ˌɑbzɚˈveʃən]", ch: "觀察" },
+      { word: "operation", level: 4, pos: "n.", phonetic: "[ˌɑpəˈreʃən]", ch: "操作；手術" },
+      { word: "opportunity", level: 4, pos: "n.", phonetic: "[ˌɑpɚˈtjunəti]", ch: "機會" },
+      { word: "participation", level: 4, pos: "n.", phonetic: "[pɑrˌtɪsəˈpeʃən]", ch: "參與" },
+      { word: "persuasive", level: 4, pos: "adj.", phonetic: "[pɚˈswesɪv]", ch: "有說服力的" },
+      { word: "phenomenon", level: 4, pos: "n.", phonetic: "[fəˈnɑməˌnɑn]", ch: "現象" },
+      { word: "philosophy", level: 4, pos: "n.", phonetic: "[fəˈlɑsəfi]", ch: "哲學" },
+      { word: "pollution", level: 4, pos: "n.", phonetic: "[pəˈluʃən]", ch: "污染" },
+      { word: "population", level: 4, pos: "n.", phonetic: "[ˌpɑpjəˈleʃən]", ch: "人口" },
+      { word: "practical", level: 4, pos: "adj.", phonetic: "[ˈpræktɪkḷ]", ch: "實際的，實用的" },
+      { word: "preparation", level: 4, pos: "n.", phonetic: "[ˌprɛpəˈreʃən]", ch: "準備" },
+      { word: "psychology", level: 4, pos: "n.", phonetic: "[saɪˈkɑlədʒi]", ch: "心理學" },
+      { word: "publication", level: 4, pos: "n.", phonetic: "[ˌpʌblɪˈkeʃən]", ch: "出版；發行" },
+      { word: "recognition", level: 4, pos: "n.", phonetic: "[ˌrɛkəɡˈnɪʃən]", ch: "認出；表彰" },
+      { word: "recommend", level: 4, pos: "v.", phonetic: "[ˌrɛkəˈmɛnd]", ch: "推薦" },
+      { word: "remarkable", level: 4, pos: "adj.", phonetic: "[rɪˈmɑrkəbḷ]", ch: "非凡的，顯著的" },
+      { word: "reputation", level: 4, pos: "n.", phonetic: "[ˌrɛpjəˈteʃən]", ch: "名譽，聲望" },
+      { word: "requirement", level: 4, pos: "n.", phonetic: "[rɪˈkwaɪrmənt]", ch: "必要條件，需求" },
+      { word: "resolution", level: 4, pos: "n.", phonetic: "[ˌrɛzəˈluʃən]", ch: "決心；解決" },
+      { word: "responsibility", level: 4, pos: "n.", phonetic: "[rɪˌspɑnsəˈbɪləti]", ch: "責任" },
+      { word: "satisfaction", level: 4, pos: "n.", phonetic: "[ˌsætɪsˈfækʃən]", ch: "滿意" },
+      { word: "significant", level: 4, pos: "adj.", phonetic: "[sɪɡˈnɪfɪkənt]", ch: "重要的，顯著的" },
+      { word: "sympathy", level: 4, pos: "n.", phonetic: "[ˈsɪmpəθi]", ch: "同情心" },
+      { word: "tradition", level: 4, pos: "n.", phonetic: "[trəˈdɪʃən]", ch: "傳統" },
+      { word: "transportation", level: 4, pos: "n.", phonetic: "[ˌtrænspɚˈteʃən]", ch: "運輸，交通工具" },
+
+      // ===== LEVEL 5 =====
+      { word: "abrupt", level: 5, pos: "adj.", phonetic: "[əˈbrʌpt]", ch: "突然的，唐突的" },
+      { word: "absurd", level: 5, pos: "adj.", phonetic: "[əbˈsɝd]", ch: "荒謬的，可笑的" },
+      { word: "abundant", level: 5, pos: "adj.", phonetic: "[əˈbʌndənt]", ch: "豐富的，充裕的" },
+      { word: "academy", level: 5, pos: "n.", phonetic: "[əˈkædəmi]", ch: "學院，學會" },
+      { word: "acknowledge", level: 5, pos: "v.", phonetic: "[əkˈnɑlɪdʒ]", ch: "承認；感激" },
+      { word: "adolescent", level: 5, pos: "adj./n.", phonetic: "[ˌædḷˈɛsnt]", ch: "青春期的；青少年" },
+      { word: "affection", level: 5, pos: "n.", phonetic: "[əˈfɛkʃən]", ch: "感情，鍾愛" },
+      { word: "agenda", level: 5, pos: "n.", phonetic: "[əˈdʒɛndə]", ch: "議程，排程事項" },
+      { word: "agony", level: 5, pos: "n.", phonetic: "[ˈæɡəni]", ch: "極大痛苦" },
+      { word: "altitude", level: 5, pos: "n.", phonetic: "[ˈæltəˌtjud]", ch: "海拔，高度" },
+      { word: "ambassador", level: 5, pos: "n.", phonetic: "[æmˈbæsədɚ]", ch: "大使" },
+      { word: "ancestor", level: 5, pos: "n.", phonetic: "[ˈænsɛstɚ]", ch: "祖先" },
+      { word: "applaud", level: 5, pos: "v.", phonetic: "[əˈplɔd]", ch: "鼓掌，喝采" },
+      { word: "architect", level: 5, pos: "n.", phonetic: "[ˈɑrkəˌtɛkt]", ch: "建築師" },
+      { word: "architecture", level: 5, pos: "n.", phonetic: "[ˈɑrkəˌtɛktʃɚ]", ch: "建築學，建築風格" },
+      { word: "astronaut", level: 5, pos: "n.", phonetic: "[ˈæstrəˌnɔt]", ch: "太空人" },
+      { word: "astronomy", level: 5, pos: "n.", phonetic: "[əˈstrɑnəmi]", ch: "天丈學" },
+      { word: "beneficial", level: 5, pos: "adj.", phonetic: "[ˌbɛnəˈfɪʃəl]", ch: "有益的，有利的" },
+      { word: "biography", level: 5, pos: "n.", phonetic: "[baɪˈɑɡrəfi]", ch: "傳記" },
+      { word: "biology", level: 5, pos: "n.", phonetic: "[baɪˈɑlədʒi]", ch: "生物學" },
+      { word: "blizzard", level: 5, pos: "n.", phonetic: "[ˈblɪzɚd]", ch: "暴風雪" },
+      { word: "boundary", level: 5, pos: "n.", phonetic: "[ˈbaʊndri]", ch: "邊界，界線" },
+      { word: "bureau", level: 5, pos: "n.", phonetic: "[ˈbjʊro]", ch: "局，處，署" },
+      { word: "cathedral", level: 5, pos: "n.", phonetic: "[kəˈθidrəl]", ch: "大教堂" },
+      { word: "celebrity", level: 5, pos: "n.", phonetic: "[səˈlɛbrəti]", ch: "名人，名流" },
+      { word: "certificate", level: 5, pos: "n.", phonetic: "[sɚˈtɪfəkɪt]", ch: "證書，執照" },
+      { word: "coincide", level: 5, pos: "v.", phonetic: "[ˌkoɪnˈsaɪd]", ch: "同時發生；一致" },
+      { word: "colleague", level: 5, pos: "n.", phonetic: "[ˈkɑliɡ]", ch: "同事" },
+      { word: "commission", level: 5, pos: "n./v.", phonetic: "[kəˈmɪʃən]", ch: "佣金；委任" },
+      { word: "commodity", level: 5, pos: "n.", phonetic: "[kəˈmɑdəti]", ch: "商品，日用品" },
+      { word: "community", level: 5, pos: "n.", phonetic: "[kəˈmjunəti]", ch: "社區，社會" },
+      { word: "compassion", level: 5, pos: "n.", phonetic: "[kəmˈpæʃən]", ch: "同情，慈悲" },
+      { word: "compromise", level: 5, pos: "v./n.", phonetic: "[ˈkɑmprəˌmaɪz]", ch: "妥協，讓步" },
+      { word: "condemn", level: 5, pos: "v.", phonetic: "[kənˈdɛm]", ch: "譴責；判刑" },
+      { word: "confront", level: 5, pos: "v.", phonetic: "[kənˈfrʌnt]", ch: "面臨，對抗" },
+      { word: "consent", level: 5, pos: "v./n.", phonetic: "[kənˈsɛnt]", ch: "同意，贊同" },
+      { word: "contemporary", level: 5, pos: "adj./n.", phonetic: "[kənˈtɛmpəˌrɛri]", ch: "當代的；同時代的人" },
+      { word: "continent", level: 5, pos: "n.", phonetic: "[ˈkɑntənənt]", ch: "大陸" },
+      { word: "controversy", level: 5, pos: "n.", phonetic: "[ˈkɑntrəˌvɝsi]", ch: "爭議" },
+      { word: "convention", level: 5, pos: "n.", phonetic: "[kənˈvɛnʃən]", ch: "大會；慣例" },
+      { word: "correspond", level: 5, pos: "v.", phonetic: "[ˌkɔrəˈspɑnd]", ch: "通信；符合" },
+      { word: "corruption", level: 5, pos: "n.", phonetic: "[kəˈrʌpʃən]", ch: "腐敗，貪污" },
+      { word: "curriculum", level: 5, pos: "n.", phonetic: "[kəˈrɪkjələm]", ch: "學校課程" },
+      { word: "deceive", level: 5, pos: "v.", phonetic: "[dɪˈsiv]", ch: "欺騙，蒙蔽" },
+      { word: "declaration", level: 5, pos: "n.", phonetic: "[ˌdɛkləˈreʃən]", ch: "宣言，聲明" },
+      { word: "delegate", level: 5, pos: "n./v.", phonetic: "[ˈdɛləɡɪt]", ch: "代表；委派" },
+      { word: "destination", level: 5, pos: "n.", phonetic: "[ˌdɛstəˈneʃən]", ch: "目的地" },
+      { word: "destructive", level: 5, pos: "adj.", phonetic: "[dɪˈstrʌktɪv]", ch: "毀滅性的" },
+      { word: "devotion", level: 5, pos: "n.", phonetic: "[dɪˈvoʃən]", ch: "奉獻，忠誠" },
+      { word: "dilemma", level: 5, pos: "n.", phonetic: "[dəˈlɛmə]", ch: "進退兩難，困境" },
+      { word: "dimension", level: 5, pos: "n.", phonetic: "[daɪˈmɛnʃən]", ch: "尺寸；面向，維度" },
+      { word: "diplomat", level: 5, pos: "n.", phonetic: "[ˈdɪpləˌmæt]", ch: "外交官" },
+      { word: "disaster", level: 5, pos: "n.", phonetic: "[dɪˈzæstɚ]", ch: "災難" },
+      { word: "discriminate", level: 5, pos: "v.", phonetic: "[dɪˈskrɪməˌnet]", ch: "歧視；辨別" },
+      { word: "distinction", level: 5, pos: "n.", phonetic: "[dɪˈstɪŋkʃən]", ch: "區別；卓越" },
+      { word: "document", level: 5, pos: "n./v.", phonetic: "[ˈdɑkjəmənt]", ch: "文件；記錄" },
+      { word: "duration", level: 5, pos: "n.", phonetic: "[djʊˈreʃən]", ch: "持續時間" },
+      { word: "elaborate", level: 5, pos: "adj./v.", phonetic: "[ɪˈlæbərɪt]", ch: "精巧的；詳細說明" },
+      { word: "embrace", level: 5, pos: "v./n.", phonetic: "[ɪmˈbres]", ch: "擁抱；欣然接受" },
+      { word: "enterprise", level: 5, pos: "n.", phonetic: "[ˈɛntɚˌpraɪz]", ch: "企業；事業心" },
+      { word: "enthusiastic", level: 5, pos: "adj.", phonetic: "[ɪnˌθjuziˈæstɪk]", ch: "熱情的" },
+      { word: "entitle", level: 5, pos: "v.", phonetic: "[ɪnˈtaɪtḷ]", ch: "給予權利；命名" },
+      { word: "evolution", level: 5, pos: "n.", phonetic: "[ˌɛvəˈluʃən]", ch: "進化，發展" },
+      { word: "exceptional", level: 5, pos: "adj.", phonetic: "[ɪkˈsɛpʃənḷ]", ch: "卓越的，異常的" },
+      { word: "exclusive", level: 5, pos: "adj.", phonetic: "[ɪkˈsklusɪv]", ch: "獨家的；排他的" },
+      { word: "executive", level: 5, pos: "n./adj.", phonetic: "[ɪɡˈzɛkjətɪv]", ch: "高階主管；執行的" },
+      { word: "fascinate", level: 5, pos: "v.", phonetic: "[ˈfæsəˌnet]", ch: "使著迷" },
+      { word: "flourish", level: 5, pos: "v.", phonetic: "[ˈflɝɪʃ]", ch: "繁榮，興旺" },
+      { word: "heritage", level: 5, pos: "n.", phonetic: "[ˈhɛrətɪdʒ]", ch: "遺產，傳統" },
+      { word: "highlight", level: 5, pos: "v./n.", phonetic: "[ˈhaɪˌlaɪt]", ch: "強調；最精彩部分" },
+      { word: "horizon", level: 5, pos: "n.", phonetic: "[həˈraɪzn]", ch: "地平線；眼界" },
+      { word: "hostile", level: 5, pos: "adj.", phonetic: "[ˈhɑstḷ]", ch: "懷有敵意的" },
+      { word: "humanity", level: 5, pos: "n.", phonetic: "[hjuˈmænəti]", ch: "人性；人類" },
+      { word: "identify", level: 5, pos: "v.", phonetic: "[aɪˈdɛntəˌfaɪ]", ch: "辨識；認同" },
+      { word: "illustrate", level: 5, pos: "v.", phonetic: "[ˈɪləˌstret]", ch: "闡明；繪製插圖" },
+      { word: "immense", level: 5, pos: "adj.", phonetic: "[ɪˈmɛns]", ch: "巨大的，無限的" },
+      { word: "incident", level: 5, pos: "n.", phonetic: "[ˈɪnsədənt]", ch: "事件" },
+      { word: "indispensable", level: 5, pos: "adj.", phonetic: "[ˌɪndɪˈspɛnsəbḷ]", ch: "不可或缺的" },
+      { word: "infinite", level: 5, pos: "adj.", phonetic: "[ˈɪnfənɪt]", ch: "無限的" },
+      { word: "inherit", level: 5, pos: "v.", phonetic: "[ɪnˈhɛrɪt]", ch: "繼承" },
+      { word: "initiative", level: 5, pos: "n.", phonetic: "[ɪˈnɪʃətɪv]", ch: "主動權；倡議" },
+      { word: "insight", level: 5, pos: "n.", phonetic: "[ˈɪnˌsaɪt]", ch: "洞察力，深刻見解" },
+      { word: "institution", level: 5, pos: "n.", phonetic: "[ˌɪnstəˈtjuʃən]", ch: "機構；制度" },
+      { word: "interfere", level: 5, pos: "v.", phonetic: "[ˌɪntɚˈfɪr]", ch: "干涉，妨礙" },
+      { word: "investigate", level: 5, pos: "v.", phonetic: "[ɪnˈvɛstəˌɡet]", ch: "調查" },
+      { word: "legislation", level: 5, pos: "n.", phonetic: "[ˌlɛdʒɪsˈleʃən]", ch: "立法，法規" },
+      { word: "maintenance", level: 5, pos: "n.", phonetic: "[ˈmentənəns]", ch: "維修，保養" },
+      { word: "masterpiece", level: 5, pos: "n.", phonetic: "[ˈmæstɚˌpis]", ch: "傑作，名作" },
+      { word: "monument", level: 5, pos: "n.", phonetic: "[ˈmɑnjəmənt]", ch: "紀念碑" },
+      { word: "motivate", level: 5, pos: "v.", phonetic: "[ˈmotəˌvet]", ch: "激勵，促動" },
+      { word: "obstacle", level: 5, pos: "n.", phonetic: "[ˈɑbstəkḷ]", ch: "障礙物" },
+      { word: "opponent", level: 5, pos: "n.", phonetic: "[əˈponənt]", ch: "對手，反對者" },
+      { word: "optimistic", level: 5, pos: "adj.", phonetic: "[ˌɑptəˈmɪstɪk]", ch: "樂觀的" },
+      { word: "permanent", level: 5, pos: "adj.", phonetic: "[ˈpɝmənənt]", ch: "永久的" },
+      { word: "perspective", level: 5, pos: "n.", phonetic: "[pɚˈspɛktɪv]", ch: "觀點；遠景" },
+      { word: "potential", level: 5, pos: "adj./n.", phonetic: "[pəˈtɛnʃəl]", ch: "潛在的；潛力" },
+      { word: "privilege", level: 5, pos: "n.", phonetic: "[ˈprɪvəlɪdʒ]", ch: "特權，榮幸" },
+      { word: "procedure", level: 5, pos: "n.", phonetic: "[prəˈsidʒɚ]", ch: "程序，步驟" },
+      { word: "prosperous", level: 5, pos: "adj.", phonetic: "[ˈprɑspərəs]", ch: "繁榮的，興旺的" },
+      { word: "qualify", level: 5, pos: "v.", phonetic: "[ˈkwɑləˌfaɪ]", ch: "取得資格；合格" },
+      { word: "rebellion", level: 5, pos: "n.", phonetic: "[rɪˈbɛljən]", ch: "叛亂，反抗" },
+      { word: "recommendation", level: 5, pos: "n.", phonetic: "[ˌrɛkəmənˈdeʃən]", ch: "推薦(信)" },
+      { word: "recreation", level: 5, pos: "n.", phonetic: "[ˌrɛkriˈeʃən]", ch: "消遣，娛樂" },
+      { word: "reputation", level: 5, pos: "n.", phonetic: "[ˌrɛpjəˈteʃən]", ch: "名譽，聲譽" },
+      { word: "significance", level: 5, pos: "n.", phonetic: "[sɪɡˈnɪfɪkəns]", ch: "重要性，意義" },
+      { word: "sophisticated", level: 5, pos: "adj.", phonetic: "[səˈfɪstəˌketɪd]", ch: "精密的；世故的" },
+      { word: "substitute", level: 5, pos: "n./v.", phonetic: "[ˈsʌbstəˌtjut]", ch: "替代物；代替" },
+      { word: "superficial", level: 5, pos: "adj.", phonetic: "[ˌsupɚˈfɪʃəl]", ch: "表面的，膚淺的" },
+      { word: "supervise", level: 5, pos: "v.", phonetic: "[ˈsupɚˌvaɪz]", ch: "監督，指導" },
+      { word: "sustain", level: 5, pos: "v.", phonetic: "[səˈsten]", ch: "維持，支撐" },
+      { word: "sympathetic", level: 5, pos: "adj.", phonetic: "[ˌsɪmpəˈθɛtɪk]", ch: "同情的" },
+      { word: "temptation", level: 5, pos: "n.", phonetic: "[tɛmpˈteʃən]", ch: "誘惑" },
+      { word: "tremendous", level: 5, pos: "adj.", phonetic: "[trɪˈmɛndəs]", ch: "極大的，驚人的" },
+      { word: "universal", level: 5, pos: "adj.", phonetic: "[ˌjunəˈvɝsḷ]", ch: "普遍的；全球的" },
+      { word: "vulnerable", level: 5, pos: "adj.", phonetic: "[ˈvʌlnərəbḷ]", ch: "脆弱易受傷的" },
+
+      // ===== LEVEL 6 =====
+      { word: "abbreviation", level: 6, pos: "n.", phonetic: "[əˌbriviˈeʃən]", ch: "縮寫，簡稱" },
+      { word: "abnormal", level: 6, pos: "adj.", phonetic: "[æbˈnɔrmḷ]", ch: "反常的，異常的" },
+      { word: "abundance", level: 6, pos: "n.", phonetic: "[əˈbʌndəns]", ch: "豐富，充足" },
+      { word: "accelerate", level: 6, pos: "v.", phonetic: "[ækˈsɛləˌret]", ch: "加速，促進" },
+      { word: "accessible", level: 6, pos: "adj.", phonetic: "[ækˈsɛsəbḷ]", ch: "易接近的，可使用的" },
+      { word: "accommodate", level: 6, pos: "v.", phonetic: "[əˈkɑməˌdet]", ch: "容納；提供住宿" },
+      { word: "accumulate", level: 6, pos: "v.", phonetic: "[əˈkjumjəˌlet]", ch: "累積，積聚" },
+      { word: "administration", level: 6, pos: "n.", phonetic: "[ədˌmɪnəˈstreʃən]", ch: "行政管理，政府" },
+      { word: "advocate", level: 6, pos: "v./n.", phonetic: "[ˈædvəˌket]", ch: "提倡；擁護者" },
+      { word: "alternative", level: 6, pos: "adj./n.", phonetic: "[ɔlˈtɝnətɪv]", ch: "替代的；選擇" },
+      { word: "ambiguous", level: 6, pos: "adj.", phonetic: "[æmˈbɪɡjuəs]", ch: "模稜兩可的" },
+      { word: "analytical", level: 6, pos: "adj.", phonetic: "[ˌænəˈlɪtɪkḷ]", ch: "分析的，有條理的" },
+      { word: "anonymous", level: 6, pos: "adj.", phonetic: "[əˈnɑnəməs]", ch: "匿名的" },
+      { word: "anticipate", level: 6, pos: "v.", phonetic: "[ænˈtɪsəˌpet]", ch: "預期，期望" },
+      { word: "applicable", level: 6, pos: "adj.", phonetic: "[ˈæplɪkəbḷ]", ch: "適用的" },
+      { word: "approximate", level: 6, pos: "adj.", phonetic: "[əˈprɑksəmɪt]", ch: "大約的，近似的" },
+      { word: "articulate", level: 6, pos: "adj./v.", phonetic: "[ɑrˈtɪkjəlɪt]", ch: "表達清晰的；發音清晰" },
+      { word: "authentic", level: 6, pos: "adj.", phonetic: "[ɔˈθɛntɪk]", ch: "真實的，道地的" },
+      { word: "authorize", level: 6, pos: "v.", phonetic: "[ˈɔθəˌraɪz]", ch: "授權，批准" },
+      { word: "autonomy", level: 6, pos: "n.", phonetic: "[ɔˈtɑnəmi]", ch: "自治權，自主" },
+      { word: "catastrophe", level: 6, pos: "n.", phonetic: "[kəˈtæstrəfi]", ch: "大災難，浩劫" },
+      { word: "chronic", level: 6, pos: "adj.", phonetic: "[ˈkrɑnɪk]", ch: "慢性的，長期的" },
+      { word: "coherent", level: 6, pos: "adj.", phonetic: "[koˈhɪrənt]", ch: "連貫一致的" },
+      { word: "collaborate", level: 6, pos: "v.", phonetic: "[kəˈlæbəˌret]", ch: "合作，協作" },
+      { word: "commemorate", level: 6, pos: "v.", phonetic: "[kəˈmɛməˌret]", ch: "紀念，慶祝" },
+      { word: "compatible", level: 6, pos: "adj.", phonetic: "[kəmˈpætəbḷ]", ch: "相容的，和睦相處的" },
+      { word: "compensate", level: 6, pos: "v.", phonetic: "[ˈkɑmpənˌset]", ch: "補償，賠償" },
+      { word: "competent", level: 6, pos: "adj.", phonetic: "[ˈkɑmpətənt]", ch: "有能力的，勝任的" },
+      { word: "comprehensive", level: 6, pos: "adj.", phonetic: "[ˌkɑmprɪˈhɛnsɪv]", ch: "全面的，包羅萬象的" },
+      { word: "confidential", level: 6, pos: "adj.", phonetic: "[ˌkɑnfəˈdɛnʃəl]", ch: "機密的" },
+      { word: "conform", level: 6, pos: "v.", phonetic: "[kənˈfɔrm]", ch: "遵守；符合" },
+      { word: "consensus", level: 6, pos: "n.", phonetic: "[kənˈsɛnsəs]", ch: "共識，共識" },
+      { word: "conservation", level: 6, pos: "n.", phonetic: "[ˌkɑnsɚˈveʃən]", ch: "保育，保存" },
+      { word: "conspiracy", level: 6, pos: "n.", phonetic: "[kənˈspɪrəsi]", ch: "陰謀" },
+      { word: "contemplate", level: 6, pos: "v.", phonetic: "[ˈkɑntəmˌplet]", ch: "沉思，深思" },
+      { word: "contradict", level: 6, pos: "v.", phonetic: "[ˌkɑntrəˈdɪkt]", ch: "反駁；與...矛盾" },
+      { word: "controversy", level: 6, pos: "n.", phonetic: "[ˈkɑntrəˌvɝsi]", ch: "爭端，爭議" },
+      { word: "coordinate", level: 6, pos: "v.", phonetic: "[koˈɔrdnˌet]", ch: "協調，統籌" },
+      { word: "criterion", level: 6, pos: "n.", phonetic: "[kraɪˈtɪrɪən]", ch: "衡量標準 (複: criteria)" },
+      { word: "cumulative", level: 6, pos: "adj.", phonetic: "[ˈkjumjələtɪv]", ch: "漸增的，累積的" },
+      { word: "dedicate", level: 6, pos: "v.", phonetic: "[ˈdɛdəˌket]", ch: "致力於，奉獻" },
+      { word: "deliberate", level: 6, pos: "adj./v.", phonetic: "[dɪˈlɪbərɪt]", ch: "蓄意的；深思熟慮" },
+      { word: "deprive", level: 6, pos: "v.", phonetic: "[dɪˈpraɪv]", ch: "剝奪" },
+      { word: "deteriorate", level: 6, pos: "v.", phonetic: "[dɪˈtɪrɪəˌret]", ch: "惡化，變壞" },
+      { word: "diagnose", level: 6, pos: "v.", phonetic: "[ˈdaɪəɡˌnoz]", ch: "診斷" },
+      { word: "differentiate", level: 6, pos: "v.", phonetic: "[ˌdɪfəˈrɛnʃiˌet]", ch: "區別，分化" },
+      { word: "diminish", level: 6, pos: "v.", phonetic: "[dəˈmɪnɪʃ]", ch: "減少，縮小" },
+      { word: "disclose", level: 6, pos: "v.", phonetic: "[dɪsˈkloz]", ch: "揭發，揭露" },
+      { word: "discreet", level: 6, pos: "adj.", phonetic: "[dɪˈskrit]", ch: "謹慎的，細心的" },
+      { word: "discrimination", level: 6, pos: "n.", phonetic: "[dɪˌskrɪməˈneʃən]", ch: "歧視；辨別力" },
+      { word: "diverse", level: 6, pos: "adj.", phonetic: "[daɪˈvɝs]", ch: "多元的，不同的" },
+      { word: "dominate", level: 6, pos: "v.", phonetic: "[ˈdɑməˌnet]", ch: "主導，支配" },
+      { word: "eccentric", level: 6, pos: "adj.", phonetic: "[ɪkˈsɛntrɪk]", ch: "古怪的，反常的" },
+      { word: "eligible", level: 6, pos: "adj.", phonetic: "[ˈɛlɪdʒəbḷ]", ch: "符合資格的" },
+      { word: "eloquent", level: 6, pos: "adj.", phonetic: "[ˈɛləkwənt]", ch: "雄辯的，口才流利的" },
+      { word: "enhance", level: 6, pos: "v.", phonetic: "[ɪnˈhæns]", ch: "提升，增加" },
+      { word: "enlighten", level: 6, pos: "v.", phonetic: "[ɪnˈlaɪtn]", ch: "啟發，開導" },
+      { word: "equivalent", level: 6, pos: "adj./n.", phonetic: "[ɪˈkwɪvələnt]", ch: "等同的；等價物" },
+      { word: "exquisite", level: 6, pos: "adj.", phonetic: "[ˈɛkskwɪzɪt]", ch: "精緻細膩的" },
+      { word: "facilitate", level: 6, pos: "v.", phonetic: "[fəˈsɪləˌtet]", ch: "促進，使便利" },
+      { word: "feasible", level: 6, pos: "adj.", phonetic: "[ˈfizəbḷ]", ch: "切實可行的" },
+      { word: "formidable", level: 6, pos: "adj.", phonetic: "[ˈfɔrmədəbḷ]", ch: "令人畏懼的；難以克服的" },
+      { word: "hierarchy", level: 6, pos: "n.", phonetic: "[ˈhaɪəˌrɑrki]", ch: "階級體系" },
+      { word: "hypocrisy", level: 6, pos: "n.", phonetic: "[hɪˈpɑkrəsi]", ch: "虛偽，偽善" },
+      { word: "illuminate", level: 6, pos: "v.", phonetic: "[ɪˈluməˌnet]", ch: "照亮；闡明" },
+      { word: "imperative", level: 6, pos: "adj.", phonetic: "[ɪmˈpɛrətɪv]", ch: "極為重要的，迫切的" },
+      { word: "implement", level: 6, pos: "v./n.", phonetic: "[ˈɪmpləmənt]", ch: "實施，貫徹；工具" },
+      { word: "implicit", level: 6, pos: "adj.", phonetic: "[ɪmˈplɪsɪt]", ch: "含蓄的，不言明的" },
+      { word: "incentive", level: 6, pos: "n.", phonetic: "[ɪnˈsɛntɪv]", ch: "誘因，動機" },
+      { word: "inevitable", level: 6, pos: "adj.", phonetic: "[ɪnˈɛvətəbḷ]", ch: "不可避免的，必然的" },
+      { word: "inherent", level: 6, pos: "adj.", phonetic: "[ɪnˈhɪrənt]", ch: "與生俱來的，固有的" },
+      { word: "innovation", level: 6, pos: "n.", phonetic: "[ˌɪnəˈveʃən]", ch: "創新，革新" },
+      { word: "integrity", level: 6, pos: "n.", phonetic: "[ɪnˈtɛɡrəti]", ch: "正直；完整" },
+      { word: "intimidate", level: 6, pos: "v.", phonetic: "[ɪnˈtɪməˌdet]", ch: "威嚇，脅迫" },
+      { word: "invaluable", level: 6, pos: "adj.", phonetic: "[ɪnˈvæljuəbḷ]", ch: "非常寶貴的，無價的" },
+      { word: "legitimate", level: 6, pos: "adj.", phonetic: "[lɪˈdʒɪtəmɪt]", ch: "合法的，正當的" },
+      { word: "manipulate", level: 6, pos: "v.", phonetic: "[məˈnɪpjəˌlet]", ch: "操縱，巧妙操作" },
+      { word: "metropolitan", level: 6, pos: "adj.", phonetic: "[ˌmɛtrəˈpɑlətn]", ch: "大都會的" },
+      { word: "monopoly", level: 6, pos: "n.", phonetic: "[məˈnɑpḷi]", ch: "壟斷，獨佔" },
+      { word: "notorious", level: 6, pos: "adj.", phonetic: "[noˈtɔrɪəs]", ch: "惡名昭彰的" },
+      { word: "obligation", level: 6, pos: "n.", phonetic: "[ˌɑbləˈɡeʃən]", ch: "義務，責任" },
+      { word: "obscure", level: 6, pos: "adj./v.", phonetic: "[əbˈskjʊr]", ch: "晦澀的；使模糊" },
+      { word: "paradox", level: 6, pos: "n.", phonetic: "[ˈpærəˌdɑks]", ch: "自相矛盾的事物" },
+      { word: "perseverance", level: 6, pos: "n.", phonetic: "[ˌpɝsəˈvɪrəns]", ch: "毅力，不屈不撓" },
+      { word: "precedent", level: 6, pos: "n.", phonetic: "[ˈprɛsədənt]", ch: "先例，前例" },
+      { word: "profound", level: 6, pos: "adj.", phonetic: "[prəˈfaʊnd]", ch: "深刻的，深奧的" },
+      { word: "progressive", level: 6, pos: "adj.", phonetic: "[prəˈɡrɛsɪv]", ch: "進步的，革新的" },
+      { word: "random", level: 6, pos: "adj.", phonetic: "[ˈrændəm]", ch: "隨機的，任意的" },
+      { word: "rational", level: 6, pos: "adj.", phonetic: "[ˈræʃənḷ]", ch: "理性的，合理的" },
+      { word: "reinforce", level: 6, pos: "v.", phonetic: "[ˌriɪnˈfɔrs]", ch: "強化，加強" },
+      { word: "relevant", level: 6, pos: "adj.", phonetic: "[ˈrɛləvənt]", ch: "相關的，切題的" },
+      { word: "reluctant", level: 6, pos: "adj.", phonetic: "[rɪˈlʌktənt]", ch: "勉強的，不情願的" },
+      { word: "resilient", level: 6, pos: "adj.", phonetic: "[rɪˈzɪljənt]", ch: "有韌性的，能復原的" },
+      { word: "scrutinize", level: 6, pos: "v.", phonetic: "[ˈskrutnˌaɪz]", ch: "仔細檢查，審視" },
+      { word: "simultaneous", level: 6, pos: "adj.", phonetic: "[ˌsaɪmḷˈteniəs]", ch: "同時發生的" },
+      { word: "skeptical", level: 6, pos: "adj.", phonetic: "[ˈskɛptɪkḷ]", ch: "懷疑的" },
+      { word: "spontaneous", level: 6, pos: "adj.", phonetic: "[spɑnˈteniəs]", ch: "自發的，自然的" },
+      { word: "substantial", level: 6, pos: "adj.", phonetic: "[səbˈstænʃəl]", ch: "大量的，實質的" },
+      { word: "transformation", level: 6, pos: "n.", phonetic: "[ˌtrænsfɚˈmeʃən]", ch: "轉變，改造" },
+      { word: "unanimous", level: 6, pos: "adj.", phonetic: "[juˈnænəməs]", ch: "全體一致的" },
+      { word: "vulnerable", level: 6, pos: "adj.", phonetic: "[ˈvʌlnərəbḷ]", ch: "易受害的，脆弱的" }
+    ];
+
+    /**
+     * STREAMING_CHUNK:Audio Synthesizer using Web Audio API
+     * Provides celebratory chime and error buzz without external audio links.
+     */
+    class AudioEffects {
+      constructor() {
+        this.ctx = null;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+      playCorrect() {
+        if (!document.getElementById('opt-sound-fx').checked) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const now = this.ctx.currentTime;
+          // Upward happy triad arpeggio
+          const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+          notes.forEach((freq, idx) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+            gain.gain.setValueAtTime(0.12, now + idx * 0.08);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.35);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now + idx * 0.08);
+            osc.stop(now + idx * 0.08 + 0.35);
+          });
+        } catch (e) {
+          console.warn("Audio feedback error:", e);
+        }
+      }
+      playWrong() {
+        if (!document.getElementById('opt-sound-fx').checked) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const now = this.ctx.currentTime;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(220, now); // A3
+          osc.frequency.linearRampToValueAtTime(146.83, now + 0.25); // D3
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.3);
+        } catch (e) {
+          console.warn("Audio error:", e);
+        }
+      }
+    }
+
+    const sfx = new AudioEffects();
+
+    /**
+     * STREAMING_CHUNK:Application State Management
+     */
+    const state = {
+      selectedLevels: [1],
+      questionCount: 10,
+      mode: 'practice', // 'practice' or 'exam'
+      questions: [],
+      currentIndex: 0,
+      correctCount: 0,
+      wrongCount: 0,
+      currentWordObj: null,
+      hasSubmittedCurrent: false,
+      mistakes: [], // words failed during this session
+      allTimeNotebook: JSON.parse(localStorage.getItem('vocab_7k_notebook') || '[]'),
+      chineseRevealed: false
+    };
+
+    // DOM Elements Cache
+    const el = {
+      viewSetup: document.getElementById('view-setup'),
+      viewQuiz: document.getElementById('view-quiz'),
+      viewResult: document.getElementById('view-result'),
+
+      // Quiz interface
+      badgeLevel: document.getElementById('badge-level'),
+      questionCounter: document.getElementById('quiz-question-counter'),
+      statCorrect: document.getElementById('stat-correct'),
+      statWrong: document.getElementById('stat-wrong'),
+      statAccuracy: document.getElementById('stat-accuracy'),
+      progressBar: document.getElementById('quiz-progress-bar'),
+
+      btnPronounce: document.getElementById('btn-pronounce'),
+      labelPos: document.getElementById('label-pos'),
+      labelPhonetic: document.getElementById('label-phonetic'),
+      labelLength: document.getElementById('label-length'),
+
+      // Chinese hint
+      btnToggleChinese: document.getElementById('btn-toggle-chinese'),
+      chineseHintCard: document.getElementById('chinese-hint-card'),
+      textChineseDef: document.getElementById('text-chinese-def'),
+
+      // Input & controls
+      formSpelling: document.getElementById('form-spelling'),
+      inputSpelling: document.getElementById('input-spelling'),
+      btnClearInput: document.getElementById('btn-clear-input'),
+      feedbackBox: document.getElementById('feedback-box'),
+      feedbackIcon: document.getElementById('feedback-icon'),
+      feedbackTitle: document.getElementById('feedback-title'),
+      feedbackDetail: document.getElementById('feedback-detail'),
+
+      btnSubmit: document.getElementById('btn-submit'),
+      btnGiveUp: document.getElementById('btn-give-up'),
+      btnNextWord: document.getElementById('btn-next-word'),
+
+      // Options
+      optAutoPlay: document.getElementById('opt-auto-play'),
+      optAutoAdvance: document.getElementById('opt-auto-advance'),
+      optSoundFx: document.getElementById('opt-sound-fx'),
+
+      // Result
+      resTotal: document.getElementById('res-total'),
+      resCorrect: document.getElementById('res-correct'),
+      resAccuracy: document.getElementById('res-accuracy'),
+      resMistakeCount: document.getElementById('res-mistake-count'),
+      resultMistakesList: document.getElementById('result-mistakes-list'),
+      resultMistakesBox: document.getElementById('result-mistakes-box'),
+
+      // Notebook modal
+      modalNotebook: document.getElementById('modal-notebook'),
+      btnToggleNotebook: document.getElementById('btn-toggle-notebook'),
+      btnCloseNotebook: document.getElementById('btn-close-notebook'),
+      notebookCountBadge: document.getElementById('notebook-count-badge'),
+      notebookEmptyTip: document.getElementById('notebook-empty-tip'),
+      notebookItemsContainer: document.getElementById('notebook-items-container'),
+      btnClearNotebook: document.getElementById('btn-clear-notebook'),
+      btnQuizNotebook: document.getElementById('btn-quiz-notebook')
+    };
+
+    /**
+     * STREAMING_CHUNK:Speech Synthesis Helper
+     */
+    function pronounceWord(text) {
+      if (!('speechSynthesis' in window)) {
+        console.warn("SpeechSynthesis not supported.");
+        return;
+      }
+      window.speechSynthesis.cancel(); // Stop any pending utterances
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.9; // Slight reduction for clear spelling auditory cue
+      utterance.pitch = 1.0;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    /**
+     * STREAMING_CHUNK:Notebook Management
+     */
+    function saveNotebook() {
+      localStorage.setItem('vocab_7k_notebook', JSON.stringify(state.allTimeNotebook));
+      updateNotebookBadge();
+    }
+
+    function addWordToNotebook(wordObj) {
+      const exists = state.allTimeNotebook.some(item => item.word.toLowerCase() === wordObj.word.toLowerCase());
+      if (!exists) {
+        state.allTimeNotebook.unshift(wordObj);
+        saveNotebook();
+      }
+    }
+
+    function removeWordFromNotebook(wordText) {
+      state.allTimeNotebook = state.allTimeNotebook.filter(item => item.word.toLowerCase() !== wordText.toLowerCase());
+      saveNotebook();
+      renderNotebookDrawer();
+    }
+
+    function updateNotebookBadge() {
+      const count = state.allTimeNotebook.length;
+      if (count > 0) {
+        el.notebookCountBadge.textContent = count;
+        el.notebookCountBadge.classList.remove('hidden');
+      } else {
+        el.notebookCountBadge.classList.add('hidden');
+      }
+    }
+
+    function renderNotebookDrawer() {
+      const list = state.allTimeNotebook;
+      if (!list || list.length === 0) {
+        el.notebookEmptyTip.classList.remove('hidden');
+        el.notebookItemsContainer.classList.add('hidden');
+        el.btnQuizNotebook.disabled = true;
+        return;
+      }
+      el.notebookEmptyTip.classList.add('hidden');
+      el.notebookItemsContainer.classList.remove('hidden');
+      el.btnQuizNotebook.disabled = false;
+
+      el.notebookItemsContainer.innerHTML = list.map(item => `
+        <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200/80 hover:bg-slate-100 transition-colors">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-slate-800 text-sm font-mono">${item.word}</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 font-bold">L${item.level}</span>
+              <span class="text-xs text-slate-400 font-mono">${item.pos || ''}</span>
+            </div>
+            <div class="text-xs text-slate-600 mt-0.5">${item.ch}</div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="pronounceWord('${item.word}')" class="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-blue-600 flex items-center justify-center text-xs">
+              <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <button onclick="removeWordFromNotebook('${item.word}')" class="w-8 h-8 rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-rose-500 flex items-center justify-center text-xs" title="從錯題本移除">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /**
+     * STREAMING_CHUNK:Setup Selection Handlers
+     */
+    // Level selection
+    document.querySelectorAll('.level-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lvl = parseInt(btn.dataset.level);
+        if (state.selectedLevels.includes(lvl)) {
+          if (state.selectedLevels.length > 1) {
+            state.selectedLevels = state.selectedLevels.filter(l => l !== lvl);
+            btn.classList.remove('border-blue-500', 'bg-blue-50/60', 'text-blue-700');
+            btn.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
+          }
+        } else {
+          state.selectedLevels.push(lvl);
+          btn.classList.add('border-blue-500', 'bg-blue-50/60', 'text-blue-700');
+          btn.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
+        }
+      });
+    });
+
+    // Select all / shortcut levels
+    document.getElementById('btn-select-all-levels').addEventListener('click', () => {
+      state.selectedLevels = [1, 2, 3, 4, 5, 6];
+      document.querySelectorAll('.level-btn').forEach(btn => {
+        btn.classList.add('border-blue-500', 'bg-blue-50/60', 'text-blue-700');
+        btn.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
+      });
+    });
+
+    document.getElementById('btn-select-l1l3').addEventListener('click', () => {
+      state.selectedLevels = [1, 2, 3, 4];
+      document.querySelectorAll('.level-btn').forEach(btn => {
+        const l = parseInt(btn.dataset.level);
+        if (l <= 4) {
+          btn.classList.add('border-blue-500', 'bg-blue-50/60', 'text-blue-700');
+          btn.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
+        } else {
+          btn.classList.remove('border-blue-500', 'bg-blue-50/60', 'text-blue-700');
+          btn.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
+        }
+      });
+    });
+
+    // Question count buttons
+    document.querySelectorAll('.count-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.count-btn').forEach(b => {
+          b.classList.remove('border-blue-500', 'bg-blue-50', 'text-blue-700');
+          b.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
+        });
+        btn.classList.add('border-blue-500', 'bg-blue-50', 'text-blue-700');
+        btn.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
+        state.questionCount = parseInt(btn.dataset.count);
+      });
+    });
+
+    // Mode buttons
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.mode-btn').forEach(b => {
+          b.classList.remove('border-blue-500', 'bg-blue-50', 'text-blue-700');
+          b.classList.add('border-slate-200', 'bg-white', 'text-slate-700');
+        });
+        btn.classList.add('border-blue-500', 'bg-blue-50', 'text-blue-700');
+        btn.classList.remove('border-slate-200', 'bg-white', 'text-slate-700');
+        state.mode = btn.dataset.mode;
+      });
+    });
+
+    /**
+     * STREAMING_CHUNK:Quiz Engine & Flow
+     */
+    function startQuiz(customWordPool = null) {
+      let pool = [];
+      if (customWordPool && customWordPool.length > 0) {
+        pool = [...customWordPool];
+      } else {
+        pool = VOCABULARY_DATABASE.filter(item => state.selectedLevels.includes(item.level));
+      }
+
+      if (pool.length === 0) {
+        alert("找不到符合條件的單字，請選擇其他等級！");
+        return;
+      }
+
+      // Shuffle array
+      const shuffled = [...pool].sort(() => 0.5 - Math.random());
+      const maxCount = Math.min(state.questionCount, shuffled.length);
+      state.questions = shuffled.slice(0, maxCount);
+      state.currentIndex = 0;
+      state.correctCount = 0;
+      state.wrongCount = 0;
+      state.mistakes = [];
+
+      // Switch view
+      el.viewSetup.classList.add('hidden');
+      el.viewResult.classList.add('hidden');
+      el.viewQuiz.classList.remove('hidden');
+
+      loadCurrentQuestion();
+    }
+
+    function loadCurrentQuestion() {
+      state.hasSubmittedCurrent = false;
+      state.currentWordObj = state.questions[state.currentIndex];
+      state.chineseRevealed = false;
+
+      // Update counters & stats
+      el.questionCounter.textContent = `${state.currentIndex + 1} / ${state.questions.length}`;
+      el.badgeLevel.textContent = `Level ${state.currentWordObj.level}`;
+      el.statCorrect.textContent = state.correctCount;
+      el.statWrong.textContent = state.wrongCount;
+
+      const totalAttempted = state.correctCount + state.wrongCount;
+      const acc = totalAttempted === 0 ? 100 : Math.round((state.correctCount / totalAttempted) * 100);
+      el.statAccuracy.textContent = `${acc}%`;
+
+      const progress = ((state.currentIndex) / state.questions.length) * 100;
+      el.progressBar.style.width = `${progress}%`;
+
+      // Word details
+      el.labelPos.textContent = state.currentWordObj.pos || '單字';
+      el.labelPhonetic.textContent = state.currentWordObj.phonetic || '';
+      el.labelLength.textContent = `${state.currentWordObj.word.length} 個字母`;
+
+      // Chinese Hint: Hide by default as requested!
+      hideChineseHint();
+      el.textChineseDef.textContent = state.currentWordObj.ch;
+
+      // Clear input
+      el.inputSpelling.value = '';
+      el.inputSpelling.disabled = false;
+      el.inputSpelling.className = "w-full text-center text-xl sm:text-2xl font-bold tracking-wider py-3.5 px-4 rounded-2xl border-2 border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 outline-none transition-all placeholder:text-slate-300 placeholder:text-base placeholder:tracking-normal font-mono";
+      el.feedbackBox.classList.add('hidden');
+
+      // Buttons
+      el.btnSubmit.classList.remove('hidden');
+      el.btnGiveUp.classList.remove('hidden');
+      el.btnNextWord.classList.add('hidden');
+
+      // Focus
+      setTimeout(() => {
+        el.inputSpelling.focus();
+      }, 100);
+
+      // Auto-pronounce if enabled
+      if (el.optAutoPlay.checked) {
+        setTimeout(() => {
+          pronounceWord(state.currentWordObj.word);
+        }, 200);
+      }
+    }
+
+    /**
+     * STREAMING_CHUNK:Chinese Hint Reveal Toggle
+     */
+    function showChineseHint() {
+      state.chineseRevealed = true;
+      el.btnToggleChinese.classList.add('hidden');
+      el.chineseHintCard.classList.remove('hidden');
+      el.chineseHintCard.classList.add('pop-anim');
+    }
+
+    function hideChineseHint() {
+      state.chineseRevealed = false;
+      el.btnToggleChinese.classList.remove('hidden');
+      el.chineseHintCard.classList.add('hidden');
+    }
+
+    el.btnToggleChinese.addEventListener('click', showChineseHint);
+
+    /**
+     * STREAMING_CHUNK:Answer Submission and Validation
+     */
+    function submitAnswer() {
+      if (state.hasSubmittedCurrent) return;
+
+      const userVal = el.inputSpelling.value.trim();
+      if (!userVal) {
+        // Shake input
+        el.inputSpelling.classList.add('shake-anim');
+        setTimeout(() => el.inputSpelling.classList.remove('shake-anim'), 400);
+        return;
+      }
+
+      const targetWord = state.currentWordObj.word.trim();
+      const isCorrect = userVal.toLowerCase() === targetWord.toLowerCase();
+
+      // Show Chinese hint regardless after check so user learns
+      showChineseHint();
+
+      if (isCorrect) {
+        handleCorrectAnswer(userVal);
+      } else {
+        handleWrongAnswer(userVal, targetWord);
+      }
+    }
+
+    function handleCorrectAnswer(userVal) {
+      state.hasSubmittedCurrent = true;
+      state.correctCount++;
+      sfx.playCorrect();
+
+      // Style input
+      el.inputSpelling.disabled = true;
+      el.inputSpelling.className = "w-full text-center text-xl sm:text-2xl font-bold tracking-wider py-3.5 px-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50/60 text-emerald-800 outline-none font-mono";
+
+      // Feedback Box
+      el.feedbackBox.className = "w-full max-w-md rounded-2xl p-4 mb-4 bg-emerald-50 border border-emerald-200 text-emerald-900 pop-anim";
+      el.feedbackIcon.className = "w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center text-white shrink-0 mt-0.5";
+      el.feedbackIcon.innerHTML = `<i class="fa-solid fa-check"></i>`;
+      el.feedbackTitle.textContent = "太棒了！拼寫完全正確！";
+      el.feedbackDetail.innerHTML = `
+        <span class="font-mono font-bold text-base text-emerald-800">${state.currentWordObj.word}</span>
+        <span class="text-xs text-emerald-700 ml-2">${state.currentWordObj.phonetic || ''}</span>
+      `;
+      el.feedbackBox.classList.remove('hidden');
+
+      // Pronounce once more for confirmation
+      pronounceWord(state.currentWordObj.word);
+
+      // Buttons
+      el.btnSubmit.classList.add('hidden');
+      el.btnGiveUp.classList.add('hidden');
+      el.btnNextWord.classList.remove('hidden');
+      el.btnNextWord.focus();
+
+      // Auto advance option
+      if (el.optAutoAdvance.checked) {
+        setTimeout(() => {
+          advanceNextQuestion();
+        }, 1200);
+      }
+    }
+
+    function handleWrongAnswer(userVal, targetWord) {
+      sfx.playWrong();
+      addWordToNotebook(state.currentWordObj);
+      state.mistakes.push({
+        ...state.currentWordObj,
+        userAttempt: userVal
+      });
+
+      if (state.mode === 'practice') {
+        // In practice mode, let them know it's wrong but allow retry or see answer
+        el.inputSpelling.classList.add('shake-anim');
+        el.inputSpelling.className = "w-full text-center text-xl sm:text-2xl font-bold tracking-wider py-3.5 px-4 rounded-2xl border-2 border-rose-400 focus:border-rose-500 focus:ring-4 focus:ring-rose-100 bg-rose-50/30 text-rose-800 outline-none font-mono";
+        setTimeout(() => el.inputSpelling.classList.remove('shake-anim'), 400);
+
+        el.feedbackBox.className = "w-full max-w-md rounded-2xl p-4 mb-4 bg-rose-50 border border-rose-200 text-rose-900 pop-anim";
+        el.feedbackIcon.className = "w-8 h-8 rounded-full bg-rose-500 flex items-center justify-center text-white shrink-0 mt-0.5";
+        el.feedbackIcon.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
+        el.feedbackTitle.textContent = "拼法有誤，請再試一次！";
+        el.feedbackDetail.innerHTML = `你輸入的是: <span class="font-mono line-through font-bold text-rose-700">${userVal}</span> (可修改重新送出，或按「看答案」)`;
+        el.feedbackBox.classList.remove('hidden');
+        el.inputSpelling.focus();
+        el.inputSpelling.select();
+
+      } else {
+        // Exam mode: immediate mark as wrong and reveal answer
+        state.hasSubmittedCurrent = true;
+        state.wrongCount++;
+
+        el.inputSpelling.disabled = true;
+        el.inputSpelling.className = "w-full text-center text-xl sm:text-2xl font-bold tracking-wider py-3.5 px-4 rounded-2xl border-2 border-rose-500 bg-rose-50/60 text-rose-800 outline-none font-mono";
+
+        el.feedbackBox.className = "w-full max-w-md rounded-2xl p-4 mb-4 bg-rose-50 border border-rose-200 text-rose-900 pop-anim";
+        el.feedbackIcon.className = "w-8 h-8 rounded-full bg-rose-500 flex items-center justify-center text-white shrink-0 mt-0.5";
+        el.feedbackIcon.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
+        el.feedbackTitle.textContent = "拼寫不正確";
+        el.feedbackDetail.innerHTML = `
+          <div>正確拼法為: <span class="font-mono font-bold text-base text-rose-800">${targetWord}</span></div>
+          <div class="text-xs text-rose-600 mt-1">你的回答: <span class="font-mono line-through">${userVal}</span></div>
+        `;
+        el.feedbackBox.classList.remove('hidden');
+
+        el.btnSubmit.classList.add('hidden');
+        el.btnGiveUp.classList.add('hidden');
+        el.btnNextWord.classList.remove('hidden');
+        el.btnNextWord.focus();
+      }
+    }
+
+    function giveUpAndReveal() {
+      if (state.hasSubmittedCurrent) return;
+      state.hasSubmittedCurrent = true;
+      state.wrongCount++;
+      sfx.playWrong();
+
+      addWordToNotebook(state.currentWordObj);
+      state.mistakes.push({
+        ...state.currentWordObj,
+        userAttempt: el.inputSpelling.value.trim() || "(跳過)"
+      });
+
+      showChineseHint();
+
+      el.inputSpelling.disabled = true;
+      el.inputSpelling.value = state.currentWordObj.word;
+      el.inputSpelling.className = "w-full text-center text-xl sm:text-2xl font-bold tracking-wider py-3.5 px-4 rounded-2xl border-2 border-amber-400 bg-amber-50/60 text-amber-900 outline-none font-mono";
+
+      el.feedbackBox.className = "w-full max-w-md rounded-2xl p-4 mb-4 bg-amber-50 border border-amber-200 text-amber-900 pop-anim";
+      el.feedbackIcon.className = "w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center text-white shrink-0 mt-0.5";
+      el.feedbackIcon.innerHTML = `<i class="fa-solid fa-lightbulb"></i>`;
+      el.feedbackTitle.textContent = "正確單字拼寫公佈";
+      el.feedbackDetail.innerHTML = `
+        <span class="font-mono font-bold text-base text-amber-800">${state.currentWordObj.word}</span>
+        <span class="text-xs text-amber-700 ml-2">${state.currentWordObj.phonetic || ''}</span>
+        <div class="text-xs text-slate-500 mt-1">此題已收錄於錯題本，後續可再次複習。</div>
+      `;
+      el.feedbackBox.classList.remove('hidden');
+
+      pronounceWord(state.currentWordObj.word);
+
+      el.btnSubmit.classList.add('hidden');
+      el.btnGiveUp.classList.add('hidden');
+      el.btnNextWord.classList.remove('hidden');
+      el.btnNextWord.focus();
+    }
+
+    function advanceNextQuestion() {
+      if (state.currentIndex + 1 < state.questions.length) {
+        state.currentIndex++;
+        loadCurrentQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    /**
+     * STREAMING_CHUNK:Quiz Conclusion & Results
+     */
+    function finishQuiz() {
+      el.viewQuiz.classList.add('hidden');
+      el.viewResult.classList.remove('hidden');
+
+      const total = state.questions.length;
+      const accuracy = total === 0 ? 0 : Math.round((state.correctCount / total) * 100);
+
+      el.resTotal.textContent = total;
+      el.resCorrect.textContent = state.correctCount;
+      el.resAccuracy.textContent = `${accuracy}%`;
+
+      // Render mistakes list
+      if (state.mistakes.length === 0) {
+        el.resultMistakesBox.classList.add('hidden');
+      } else {
+        el.resultMistakesBox.classList.remove('hidden');
+        el.resMistakeCount.textContent = state.mistakes.length;
+        el.resultMistakesList.innerHTML = state.mistakes.map(item => `
+          <div class="flex items-center justify-between p-2">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-mono font-bold text-slate-800 text-sm">${item.word}</span>
+                <span class="text-[10px] px-1.5 py-0.2 rounded bg-blue-100 text-blue-700">L${item.level}</span>
+                <span class="text-xs text-slate-400 font-mono">${item.pos || ''}</span>
+              </div>
+              <div class="text-xs text-slate-500">${item.ch}</div>
+            </div>
+            <button onclick="pronounceWord('${item.word}')" class="w-8 h-8 rounded-full bg-white border border-slate-200 text-slate-500 hover:text-blue-600 flex items-center justify-center text-xs">
+              <i class="fa-solid fa-volume-high"></i>
+            </button>
+          </div>
+        `).join('');
+      }
+    }
+
+    /**
+     * STREAMING_CHUNK:Event Listeners and Shortcuts
+     */
+    // Start Quiz
+    document.getElementById('btn-start-quiz').addEventListener('click', () => startQuiz());
+
+    // Pronounce button
+    el.btnPronounce.addEventListener('click', () => {
+      if (state.currentWordObj) {
+        pronounceWord(state.currentWordObj.word);
+      }
+    });
+
+    // Form submission
+    el.btnSubmit.addEventListener('click', submitAnswer);
+    el.btnGiveUp.addEventListener('click', giveUpAndReveal);
+    el.btnNextWord.addEventListener('click', advanceNextQuestion);
+
+    // Enter key submits or moves next
+    el.inputSpelling.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (state.hasSubmittedCurrent) {
+          advanceNextQuestion();
+        } else {
+          submitAnswer();
+        }
+      }
+    });
+
+    // Show / Hide input clear icon
+    el.inputSpelling.addEventListener('input', () => {
+      if (el.inputSpelling.value.length > 0) {
+        el.btnClearInput.classList.remove('hidden');
+      } else {
+        el.btnClearInput.classList.add('hidden');
+      }
+    });
+    el.btnClearInput.addEventListener('click', () => {
+      el.inputSpelling.value = '';
+      el.btnClearInput.classList.add('hidden');
+      el.inputSpelling.focus();
+    });
+
+    // Global keyboard shortcuts
+    window.addEventListener('keydown', (e) => {
+      // Space to pronounce when in quiz view and not actively typing in an active box without modifiers
+      if (e.code === 'Space' && !el.viewQuiz.classList.contains('hidden') && e.target !== el.inputSpelling) {
+        e.preventDefault();
+        if (state.currentWordObj) pronounceWord(state.currentWordObj.word);
+      }
+      // Ctrl + H or Alt + H to toggle Chinese hint
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'h') {
+        e.preventDefault();
+        if (!el.viewQuiz.classList.contains('hidden')) {
+          showChineseHint();
+        }
+      }
+    });
+
+    // Result restart buttons
+    document.getElementById('btn-restart-same').addEventListener('click', () => startQuiz());
+    document.getElementById('btn-back-setup').addEventListener('click', () => {
+      el.viewResult.classList.add('hidden');
+      el.viewQuiz.classList.add('hidden');
+      el.viewSetup.classList.remove('hidden');
+    });
+    document.getElementById('btn-restart-setup').addEventListener('click', () => {
+      el.viewResult.classList.add('hidden');
+      el.viewQuiz.classList.add('hidden');
+      el.viewSetup.classList.remove('hidden');
+    });
+
+    // Retest session mistakes
+    document.getElementById('btn-retest-mistakes').addEventListener('click', () => {
+      if (state.mistakes.length > 0) {
+        startQuiz(state.mistakes);
+      }
+    });
+
+    // Notebook modal controls
+    el.btnToggleNotebook.addEventListener('click', () => {
+      renderNotebookDrawer();
+      el.modalNotebook.classList.remove('hidden');
+    });
+    el.btnCloseNotebook.addEventListener('click', () => {
+      el.modalNotebook.classList.add('hidden');
+    });
+    el.modalNotebook.addEventListener('click', (e) => {
+      if (e.target === el.modalNotebook) {
+        el.modalNotebook.classList.add('hidden');
+      }
+    });
+    el.btnClearNotebook.addEventListener('click', () => {
+      if (confirm('確定要清空所有累積錯題嗎？')) {
+        state.allTimeNotebook = [];
+        saveNotebook();
+        renderNotebookDrawer();
+      }
+    });
+    el.btnQuizNotebook.addEventListener('click', () => {
+      if (state.allTimeNotebook.length > 0) {
+        el.modalNotebook.classList.add('hidden');
+        startQuiz(state.allTimeNotebook);
+      }
+    });
+
+    // Initialize notebook badge on boot
+    updateNotebookBadge();
+  </script>
+</body>
+</html>
