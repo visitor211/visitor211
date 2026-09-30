@@ -38,7 +38,6 @@
       flex-direction: column;
     }
 
-    /* 頂部導覽列 */
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
@@ -74,19 +73,9 @@
       font-weight: 800;
       font-size: 1.1rem;
     }
-    .brand-title h1 {
-      font-size: 1.05rem;
-      font-weight: 800;
-    }
-    .brand-title p {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+    .brand-title h1 { font-size: 1.05rem; font-weight: 800; }
+    .brand-title p { font-size: 0.75rem; color: var(--text-muted); }
+    
     .btn-header {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -96,9 +85,6 @@
       font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
       transition: all 0.15s ease;
     }
     .btn-header:hover {
@@ -107,7 +93,6 @@
       color: var(--primary);
     }
 
-    /* 主內容區 */
     main {
       flex: 1;
       max-width: 1000px;
@@ -130,7 +115,6 @@
       box-shadow: var(--shadow);
     }
 
-    /* 暱稱輸入區塊 */
     .player-box {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -142,1407 +126,141 @@
       gap: 1rem;
       margin-bottom: 1.5rem;
     }
-    .player-box-left {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex: 1;
-    }
-    .player-avatar {
-      font-size: 1.5rem;
-    }
-    .player-input-wrap {
-      flex: 1;
-    }
-    .player-input-wrap label {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--text-muted);
-    }
+    .player-input-wrap { flex: 1; }
+    .player-input-wrap label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); }
     .player-input-wrap input {
-      width: 100%;
-      border: none;
-      outline: none;
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text-main);
-      background: transparent;
+      width: 100%; border: none; outline: none; font-size: 1rem;
+      font-weight: 700; color: var(--text-main); background: transparent;
+      border-bottom: 2px solid transparent; transition: border-color 0.2s;
     }
-    .player-input-wrap input:focus {
-      border-bottom: 2px solid var(--primary);
-    }
+    .player-input-wrap input:focus { border-bottom-color: var(--primary); }
 
-    /* 綜合挑戰橫幅 */
     .comprehensive-banner {
       background: linear-gradient(135deg, #3730a3, #4f46e5);
-      color: white;
-      border-radius: var(--radius-lg);
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+      color: white; border-radius: var(--radius-lg); padding: 1.5rem;
+      margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 1rem;
     }
-    .banner-title h2 {
-      font-size: 1.25rem;
-      font-weight: 800;
-      margin-bottom: 0.25rem;
-    }
-    .banner-title p {
-      font-size: 0.85rem;
-      color: #e0e7ff;
-    }
-    .btn-quiz-group {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
+    .banner-title h2 { font-size: 1.25rem; font-weight: 800; margin-bottom: 0.25rem; }
+    .banner-title p { font-size: 0.85rem; color: #e0e7ff; }
+    
+    .btn-quiz-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
     .btn-count-opt {
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
-      padding: 0.5rem 1.1rem;
-      border-radius: 9999px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      cursor: pointer;
-      backdrop-filter: blur(4px);
-      transition: all 0.15s ease;
+      background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white; padding: 0.5rem 1.1rem; border-radius: 9999px;
+      font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: all 0.15s ease;
     }
-    .btn-count-opt:hover {
-      background: white;
-      color: var(--primary);
-      border-color: white;
-    }
+    .btn-count-opt:hover { background: white; color: var(--primary); }
 
-    /* 單元網格 */
-    .section-title {
-      font-size: 1.1rem;
-      font-weight: 800;
-      margin-bottom: 0.85rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+    .section-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 0.85rem; }
+    
+    /* 優化：調整最小寬度避免小螢幕破版 */
     .unit-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 1rem;
     }
     .unit-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 1rem 1.1rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 0.75rem;
-      transition: all 0.2s ease;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 1rem 1.1rem;
+      display: flex; flex-direction: column; justify-content: space-between; gap: 0.75rem;
     }
-    .unit-card:hover {
-      border-color: #a5b4fc;
-      box-shadow: var(--shadow);
-    }
-    .unit-header-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .unit-tag {
-      font-size: 0.75rem;
-      font-weight: 700;
-      background: var(--primary-light);
-      color: var(--primary);
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-    .unit-range-text {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-    .unit-title-text {
-      font-size: 1rem;
-      font-weight: 700;
-    }
-    .unit-count-btns {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 0.35rem;
-    }
+    .unit-header-wrap { display: flex; align-items: center; justify-content: space-between; }
+    .unit-tag { font-size: 0.75rem; font-weight: 700; background: var(--primary-light); color: var(--primary); padding: 2px 6px; border-radius: 4px; }
+    .unit-range-text { font-size: 0.75rem; color: var(--text-muted); }
+    .unit-title-text { font-size: 1rem; font-weight: 700; }
+    .unit-count-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
+    
     .btn-unit-opt {
-      background: #f1f5f9;
-      border: 1px solid #e2e8f0;
-      color: var(--text-main);
-      padding: 0.4rem 0;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.15s ease;
+      background: #f1f5f9; border: 1px solid #e2e8f0; color: var(--text-main);
+      padding: 0.4rem 0; border-radius: 6px; font-size: 0.8rem; font-weight: 700;
+      cursor: pointer; text-align: center; transition: all 0.15s ease;
     }
-    .btn-unit-opt:hover {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: white;
-    }
+    .btn-unit-opt:hover { background: var(--primary); border-color: var(--primary); color: white; }
 
-    /* 測驗進行中介面 */
-    .quiz-card {
-      padding: 2rem 1.5rem;
-      margin-top: 1rem;
-    }
-    .quiz-status-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 0.75rem;
-      font-size: 0.85rem;
-      font-weight: 700;
-    }
-    .badge-streak {
-      background: #ffedd5;
-      color: #ea580c;
-      padding: 3px 8px;
-      border-radius: 9999px;
-    }
-    .badge-score {
-      background: #fef3c7;
-      color: #b45309;
-      padding: 3px 8px;
-      border-radius: 9999px;
-    }
-    .progress-bar-wrap {
-      width: 100%;
-      height: 7px;
-      background: #e2e8f0;
-      border-radius: 9999px;
-      overflow: hidden;
-      margin-bottom: 1.5rem;
-    }
-    .progress-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      width: 0%;
-      transition: width 0.25s ease;
-    }
-
-    .word-prompt-box {
-      text-align: center;
-      padding: 1.5rem 1rem;
-      background: #f8fafc;
-      border-radius: var(--radius-md);
-      margin-bottom: 1.5rem;
-      border: 1px solid var(--border);
-    }
-    .word-id-tag {
-      font-size: 0.8rem;
-      font-weight: 800;
-      color: var(--text-muted);
-      background: #e2e8f0;
-      padding: 2px 8px;
-      border-radius: 4px;
-      display: inline-block;
-      margin-bottom: 0.5rem;
-    }
-    .word-zh-display {
-      font-size: 1.75rem;
-      font-weight: 800;
-      color: var(--text-main);
-      margin-bottom: 0.75rem;
-    }
-    .btn-audio-speak {
-      background: var(--surface);
-      border: 1px solid #cbd5e1;
-      color: var(--primary);
-      padding: 0.45rem 1rem;
-      border-radius: 9999px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    }
-    .btn-audio-speak:hover {
-      background: var(--primary-light);
-    }
-
-    .quiz-input-box {
-      margin-bottom: 1rem;
-    }
+    /* 補全：測驗進行中與結束介面樣式 */
+    .quiz-card { padding: 2rem 1.5rem; margin-top: 1rem; text-align: center; }
+    .quiz-status-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; font-size: 0.85rem; font-weight: 700; }
+    .badge-streak { background: #ffedd5; color: #ea580c; padding: 3px 8px; border-radius: 9999px; }
+    .badge-score { background: #fef3c7; color: #b45309; padding: 3px 8px; border-radius: 9999px; }
+    
+    .progress-bar-wrap { width: 100%; height: 7px; background: #e2e8f0; border-radius: 9999px; overflow: hidden; margin-bottom: 1.5rem; }
+    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); width: 0%; transition: width 0.25s ease; }
+    
+    .word-prompt-box { margin: 2rem 0; }
+    .word-chinese { font-size: 1.5rem; font-weight: 900; margin-bottom: 0.5rem; color: var(--text-main); }
+    .word-sentence { font-size: 1rem; color: var(--text-muted); font-style: italic; }
+    
+    .quiz-form { max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
     .input-spell {
-      width: 100%;
-      padding: 0.85rem 1rem;
-      font-size: 1.35rem;
-      font-weight: 700;
-      border: 2px solid var(--border);
-      border-radius: var(--radius-md);
-      outline: none;
-      text-align: center;
-      letter-spacing: 0.5px;
-      transition: all 0.15s ease;
+      width: 100%; padding: 0.75rem; border: 2px solid var(--border); border-radius: var(--radius-md);
+      font-size: 1.25rem; text-align: center; font-weight: bold; letter-spacing: 1px;
     }
-    .input-spell:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    .input-spell:focus { border-color: var(--primary); outline: none; }
+    
+    .btn-submit {
+      background: var(--primary); color: white; border: none; padding: 0.75rem;
+      border-radius: var(--radius-md); font-weight: 700; font-size: 1rem; cursor: pointer;
     }
-    .input-spell.correct {
-      border-color: var(--success);
-      background: #f0fdf4;
-      color: #166534;
-    }
-    .input-spell.wrong {
-      border-color: var(--danger);
-      background: #fef2f2;
-      color: #991b1b;
-    }
-
-    .feedback-tip {
-      min-height: 24px;
-      text-align: center;
-      font-size: 0.95rem;
-      font-weight: 700;
-      margin-bottom: 1.25rem;
-    }
-    .feedback-tip.correct { color: var(--success); }
-    .feedback-tip.wrong { color: var(--danger); }
-
-    .quiz-ctrl-btns {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
-    }
-    .btn-action-main {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 0.75rem 1.75rem;
-      border-radius: var(--radius-md);
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-    .btn-action-main:hover { background: var(--primary-hover); }
-    .btn-action-sub {
-      background: #f1f5f9;
-      color: var(--text-main);
-      border: 1px solid var(--border);
-      padding: 0.75rem 1.25rem;
-      border-radius: var(--radius-md);
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .btn-action-sub:hover { background: #e2e8f0; }
-
-    /* 結算頁面 */
-    .result-card {
-      text-align: center;
-      padding: 2.5rem 1.5rem;
-    }
-    .result-icon { font-size: 3.5rem; margin-bottom: 0.5rem; }
-    .result-title { font-size: 1.6rem; font-weight: 800; }
-    .result-subtitle { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem; }
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-      gap: 0.75rem;
-      max-width: 600px;
-      margin: 0 auto 2rem;
-    }
-    .stat-pill {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 0.85rem 0.5rem;
-    }
-    .stat-pill-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); }
-    .stat-pill-val { font-size: 1.4rem; font-weight: 800; color: var(--primary); }
-
-    /* 錯題清單 (只含英文單字與字義) */
-    .mistakes-box {
-      max-width: 650px;
-      margin: 0 auto 2rem;
-      text-align: left;
-      border-top: 1px solid var(--border);
-      padding-top: 1.5rem;
-    }
-    .mistakes-box-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 0.75rem;
-    }
-    .simple-mistake-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      max-height: 280px;
-      overflow-y: auto;
-    }
-    .simple-mistake-item {
-      background: #f8fafc;
-      border: 1px solid #fee2e2;
-      border-radius: 8px;
-      padding: 0.6rem 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .simple-mistake-item .w-en {
-      font-weight: 700;
-      color: #b91c1c;
-      font-size: 1rem;
-    }
-    .simple-mistake-item .w-zh {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-    .btn-export-txt {
-      background: #0284c7;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-    .btn-export-txt:hover { background: #0369a1; }
-
-    /* 彈窗樣式 (排行榜 & 錯題本) */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(4px);
-      z-index: 100;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-    .modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
-    .modal-window {
-      background: var(--surface);
-      width: 100%;
-      max-width: 650px;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      max-height: 85vh;
-      display: flex;
-      flex-direction: column;
-      box-shadow: var(--shadow-lg);
-      overflow: hidden;
-    }
-    .modal-top {
-      padding: 1rem 1.25rem;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .modal-top h3 {
-      font-size: 1.15rem;
-      font-weight: 800;
-    }
-    .btn-close {
-      background: transparent;
-      border: none;
-      font-size: 1.4rem;
-      cursor: pointer;
-      color: var(--text-muted);
-    }
-
-    /* 排行榜 3 種題數切換標籤 (Tab) */
-    .tab-bar {
-      display: flex;
-      background: #f1f5f9;
-      padding: 4px;
-      gap: 4px;
-      border-bottom: 1px solid var(--border);
-    }
-    .tab-btn {
-      flex: 1;
-      padding: 0.5rem 0;
-      text-align: center;
-      border: none;
-      background: transparent;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .tab-btn.active {
-      background: var(--surface);
-      color: var(--primary);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-    }
-
-    .modal-scroll {
-      padding: 1.25rem;
-      overflow-y: auto;
-      flex: 1;
-    }
-    .modal-bottom {
-      padding: 0.75rem 1.25rem;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .rank-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.85rem;
-    }
-    .rank-table th {
-      text-align: left;
-      padding: 0.6rem 0.5rem;
-      background: #f8fafc;
-      color: var(--text-muted);
-      border-bottom: 1px solid var(--border);
-    }
-    .rank-table td {
-      padding: 0.65rem 0.5rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    /* 吐司通知 */
-    .toast-msg {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%) translateY(80px);
-      background: #0f172a;
-      color: white;
-      padding: 0.6rem 1.25rem;
-      border-radius: 9999px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      z-index: 200;
-      opacity: 0;
-      transition: all 0.25s ease;
-      pointer-events: none;
-    }
-    .toast-msg.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
-
-    footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 1rem;
-      text-align: center;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: auto;
-    }
+    .btn-submit:hover { background: var(--primary-hover); }
   </style>
 </head>
 <body>
 
-  <!-- 頂部 Header -->
   <header>
     <div class="header-inner">
-      <a href="#" class="brand" onclick="goHome(); return false;">
-        <div class="brand-logo">A+</div>
+      <a href="#" class="brand" id="btn-home">
+        <div class="brand-logo">A</div>
         <div class="brand-title">
-          <h1>國中小 1200 單字拼字測驗</h1>
-          <p>3 種題數選擇 • 三分流排行榜 • 錯題純淨匯出</p>
+          <h1>1200 單字情境拼字測驗館</h1>
+          <p>國中小必備核心字彙</p>
         </div>
       </a>
       <div class="header-actions">
-        <button class="btn-header" onclick="openLeaderboardModal(10)">
-          <span>🏆</span> 排行榜
-        </button>
-        <button class="btn-header" onclick="openMistakesModal()">
-          <span>📖</span> 錯題本 (<span id="navMistakeCount">0</span>)
-        </button>
+        <button class="btn-header" id="btn-nav-home">返回首頁</button>
       </div>
     </div>
   </header>
 
   <main>
-
-    <!-- 區塊 1：首頁選單 -->
-    <section id="viewHome" class="view-section active">
-      <!-- 測驗人暱稱登記 -->
+    <!-- 視圖 1：大廳主頁面 -->
+    <section id="view-lobby" class="view-section active">
       <div class="player-box">
         <div class="player-box-left">
-          <div class="player-avatar">👤</div>
+          <div class="player-avatar">🎮</div>
           <div class="player-input-wrap">
-            <label for="playerNickname">測驗選手暱稱（登記後留名排行榜）</label>
-            <input type="text" id="playerNickname" placeholder="請輸入姓名或暱稱" maxlength="12">
+            <label for="player-name">挑戰者暱稱</label>
+            <input type="text" id="player-name" value="Player_1">
           </div>
         </div>
-        <button class="btn-action-sub" style="padding: 0.45rem 0.85rem; font-size:0.8rem;" onclick="saveNickname()">儲存</button>
       </div>
 
-      <!-- 全冊 1200 字綜合挑戰 (3 種題數選擇) -->
       <div class="comprehensive-banner">
         <div class="banner-title">
-          <h2>🎲 全冊 1200 字綜合隨機挑戰</h2>
-          <p>打破單元限制，從全書 1200 個單字中隨機抽選題目測驗！</p>
+          <h2>全冊隨機綜合挑戰</h2>
+          <p>從 1200 個單字中隨機抽選進行測驗，挑戰你的最高極限！</p>
         </div>
-        <div class="btn-quiz-group">
-          <button class="btn-count-opt" onclick="startQuiz('random', 0, 10)">🎯 10 題挑戰</button>
-          <button class="btn-count-opt" onclick="startQuiz('random', 0, 20)">⚡ 20 題挑戰</button>
-          <button class="btn-count-opt" onclick="startQuiz('random', 0, 30)">👑 30 題挑戰</button>
-        </div>
-      </div>
-
-      <!-- 12 篇章單元練習 (每單元提供 10 / 20 / 30 題三種選擇) -->
-      <div class="section-title">
-        <span>📚 12 篇章分元練習 (每單元各 100 字)</span>
-      </div>
-      <div class="unit-grid" id="unitGridContainer">
-        <!-- 由 JavaScript 動態生成 12 個單元卡片 -->
-      </div>
-    </section>
-
-    <!-- 區塊 2：測驗進行畫面 -->
-    <section id="viewQuiz" class="view-section">
-      <div class="quiz-status-bar">
-        <span id="quizModeTitle" style="font-weight:800; color:var(--primary);">單元測驗</span>
-        <div style="display:flex; gap:0.5rem;">
-          <span class="badge-streak">🔥 連勝: <span id="quizStreak">0</span></span>
-          <span class="badge-score">⭐ 得分: <span id="quizScore">0</span></span>
-          <span>進度: <strong id="quizProgress">1 / 10</strong></span>
+        <div class="btn-quiz-group" id="lobby-random-actions">
+          <button class="btn-count-opt" data-type="random" data-words="10">挑戰 10 題</button>
+          <button class="btn-count-opt" data-type="random" data-words="20">挑戰 20 題</button>
+          <button class="btn-count-opt" data-type="random" data-words="50">挑戰 50 題</button>
         </div>
       </div>
 
-      <div class="progress-bar-wrap">
-        <div class="progress-bar-fill" id="quizProgressBar"></div>
-      </div>
-
-      <div class="card quiz-card">
-        <div class="word-prompt-box">
-          <div><span class="word-id-tag" id="quizWordId">No. 1</span></div>
-          <div class="word-zh-display" id="quizWordZh">中文釋義</div>
-          <button class="btn-audio-speak" onclick="speakCurrentWord()">
-            <span>🔊</span> 聆聽英文發音
-          </button>
-        </div>
-
-        <div class="quiz-input-box">
-          <input type="text" class="input-spell" id="inputSpelling" placeholder="請拼出此單字..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-        </div>
-
-        <div class="feedback-tip" id="quizFeedback"></div>
-
-        <div class="quiz-ctrl-btns">
-          <button class="btn-action-sub" onclick="confirmQuitQuiz()">離開測驗</button>
-          <div style="display:flex; gap:0.5rem;">
-            <button class="btn-action-sub" id="btnSkip" onclick="skipCurrentQuestion()">跳過</button>
-            <button class="btn-action-main" id="btnSubmitOrNext" onclick="handleQuizAction()">送出答案 (Enter)</button>
+      <h2 class="section-title">分單元突破關卡</h2>
+      <!-- 優化：使用事件代理處理內部所有按鈕 -->
+      <div class="unit-grid" id="unit-grid-container">
+        <!-- 範例單元 1 -->
+        <div class="unit-card">
+          <div class="unit-header-wrap">
+            <span class="unit-tag">Unit 1</span>
+            <span class="unit-range-text">001 - 040</span>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 區塊 3：測驗完成結算畫面 -->
-    <section id="viewResult" class="view-section">
-      <div class="card result-card">
-        <div class="result-icon">🏆</div>
-        <h2 class="result-title">測驗完成！</h2>
-        <p class="result-subtitle" id="resultSubtitle">成績已成功登記於專屬排行榜！</p>
-
-        <div class="stats-row">
-          <div class="stat-pill">
-            <div class="stat-pill-label">正確率</div>
-            <div class="stat-pill-val" id="resAccuracy">0%</div>
-          </div>
-          <div class="stat-pill">
-            <div class="stat-pill-label">本次得分</div>
-            <div class="stat-pill-val" id="resScore">0</div>
-          </div>
-          <div class="stat-pill">
-            <div class="stat-pill-label">答對題數</div>
-            <div class="stat-pill-val" id="resCorrect">0/0</div>
-          </div>
-          <div class="stat-pill">
-            <div class="stat-pill-label">最高連勝</div>
-            <div class="stat-pill-val" id="resStreak">0 🔥</div>
-          </div>
-        </div>
-
-        <!-- 本次測驗錯題 (只呈現英文單字與字義) -->
-        <div class="mistakes-box" id="resultMistakesBox">
-          <div class="mistakes-box-header">
-            <h4 style="font-size:1rem; font-weight:800;">本次錯題回顧 (<span id="resMistakeCount">0</span>)</h4>
-            <button class="btn-export-txt" onclick="exportCurrentMistakesTxt()">
-              <span>📥</span> 匯出錯題本 (.txt)
-            </button>
-          </div>
-          <ul class="simple-mistake-list" id="resMistakeList">
-            <!-- 動態填入錯題 -->
-          </ul>
-        </div>
-
-        <div style="display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap;">
-          <button class="btn-action-sub" onclick="goHome()">返回首頁</button>
-          <button class="btn-action-sub" id="btnViewCurrentRank" onclick="openLeaderboardModal(currentQuestionCount)">🏆 查看排行榜</button>
-          <button class="btn-action-main" onclick="retryQuiz()">🔁 再測一次</button>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- 排行榜彈窗 (3 種題數分頁榜單) -->
-  <div class="modal-overlay" id="modalLeaderboard">
-    <div class="modal-window">
-      <div class="modal-top">
-        <h3>🏆 測驗成績排行榜</h3>
-        <button class="btn-close" onclick="closeLeaderboardModal()">&times;</button>
-      </div>
-
-      <!-- 3 種題組排行榜切換頁籤 -->
-      <div class="tab-bar">
-        <button class="tab-btn" id="tabRank10" onclick="switchLeaderboardTab(10)">🎯 10 題排行榜</button>
-        <button class="tab-btn" id="tabRank20" onclick="switchLeaderboardTab(20)">⚡ 20 題排行榜</button>
-        <button class="tab-btn" id="tabRank30" onclick="switchLeaderboardTab(30)">👑 30 題排行榜</button>
-      </div>
-
-      <div class="modal-scroll">
-        <table class="rank-table">
-          <thead>
-            <tr>
-              <th style="width:45px; text-align:center;">名次</th>
-              <th>選手暱稱</th>
-              <th>測驗單元</th>
-              <th>得分</th>
-              <th>正確率</th>
-              <th>時間</th>
-            </tr>
-          </thead>
-          <tbody id="leaderboardTbody">
-            <!-- 動態載入排名 -->
-          </tbody>
-        </table>
-      </div>
-
-      <div class="modal-bottom">
-        <button class="btn-action-sub" style="font-size:0.75rem; padding:4px 8px;" onclick="clearCurrentCategoryLeaderboard()">清空此榜單</button>
-        <button class="btn-action-sub" onclick="closeLeaderboardModal()">關閉</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 錯題本彈窗 (只呈現單字與字義) -->
-  <div class="modal-overlay" id="modalMistakes">
-    <div class="modal-window">
-      <div class="modal-top">
-        <h3>📖 累積錯題筆記本</h3>
-        <button class="btn-close" onclick="closeMistakesModal()">&times;</button>
-      </div>
-      <div class="modal-scroll">
-        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:0.75rem;">答錯的單字已為您精準收錄（僅包含英文單字與中文釋義）：</p>
-        <ul class="simple-mistake-list" id="globalMistakeList">
-          <!-- 動態載入 -->
-        </ul>
-      </div>
-      <div class="modal-bottom">
-        <button class="btn-export-txt" onclick="exportGlobalMistakesTxt()">
-          <span>📥</span> 匯出完整錯題本 (.txt)
-        </button>
-        <button class="btn-action-sub" style="font-size:0.75rem;" onclick="clearGlobalMistakes()">清空筆記</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="toast-msg" id="toast">通知</div>
-
-  <footer>
-    教育部國中小基本英語字彙 1200 字專用測驗系統
-  </footer>
-
-  <script>
-    /* ==========================================================================
-       1. 1200 單字完整純淨資料庫 (12 單元，每單元 100 字)
-       ========================================================================== */
-    const RAW_DATA = [
-      // Unit 1 (1~100)
-      [1,"a (an)","一(個)"],[2,"a few","一些"],[3,"a little","一些"],[4,"a lot","許多"],[5,"able","能夠...的"],[6,"about","關於"],[7,"above","在...上方"],[8,"abroad","在國外"],[9,"across","在...對面"],[10,"actress","女演員"],
-      [11,"afraid","害怕的"],[12,"after","在...之後"],[13,"afternoon","下午"],[14,"again","再一次"],[15,"age","年齡"],[16,"ago","以前"],[17,"agree","同意"],[18,"ahead","在前方"],[19,"air","空氣"],[20,"airplane","飛機"],
-      [21,"airport","機場"],[22,"all","全部的"],[23,"almost","幾乎"],[24,"along","沿著"],[25,"already","已經"],[26,"also","也"],[27,"always","總是"],[28,"a.m.","上午"],[29,"America","美國"],[30,"American","美國人;美國的"],
-      [31,"and","和"],[32,"angry","生氣的"],[33,"animal","動物"],[34,"another","另一個的"],[35,"answer","回答"],[36,"ant","螞蟻"],[37,"any","任何的"],[38,"anyone","任何人"],[39,"anything","任何事物"],[40,"apartment","公寓"],
-      [41,"appear","出現"],[42,"apple","蘋果"],[43,"April","四月"],[44,"arm","手臂,武裝"],[45,"around","在四周"],[46,"arrive","到達"],[47,"art","美術"],[48,"as","與...一樣"],[49,"ask","問"],[50,"at","在"],
-      [51,"August","八月"],[52,"aunt","伯(叔)母"],[53,"autumn","秋天"],[54,"away","遠離"],[55,"baby","嬰兒"],[56,"back","在...後面"],[57,"bad","壞的"],[58,"badminton","羽毛球"],[59,"bag","袋子"],[60,"bake","烘烤"],
-      [61,"bakery","麵包店"],[62,"balcony","陽台"],[63,"ball","球"],[64,"banana","香蕉"],[65,"band","樂團"],[66,"bank","銀行"],[67,"barbecue","烤肉"],[68,"baseball","棒球"],[69,"basket","籃子"],[70,"basketball","籃球"],
-      [71,"bat","蝙蝠"],[72,"bath","洗澡"],[73,"bathroom","浴室"],[74,"be","是"],[75,"beach","海灘"],[76,"bean","豆"],[77,"bear","熊"],[78,"beautiful","美麗的"],[79,"because","因為"],[80,"become","變成"],
-      [81,"bed","床"],[82,"bedroom","臥室"],[83,"bee","蜜蜂"],[84,"beef","牛肉"],[85,"before","在...之前"],[86,"begin","開始"],[87,"behind","在...後面"],[88,"believe","相信"],[89,"bell","鈴"],[90,"belong","屬於"],
-      [91,"below","在...下方"],[92,"belt","皮帶"],[93,"bench","長椅"],[94,"beside","在...旁邊"],[95,"between","在...之間"],[96,"bike","腳踏車"],[97,"big","大的"],[98,"bird","鳥"],[99,"birthday","生日"],[100,"bite","咬"],
-
-      // Unit 2 (101~200)
-      [101,"black","黑色(的)"],[102,"blackboard","黑板"],[103,"blanket","毯子"],[104,"blind","瞎的"],[105,"block","街區"],[106,"blow","吹"],[107,"blue","藍色(的)"],[108,"boat","船"],[109,"body","身體"],[110,"boil","煮沸"],
-      [111,"book","書"],[112,"bookstore","書店"],[113,"bored","感到厭煩的"],[114,"boring","無聊的"],[115,"born","出生"],[116,"borrow","借入"],[117,"boss","老板"],[118,"both","兩者都"],[119,"bottle","瓶子"],[120,"bottom","底部"],
-      [121,"bow","敬禮"],[122,"bowl","碗"],[123,"box","盒子"],[124,"boy","男孩"],[125,"bread","麵包"],[126,"break","打破"],[127,"breakfast","早餐"],[128,"bridge","橋"],[129,"bright","明亮的"],[130,"bring","帶來"],
-      [131,"brother","兄弟"],[132,"brown","棕色(的)"],[133,"brush","刷"],[134,"bug","小蟲"],[135,"build","建造"],[136,"bun","小圓麵包"],[137,"burn","燃燒"],[138,"bus","公車"],[139,"business","生意"],[140,"businessman","商人"],
-      [141,"busy","忙碌的"],[142,"but","但是"],[143,"butter","奶油"],[144,"butterfly","蝴蝶"],[145,"buy","買"],[146,"by","藉著"],[147,"cage","籠子"],[148,"cake","蛋糕"],[149,"call","打電話"],[150,"camera","照相機"],
-      [151,"camp","露營"],[152,"can","能夠"],[153,"candle","蠟燭"],[154,"candy","糖果"],[155,"cap","(無邊)帽"],[156,"car","車子"],[157,"card","卡片"],[158,"care","關心"],[159,"careful","仔細的"],[160,"carry","攜帶"],
-      [161,"case","情形"],[162,"castle","城堡"],[163,"cat","貓"],[164,"catch","趕上"],[165,"celebrate","慶祝"],[166,"cell phone","手機"],[167,"cent","〈一〉分錢"],[168,"center","中心"],[169,"centimeter","公分"],[170,"chair","椅子"],
-      [171,"chalk","粉筆"],[172,"chance","機會"],[173,"change","交換,零錢"],[174,"cheap","便宜的"],[175,"cheat","欺騙"],[176,"check","檢查"],[177,"cheer","歡呼"],[178,"cheese","乳酪"],[179,"chess","西洋棋"],[180,"chicken","雞肉"],
-      [181,"child","小孩"],[182,"China","中國"],[183,"Chinese","中國人,中文"],[184,"chocolate","巧克力"],[185,"choose","選擇"],[186,"chopsticks","筷子"],[187,"Christmas","聖誕節"],[188,"church","教堂"],[189,"circle","圓圈"],[190,"city","城市"],
-      [191,"clap","拍手"],[192,"class","班級"],[193,"classmate","同班同學"],[194,"classroom","教室"],[195,"clean","打掃"],[196,"clear","清楚的"],[197,"clerk","店員"],[198,"climb","爬"],[199,"clock","時鐘"],[200,"close","關上"],
-
-      // Unit 3 (201~300)
-      [201,"clothes","衣服"],[202,"cloudy","多雲的"],[203,"club","社團"],[204,"coat","大衣"],[205,"coffee","咖啡"],[206,"Coke","可樂"],[207,"cold","寒冷的"],[208,"collect","收集"],[209,"color","顏色"],[210,"come","來"],
-      [211,"comb","梳子"],[212,"comfortable","舒適的"],[213,"comic","連環漫畫"],[214,"common","共同的"],[215,"computer","電腦"],[216,"convenient","方便的"],[217,"cook","煮飯"],[218,"cookie","餅乾"],[219,"cool","涼爽的"],[220,"copy","抄寫,複製"],
-      [221,"corner","角落"],[222,"correct","正確的"],[223,"cost","價值"],[224,"couch","沙發"],[225,"count","計算"],[226,"country","鄉村"],[227,"course","課程"],[228,"cousin","堂,表兄弟姊妹"],[229,"cover","覆蓋,封面"],[230,"cow","母牛"],
-      [231,"cowboy","牛仔"],[232,"crazy","瘋狂的"],[233,"cross","越過"],[234,"cry","哭"],[235,"cup","茶杯"],[236,"cut","切"],[237,"cute","可愛的"],[238,"dance","跳舞"],[239,"dangerous","危險的"],[240,"dark","黑暗的"],
-      [241,"date","日期"],[242,"daughter","女兒"],[243,"day","日子"],[244,"dead","死的"],[245,"dear","親愛的"],[246,"December","十二月"],[247,"decide","決定"],[248,"delicious","美味的"],[249,"dentist","牙醫"],[250,"department store","百貨公司"],
-      [251,"desk","書桌"],[252,"dictionary","字典"],[253,"die","死掉"],[254,"different","不同的"],[255,"difficult","困難的"],[256,"dig","挖掘"],[257,"dining room","飯廳"],[258,"dinner","晚餐"],[259,"dirty","骯髒的"],[260,"dish","盤子,菜餚"],
-      [261,"do","做"],[262,"doctor","醫生"],[263,"dodge ball","躲避球"],[264,"dog","狗"],[265,"doll","洋娃娃"],[266,"dollar","元"],[267,"door","門"],[268,"dot","點"],[269,"down","向下"],[270,"dozen","〈一〉打"],
-      [271,"dragon","龍"],[272,"draw","畫"],[273,"drawer","抽屜"],[274,"dream","(做)夢"],[275,"dress","洋裝"],[276,"drink","喝"],[277,"drive","駕駛"],[278,"driver","駕駛人"],[279,"drop","掉落"],[280,"drum","鼓"],
-      [281,"dry","乾的"],[282,"duck","鴨"],[283,"dumpling","包餡食物,餃子"],[284,"during","在...期間"],[285,"each","每一(的〉"],[286,"ear","耳朵"],[287,"early","早的"],[288,"earth","地球"],[289,"Easter","復活節"],[290,"east","東方"],
-      [291,"easy","容易的"],[292,"eat","吃"],[293,"egg","蛋"],[294,"eight","八"],[295,"eighteen","十八"],[296,"eighth","第八"],[297,"eighty","八十"],[298,"either","也不"],[299,"elementary school","小學"],[300,"elephant","大象"],
-
-      // Unit 4 (301~400)
-      [301,"eleven","十一"],[302,"eleventh","第十一(的)"],[303,"else","其他的"],[304,"e-mail","電子郵件"],[305,"end","結束"],[306,"engineer","工程師"],[307,"English","英語"],[308,"enjoy","喜愛"],[309,"enough","足夠的"],[310,"enter","進入"],
-      [311,"envelope","信封"],[312,"eraser","橡皮擦"],[313,"eve","前夕"],[314,"even","甚至"],[315,"evening","傍晚"],[316,"ever","曾經"],[317,"every","每一個(的)"],[318,"everyone","每一個人"],[319,"everything","每件事"],[320,"example","例子"],
-      [321,"excellent","極好的"],[322,"except","除了...之外"],[323,"excited","感到興奮的"],[324,"exciting","令人興奮的"],[325,"excuse","原諒"],[326,"exercise","運動"],[327,"expensive","昂貴的"],[328,"experience","經驗"],[329,"eye","眼睛"],[330,"face","臉孔,面對"],
-      [331,"fact","事實"],[332,"factory","工廠"],[333,"fail","失敗"],[334,"fall","秋天,落下"],[335,"family","家庭"],[336,"famous","有名的"],[337,"fan","扇子,擁護者"],[338,"far","遠的"],[339,"farm","農田"],[340,"farmer","農夫"],
-      [341,"fast","快的"],[342,"fat","胖的"],[343,"father","父親"],[344,"favorite","最喜愛的"],[345,"February","二月"],[346,"feed","餵"],[347,"feel","覺得"],[348,"festival","節慶"],[349,"fever","發燒"],[350,"few","少數的"],
-      [351,"fifteen","十五"],[352,"fifteenth","第十五(的)"],[353,"fifth","第五(的)"],[354,"fifty","五十"],[355,"fight","打架"],[356,"fill","裝滿"],[357,"finally","最後"],[358,"find","找到"],[359,"fine","很好的"],[360,"finger","手指"],
-      [361,"finish","完成"],[362,"fire","火焰,開火"],[363,"first","第一(的)"],[364,"fish","魚"],[365,"fisherman","漁夫"],[366,"five","五"],[367,"fix","修理"],[368,"floor","地板"],[369,"flower","花朵"],[370,"flute","長笛"],
-      [371,"fly","飛"],[372,"follow","遵循,跟隨"],[373,"food","食物"],[374,"foot","腳"],[375,"for","為了"],[376,"foreign","外國的"],[377,"foreigner","外國人"],[378,"forget","忘記"],[379,"fork","叉子"],[380,"forty","四十"],
-      [381,"four","四"],[382,"fourteen","十四"],[383,"fourteenth","第十四(的)"],[384,"fourth","第四(的)"],[385,"fox","狐狸"],[386,"free","空閒的,免費"],[387,"French fries","炸薯條"],[388,"fresh","新鮮的"],[389,"Friday","星期五"],[390,"friend","朋友"],
-      [391,"friendly","友善的"],[392,"frisbee","飛盤"],[393,"frog","青蛙"],[394,"from","從"],[395,"front","前面"],[396,"fruit","水果"],[397,"fry","油炸"],[398,"full","滿的"],[399,"fun","樂趣"],[400,"funny","好笑的"],
-
-      // Unit 5 (401~500)
-      [401,"future","未來"],[402,"game","比賽,遊戲"],[403,"garbage","垃圾"],[404,"garden","花園"],[405,"gas","瓦斯"],[406,"gate","大門"],[407,"get","得到"],[408,"ghost","鬼"],[409,"giant","巨大的,巨人"],[410,"gift","禮物"],
-      [411,"girl","女孩"],[412,"give","給予"],[413,"glad","高興的"],[414,"glass","玻璃,玻璃杯"],[415,"glasses","眼鏡"],[416,"glove","手套"],[417,"glue","膠水"],[418,"go","去"],[419,"goat","山羊"],[420,"good","好的"],
-      [421,"goodbye","再見"],[422,"goose","鵝"],[423,"grade","成績,年級"],[424,"gram","公克"],[425,"grandfather","祖父"],[426,"grandmother","祖母"],[427,"grape","葡萄"],[428,"grass","草"],[429,"gray","灰色的"],[430,"great","很棒的"],
-      [431,"green","綠色(的)"],[432,"ground","地面"],[433,"group","團體"],[434,"grow","種植"],[435,"guava","番石榴"],[436,"guess","猜想"],[437,"guitar","吉他"],[438,"guy","傢伙"],[439,"gym","體育館"],[440,"habit","習慣"],
-      [441,"hair","頭髮"],[442,"half","一半"],[443,"Halloween","萬聖節"],[444,"ham","火腿"],[445,"hamburger","漢堡"],[446,"hand","手"],[447,"handsome","英俊的"],[448,"hang","懸掛"],[449,"happen","發生"],[450,"happy","快樂的"],
-      [451,"hard","困難的,硬的"],[452,"hard-working","努力工作的"],[453,"hat","帽子"],[454,"hate","討厭"],[455,"have","有"],[456,"he","他"],[457,"head","頭"],[458,"headache","頭痛"],[459,"health","健康"],[460,"healthy","健康的"],
-      [461,"hear","聽"],[462,"heart","心"],[463,"heat","熱度,加熱"],[464,"heavy","重的"],[465,"hello","喂"],[466,"help","幫忙"],[467,"helpful","有幫助的"],[468,"hen","母雞"],[469,"here","這裡"],[470,"hey","嘿"],
-      [471,"hi","嗨"],[472,"hide","隱藏"],[473,"high","高的"],[474,"hike","徒步旅行"],[475,"hill","小山"],[476,"hippo","河馬"],[477,"history","歷史"],[478,"hit","打擊"],[479,"hobby","嗜好"],[480,"hold","拿著"],
-      [481,"holiday","假日"],[482,"home","家"],[483,"homework","家庭作業"],[484,"honest","誠實的"],[485,"honey","蜂蜜"],[486,"hop","(單腳)跳"],[487,"hope","希望"],[488,"horse","馬"],[489,"hospital","醫院"],[490,"hot","熱的"],
-      [491,"hot dog","熱狗"],[492,"hotel","旅社"],[493,"hour","小時"],[494,"house","房屋"],[495,"housewife","家庭主婦"],[496,"how","如何"],[497,"however","然而"],[498,"hundred","百"],[499,"hungry","飢餓的"],[500,"hunt","打獵"],
-
-      // Unit 6 (501~600)
-      [501,"hurry","趕忙"],[502,"hurt","受傷,疼痛"],[503,"husband","丈夫"],[504,"I","我"],[505,"ice","冰"],[506,"ice cream","冰淇淋"],[507,"idea","主意"],[508,"if","如果"],[509,"important","重要的"],[510,"in","在...裡面"],
-      [511,"insect","昆蟲"],[512,"inside","在...內部"],[513,"interest","使...感興趣"],[514,"interested","感興趣的"],[515,"interesting","有趣的"],[516,"interview","訪問,面試"],[517,"Internet","網路"],[518,"into","到...之內"],[519,"invite","邀請"],[520,"island","島嶼"],
-      [521,"it","它"],[522,"jacket","夾克"],[523,"January","一月"],[524,"jeans","牛仔褲"],[525,"job","工作"],[526,"jog","慢跑"],[527,"join","加入"],[528,"joy","歡樂"],[529,"juice","果汁"],[530,"July","七月"],
-      [531,"jump","跳躍"],[532,"June","六月"],[533,"junior high school","國中"],[534,"just","只是,剛才"],[535,"kangaroo","袋鼠"],[536,"keep","保持"],[537,"key","鑰匙"],[538,"kick","踢"],[539,"kid","小孩"],[540,"kill","殺"],
-      [541,"kilo(gram)","公斤"],[542,"kind","種類,仁慈的"],[543,"king","國王"],[544,"kiss","吻"],[545,"kitchen","廚房"],[546,"kite","風箏"],[547,"knee","膝蓋"],[548,"knife","刀子"],[549,"knock","敲"],[550,"know","知道"],
-      [551,"knowledge","知識"],[552,"koala","無尾熊"],[553,"lake","湖"],[554,"lamp","燈"],[555,"land","土地"],[556,"language","語言"],[557,"lantern","燈籠"],[558,"large","大的"],[559,"last","最後的"],[560,"late","晚的"],
-      [561,"later","稍後"],[562,"laugh","笑"],[563,"lawyer","律師"],[564,"lazy","懶惰的"],[565,"lead","引導"],[566,"leader","領導者"],[567,"learn","學習"],[568,"least","最少的"],[569,"leave","離開"],[570,"left","左邊"],
-      [571,"leg","腿"],[572,"lemon","檸檬"],[573,"lend","借出"],[574,"less","較少的"],[575,"lesson","課"],[576,"let","讓"],[577,"letter","信,字母"],[578,"lettuce","萵苣"],[579,"library","圖書館"],[580,"lid","蓋子"],
-      [581,"lie","說謊,躺"],[582,"life","生活,生命"],[583,"light","燈光,輕的"],[584,"like","喜歡"],[585,"line","隊伍,線條"],[586,"lion","獅子"],[587,"lip","嘴唇"],[588,"list","表,名單"],[589,"listen","聽"],[590,"little","小的"],
-      [591,"live","住,活的"],[592,"living room","客廳"],[593,"lonely","寂寞的"],[594,"long","長的"],[595,"look","看"],[596,"lose","遺失,輸"],[597,"loud","大聲的"],[598,"love","喜愛"],[599,"lovely","可愛的"],[600,"low","低的"],
-
-      // Unit 7 (601~700)
-      [601,"lucky","幸運的"],[602,"lunch","午餐"],[603,"machine","機器"],[604,"mad","瘋狂的"],[605,"magic","神奇的,魔術"],[606,"mail","信件"],[607,"mailman","郵差"],[608,"make","製作"],[609,"man","男人"],[610,"many","許多的"],
-      [611,"map","地圖"],[612,"March","三月"],[613,"mark","做記號"],[614,"marker","簽字筆"],[615,"market","市場"],[616,"married","已婚的"],[617,"mask","面具,口罩"],[618,"mat","墊子"],[619,"math","數學"],[620,"matter","事情"],
-      [621,"may","可能"],[622,"May","五月"],[623,"maybe","也許"],[624,"meal","一餐"],[625,"mean","意指"],[626,"meat","肉"],[627,"medicine","藥"],[628,"medium","中號〈的〉"],[629,"meet","遇見"],[630,"meeting","會議"],
-      [631,"menu","菜單,選單"],[632,"mile","英里,哩"],[633,"milk","牛奶"],[634,"million","百萬"],[635,"mind","介意,心靈"],[636,"minute","分鐘"],[637,"Miss","小姐"],[638,"miss","想念,錯過"],[639,"mistake","錯誤"],[640,"modern","現代化的"],
-      [641,"moment","片刻"],[642,"Monday","星期一"],[643,"money","錢"],[644,"monkey","猴子"],[645,"month","月份"],[646,"moon","月亮"],[647,"mop","拖地"],[648,"more","更多的"],[649,"morning","早上"],[650,"most","大部分的"],
-      [651,"mother","母親"],[652,"motorcycle","機車"],[653,"mountain","山"],[654,"mouse","老鼠"],[655,"mouth","嘴巴"],[656,"move","移動"],[657,"movie","電影"],[658,"Mr.","先生"],[659,"Mrs.","太太"],[660,"MRT","捷運"],
-      [661,"Ms.","女士"],[662,"much","許多(不可數)"],[663,"mud","泥巴"],[664,"museum","博物館"],[665,"music","音樂"],[666,"must","必須"],[667,"nail","釘子,指甲"],[668,"name","名字"],[669,"national","國家的"],[670,"near","在...附近"],
-      [671,"neck","脖子"],[672,"need","需要"],[673,"neighbor","鄰居"],[674,"never","從不"],[675,"new","新的"],[676,"news","消息,新聞"],[677,"next","下一個"],[678,"nice","好的"],[679,"night","晚上"],[680,"nine","九"],
-      [681,"nineteen","十九"],[682,"nineteenth","第十九"],[683,"ninety","九十"],[684,"ninth","第九"],[685,"no","沒有,不是"],[686,"nobody","沒有人"],[687,"nod","點頭"],[688,"noise","噪音"],[689,"noodle","麵條"],[690,"noon","中午"],
-      [691,"north","北方"],[692,"nose","鼻子"],[693,"not","不,不是"],[694,"note","筆記"],[695,"notebook","筆記本,筆電"],[696,"nothing","沒東西,沒事"],[697,"notice","注意到"],[698,"November","十一月"],[699,"now","現在"],[700,"number","號碼"],
-
-      // Unit 8 (701~800)
-      [701,"nurse","護士"],[702,"o'clock","點鐘"],[703,"October","十月"],[704,"of","...的"],[705,"off","自...離開"],[706,"office","辦公室"],[707,"officer","官員,警官"],[708,"often","時常"],[709,"oil","油"],[710,"OK","可以"],
-      [711,"old","老的"],[712,"on","在...上面"],[713,"once","一次"],[714,"one","一"],[715,"only","只有"],[716,"open","打開,開放"],[717,"or","或"],[718,"orange","柳橙,橘色"],[719,"order","點餐,秩序"],[720,"other","其他的"],
-      [721,"out","在外"],[722,"outside","在...外部"],[723,"over","結束,在上方"],[724,"own","自己的"],[725,"ox","公牛"],[726,"pack","包,打包"],[727,"package","包裹"],[728,"page","頁"],[729,"paint","繪畫,油漆"],[730,"pair","一雙"],
-      [731,"pants","長褲"],[732,"papaya","木瓜"],[733,"paper","紙"],[734,"parent(s)","父(母)親"],[735,"park","公園,停車"],[736,"part","部分"],[737,"party","派對"],[738,"pass","通過"],[739,"past","經過,過去"],[740,"paste","黏貼,漿糊"],
-      [741,"pay","付錢"],[742,"PE","體育"],[743,"peach","桃子"],[744,"pear","梨子"],[745,"pen","筆"],[746,"pencil","鉛筆"],[747,"people","人們,人民"],[748,"perhaps","或許"],[749,"person","人"],[750,"pet","寵物"],
-      [751,"photo","相片"],[752,"piano","鋼琴"],[753,"pick","撿拾,挑選"],[754,"picnic","野餐"],[755,"picture","圖片,照片"],[756,"pie","派"],[757,"piece","片,張"],[758,"pig","豬"],[759,"pin","大頭針"],[760,"pink","粉紅色(的)"],
-      [761,"pipe","管子"],[762,"pizza","披薩"],[763,"place","地方"],[764,"plan","計畫"],[765,"planet","行星"],[766,"plant","植物,種植"],[767,"plate","盤子"],[768,"play","玩,演奏"],[769,"player","球員,玩家"],[770,"playground","操場"],
-      [771,"pleasure","樂趣,使高興"],[772,"please","請"],[773,"p.m.","下午"],[774,"pocket","口袋"],[775,"point","指著,得分"],[776,"police","警察"],[777,"polite","有禮貌的"],[778,"pond","池塘"],[779,"pool","游泳池"],[780,"poor","貧困的,可憐的"],
-      [781,"popcorn","爆米花"],[782,"popular","受歡迎的"],[783,"pork","豬肉"],[784,"possible","可能的"],[785,"post office","郵局"],[786,"postcard","明信片"],[787,"pot","罐,壺,鍋子"],[788,"pound","磅"],[789,"practice","練習"],[790,"pray","祈禱"],
-      [791,"prepare","準備"],[792,"present","禮物,現在的"],[793,"pretty","漂亮的,非常"],[794,"price","價格"],[795,"princess","公主"],[796,"prize","獎品,獎金"],[797,"problem","問題"],[798,"program","節目,程式"],[799,"proud","驕傲的"],[800,"public","公立的,公眾的"],
-
-      // Unit 9 (801~900)
-      [801,"pull","拉"],[802,"pumpkin","南瓜"],[803,"purple","紫色的"],[804,"push","推"],[805,"put","放"],[806,"quarter","15分鐘,1/4"],[807,"queen","皇后"],[808,"question","問題"],[809,"quick","迅速的"],[810,"quiet","安靜的"],
-      [811,"quite","相當"],[812,"quiz","小考"],[813,"rabbit","兔子"],[814,"race","賽跑,種族"],[815,"radio","收音機"],[816,"railroad","鐵路"],[817,"rain","下雨"],[818,"rainbow","彩虹"],[819,"rainy","下雨的"],[820,"raise","舉起,養育"],
-      [821,"rat","(大)老鼠"],[822,"read","讀"],[823,"ready","準備好的"],[824,"real","真的"],[825,"really","真地"],[826,"recorder","錄音機,直笛"],[827,"red","紅色(的)"],[828,"refrigerator","冰箱"],[829,"remember","記得"],[830,"repeat","重複"],
-      [831,"reporter","記者"],[832,"rest","休息"],[833,"restaurant","餐館"],[834,"restroom","洗手間"],[835,"rice","米飯"],[836,"rich","有錢的"],[837,"ride","騎"],[838,"right","右邊,正確的"],[839,"ring","戒指,鈴響"],[840,"river","河"],
-      [841,"road","道路"],[842,"robot","機器人"],[843,"ROC","中華民國"],[844,"rock","岩石,搖滾"],[845,"roll","滾,捲"],[846,"room","房間"],[847,"roller-skate","溜冰"],[848,"rope","繩子"],[849,"rose","玫瑰"],[850,"round","圓形的"],
-      [851,"row","划(船),一排"],[852,"rule","規則"],[853,"ruler","尺,統治者"],[854,"run","跑"],[855,"sad","悲傷的"],[856,"safe","安全的,保險箱"],[857,"sail","航行"],[858,"salad","沙拉"],[859,"sale","出售"],[860,"salesman","推銷員"],
-      [861,"salt","鹽"],[862,"same","相同的"],[863,"sandwich","三明治"],[864,"Saturday","星期六"],[865,"sacred","神聖的"],[866,"save","節省,挽救"],[867,"say","說"],[868,"school","學校"],[869,"science","科學"],[870,"scooter","速克達機車"],
-      [871,"screen","螢幕"],[872,"sea","海"],[873,"season","季節"],[874,"seat","座位"],[875,"second","第二(的),秒"],[876,"secretary","秘書"],[877,"see","看"],[878,"seed","種子"],[879,"seesaw","蹺蹺板"],[880,"seldom","很少"],
-      [881,"sell","賣"],[882,"send","寄"],[883,"senior high school","高中"],[884,"sentence","句子"],[885,"September","九月"],[886,"serious","嚴肅的,嚴重的"],[887,"set","(電視)機,一套"],[888,"seven","七"],[889,"seventeen","十七"],[890,"seventeenth","第十七(的)"],
-      [891,"seventh","第七(的)"],[892,"seventy","七十"],[893,"several","幾個的"],[894,"shake","搖動"],[895,"shall","將會,好嗎?"],[896,"shape","形狀"],[897,"share","分享"],[898,"shark","鯊魚"],[899,"she","她"],[900,"sheep","綿羊"],
-
-      // Unit 10 (901~1000)
-      [901,"ship","船"],[902,"shirt","襯衫"],[903,"shoe(s)","鞋子"],[904,"shop","商店"],[905,"shopkeeper","店主"],[906,"short","短的,矮的"],[907,"shorts","短褲"],[908,"should","應該"],[909,"shoulder","肩膀"],[910,"shout","喊叫"],
-      [911,"show","指示,表演"],[912,"shy","害羞的"],[913,"sick","生病的"],[914,"side","旁邊,邊,面"],[915,"sidewalk","人行道"],[916,"sight","視力,景觀"],[917,"sign","標誌,簽名"],[918,"simple","簡單的"],[919,"since","自從"],[920,"sing","唱歌"],
-      [921,"singer","歌手"],[922,"sir","先生"],[923,"sister","姊妹"],[924,"sit","坐"],[925,"six","六"],[926,"sixteen","十六"],[927,"sixteenth","第十六(的)"],[928,"sixth","第六(的)"],[929,"sixty","六十"],[930,"size","尺寸"],
-      [931,"skate","溜冰"],[932,"skirt","裙子"],[933,"sky","天空"],[934,"sleep","睡覺"],[935,"slide","滑坡,滑動"],[936,"slim","苗條的"],[937,"slow","慢的"],[938,"small","小的"],[939,"smart","聰明的"],[940,"smell","聞起來"],
-      [941,"smile","微笑"],[942,"smoke","煙霧,抽菸"],[943,"snack","點心"],[944,"snake","蛇"],[945,"snow","下雪"],[946,"snowman","雪人"],[947,"snowy","下雪的"],[948,"so","如此地,所以"],[949,"soccer","足球"],[950,"socks","襪子"],
-      [951,"sofa","沙發"],[952,"soldier","軍人"],[953,"some","一些"],[954,"someone","某人"],[955,"something","某事"],[956,"sometimes","有時候"],[957,"somewhere","某處"],[958,"son","兒子"],[959,"song","歌曲"],[960,"soon","不久,即將"],
-      [961,"sore","疼痛的"],[962,"sorry","抱歉(的)"],[963,"sound","聲音,聽起來"],[964,"soup","湯"],[965,"south","南方"],[966,"space","空間,太空"],[967,"spaghetti","義大利麵"],[968,"speak","說"],[969,"special","特別的"],[970,"spell","拼字"],
-      [971,"spend","花(錢,時間)"],[972,"spider","蜘蛛"],[973,"spoon","湯匙"],[974,"sport","運動"],[975,"spring","春天,泉水"],[976,"square","正方形的,廣場"],[977,"stairs","樓梯"],[978,"stamp","郵票"],[979,"stand","站立"],[980,"star","星星,明星"],
-      [981,"start","開始"],[982,"station","車站,站,局"],[983,"stay","停留"],[984,"steak","(牛)排"],[985,"still","仍然"],[986,"stomach","胃"],[987,"stop","停,車站"],[988,"store","商店"],[989,"straight","直的"],[990,"story","故事"],
-      [991,"strange","奇怪的"],[992,"stranger","陌生人"],[993,"strawberry","草莓"],[994,"street","街道"],[995,"strong","強壯的"],[996,"student","學生"],[997,"study","研讀,學習"],[998,"stupid","笨的"],[999,"subject","科目,主題"],[1000,"successful","成功的"],
-
-      // Unit 11 (1001~1100)
-      [1001,"sugar","糖"],[1002,"summer","夏天"],[1003,"sun","太陽"],[1004,"Sunday","星期日"],[1005,"sunny","晴朗的"],[1006,"supermarket","超級市場"],[1007,"sure","確定的"],[1008,"surf","衝浪"],[1009,"surprise","使...驚訝"],[1010,"surprised","感到驚訝的"],
-      [1011,"sweater","毛衣"],[1012,"sweet","甜的"],[1013,"swim","游泳"],[1014,"swing","鞦韆,搖擺"],[1015,"table","桌子"],[1016,"tail","尾巴"],[1017,"Taiwan","臺灣"],[1018,"take","拿,帶,搭乘"],[1019,"talk","說話"],[1020,"tall","高的"],
-      [1021,"tape","錄音帶,膠帶"],[1022,"taste","品嚐,味道"],[1023,"taxi","計程車"],[1024,"tea","茶"],[1025,"teach","教導"],[1026,"teacher","教師"],[1027,"team","團隊"],[1028,"teenager","青少年"],[1029,"telephone","電話"],[1030,"television","電視"],
-      [1031,"tell","告訴"],[1032,"temple","寺廟"],[1033,"ten","十"],[1034,"tennis","網球"],[1035,"tenth","第十(的)"],[1036,"terrible","可怕的,糟糕的"],[1037,"test","考試,測試"],[1038,"than","比..."],[1039,"thank","謝謝"],[1040,"that","那個"],
-      [1041,"the","這/那"],[1042,"theater","戲院"],[1043,"then","那時,然後"],[1044,"there","那裡"],[1045,"these","這些"],[1046,"they","他們"],[1047,"thick","厚的"],[1048,"thin","瘦的,薄的"],[1049,"thing","事情,東西"],[1050,"think","想,思考"],
-      [1051,"third","第三(的)"],[1052,"thirsty","口渴的"],[1053,"thirteen","十三"],[1054,"thirteenth","第十三(的)"],[1055,"thirty","三十"],[1056,"this","這個"],[1057,"throat","喉嚨"],[1058,"throw","丟"],[1059,"those","那些"],[1060,"though","雖然"],
-      [1061,"thousand","千"],[1062,"three","三"],[1063,"Thursday","星期四"],[1064,"ticket","票券"],[1065,"tidy","整潔的"],[1066,"tiger","老虎"],[1067,"tie","領帶,捆,繫"],[1068,"time","時間,次數"],[1069,"tired","疲倦的"],[1070,"to","到,向"],
-      [1071,"toast","土司,烘烤"],[1072,"today","今天"],[1073,"toe","腳趾"],[1074,"together","一起"],[1075,"tomato","番茄"],[1076,"tomorrow","明天"],[1077,"tonight","今晚"],[1078,"too","也,太..."],[1079,"tooth","牙齒"],[1080,"top","頂端"],
-      [1081,"total","總計"],[1082,"touch","碰觸"],[1083,"towel","毛巾"],[1084,"town","城鎮"],[1085,"toy","玩具"],[1086,"traffic","交通"],[1087,"train","火車,訓練"],[1088,"trash","垃圾"],[1089,"treat","請客,對待"],[1090,"tree","樹"],
-      [1091,"trick","惡作劇,把戲"],[1092,"trip","(短程)旅行"],[1093,"trouble","麻煩"],[1094,"truck","卡車"],[1095,"true","真實的"],[1096,"try","嘗試"],[1097,"T-shirt","T恤"],[1098,"tub","浴缸,洗澡桶"],[1099,"Tuesday","星期二"],[1100,"turkey","火雞"],
-
-      // Unit 12 (1101~1200)
-      [1101,"turn","轉動,轉彎"],[1102,"turtle","烏龜"],[1103,"twelfth","第十二(的)"],[1104,"twelve","十二"],[1105,"twenty","二十"],[1106,"twentieth","第二十(的)"],[1107,"twice","兩次"],[1108,"two","二"],[1109,"type","打字,類型"],[1110,"typhoon","颱風"],
-      [1111,"umbrella","雨傘"],[1112,"uncle","伯(叔)父"],[1113,"under","在...之下"],[1114,"understand","了解"],[1115,"unhappy","不快樂的"],[1116,"uniform","制服"],[1117,"until","直到"],[1118,"up","向上"],[1119,"USA","美國"],[1120,"use","使用"],
-      [1121,"useful","有用的"],[1122,"usually","通常"],[1123,"vacation","假期"],[1124,"vegetable","蔬菜"],[1125,"very","非常"],[1126,"vest","背心"],[1127,"video","錄影帶,影片"],[1128,"violin","小提琴"],[1129,"visit","參觀,拜訪"],[1130,"voice","聲音"],
-      [1131,"wait","等待"],[1132,"waiter","男服務生"],[1133,"waitress","女服務生"],[1134,"wake","醒來"],[1135,"walk","走路"],[1136,"wall","牆壁"],[1137,"wallet","皮夾"],[1138,"want","想要"],[1139,"warm","溫暖的"],[1140,"wash","清洗"],
-      [1141,"watch","看,手錶"],[1142,"water","水"],[1143,"watermelon","西瓜"],[1144,"wave","波浪,揮手"],[1145,"way","道路,方法"],[1146,"we","我們"],[1147,"weak","弱的"],[1148,"wear","穿,戴"],[1149,"weather","天氣"],[1150,"Wednesday","星期三"],
-      [1151,"week","星期"],[1152,"weekend","週末"],[1153,"welcome","受歡迎的,歡迎"],[1154,"well","好地,井"],[1155,"west","西方"],[1156,"wet","濕的"],[1157,"whale","鯨魚"],[1158,"what","什麼"],[1159,"when","何時"],[1160,"where","何處"],
-      [1161,"whether","是否"],[1162,"which","哪一個"],[1163,"white","白色(的)"],[1164,"who","誰"],[1165,"whose","誰的"],[1166,"why","為什麼"],[1167,"wife","妻子"],[1168,"will","將會..."],[1169,"win","贏"],[1170,"wind","風"],
-      [1171,"window","窗戶"],[1172,"windy","多風的"],[1173,"winter","冬天"],[1174,"wise","明智的"],[1175,"wish","祝福,希望"],[1176,"with","和,用"],[1177,"without","沒有"],[1178,"woman","女人"],[1179,"wonderful","極好的"],[1180,"word","字,話語"],
-      [1181,"work","工作"],[1182,"workbook","作業本"],[1183,"worker","工人"],[1184,"world","世界"],[1185,"worry","擔心"],[1186,"write","寫"],[1187,"writer","作家"],[1188,"wrong","錯誤的"],[1189,"yard","庭院"],[1190,"year","年"],
-      [1191,"yellow","黃色(的)"],[1192,"yes","是"],[1193,"yesterday","昨天"],[1194,"yet","尚未"],[1195,"you","你(們)"],[1196,"young","年輕的"],[1197,"yummy","好吃的"],[1198,"zebra","斑馬"],[1199,"zero","零"],[1200,"zoo","動物園"]
-    ];
-
-    // 格式化單字資料物件
-    const ALL_WORDS = RAW_DATA.map(item => ({
-      id: item[0],
-      unit: Math.ceil(item[0] / 100),
-      word: item[1],
-      zh: item[2]
-    }));
-
-    /* ==========================================================================
-       2. 全域狀態與 LocalStorage 管理
-       ========================================================================== */
-    const STORAGE_KEY_LEADERBOARD = 'vocab1200_leaderboard_split';
-    const STORAGE_KEY_MISTAKES = 'vocab1200_simple_mistakes';
-    const STORAGE_KEY_NICKNAME = 'vocab1200_user_name';
-
-    let currentQuizList = [];
-    let currentQuizIndex = 0;
-    let currentScore = 0;
-    let currentStreak = 0;
-    let maxStreak = 0;
-    let correctCount = 0;
-    let currentMistakes = []; // 只存 { id, word, zh }
-    let isCurrentAnswerSubmitted = false;
-
-    let currentQuizMode = 'unit'; // 'unit' | 'random'
-    let currentUnitNum = 1;
-    let currentQuestionCount = 10; // 10 | 20 | 30
-    let currentQuizTitle = "單元 1 (10題)";
-    let activeLeaderboardTab = 10;
-
-    window.addEventListener('DOMContentLoaded', () => {
-      loadNickname();
-      renderUnitCards();
-      updateNavMistakeCount();
-
-      document.getElementById('inputSpelling').addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') handleQuizAction();
-      });
-    });
-
-    /* ==========================================================================
-       3. 選手暱稱管理
-       ========================================================================== */
-    function loadNickname() {
-      const saved = localStorage.getItem(STORAGE_KEY_NICKNAME);
-      if (saved) document.getElementById('playerNickname').value = saved;
-    }
-
-    function getPlayerNickname() {
-      const val = document.getElementById('playerNickname').value.trim();
-      return val || '認真同學';
-    }
-
-    function saveNickname() {
-      const name = getPlayerNickname();
-      localStorage.setItem(STORAGE_KEY_NICKNAME, name);
-      showToast(`暱稱已成功儲存為：「${name}」`);
-    }
-
-    /* ==========================================================================
-       4. 單元選單渲染與測驗啟動
-       ========================================================================== */
-    function renderUnitCards() {
-      const container = document.getElementById('unitGridContainer');
-      container.innerHTML = '';
-
-      for (let u = 1; u <= 12; u++) {
-        const start = (u - 1) * 100 + 1;
-        const end = u * 100;
-        const card = document.createElement('div');
-        card.className = 'unit-card';
-        card.innerHTML = `
-          <div>
-            <div class="unit-header-wrap">
-              <span class="unit-tag">單元 ${u}</span>
-              <span class="unit-range-text">No. ${start}~${end}</span>
-            </div>
-            <div class="unit-title-text" style="margin-top:0.4rem;">第 ${u} 篇章</div>
-          </div>
+          <div class="unit-title-text">日常生活與家庭</div>
           <div class="unit-count-btns">
-            <button class="btn-unit-opt" onclick="startQuiz('unit', ${u}, 10)">10 題</button>
-            <button class="btn-unit-opt" onclick="startQuiz('unit', ${u}, 20)">20 題</button>
-            <button class="btn-unit-opt" onclick="startQuiz('unit', ${u}, 30)">30 題</button>
+            <button class="btn-unit-opt" data-unit="1" data-words="10">10題</button>
+            <button class="btn-unit-opt" data-unit="1" data-words="20">20題</button>
+            <button class="btn-unit-opt" data-unit="1" data-words="40">全部</button>
           </div>
-        `;
-        container.appendChild(card);
-      }
-    }
-
-    function startQuiz(mode, unitNum, count) {
-      saveNickname();
-      currentQuizMode = mode;
-      currentUnitNum = unitNum;
-      currentQuestionCount = count;
-
-      let pool = [];
-      if (mode === 'unit') {
-        currentQuizTitle = `單元 ${unitNum} (${count}題組)`;
-        pool = ALL_WORDS.filter(w => w.unit === unitNum);
-      } else {
-        currentQuizTitle = `全冊綜合挑戰 (${count}題組)`;
-        pool = ALL_WORDS;
-      }
-
-      currentQuizList = shuffleArray([...pool]).slice(0, count);
-      currentQuizIndex = 0;
-      currentScore = 0;
-      currentStreak = 0;
-      maxStreak = 0;
-      correctCount = 0;
-      currentMistakes = [];
-      isCurrentAnswerSubmitted = false;
-
-      document.getElementById('quizModeTitle').textContent = currentQuizTitle;
-      showView('viewQuiz');
-      loadQuestion();
-    }
-
-    /* ==========================================================================
-       5. 題目互動與作答邏輯
-       ========================================================================== */
-    function loadQuestion() {
-      const q = currentQuizList[currentQuizIndex];
-      isCurrentAnswerSubmitted = false;
-
-      const total = currentQuizList.length;
-      document.getElementById('quizProgress').textContent = `${currentQuizIndex + 1} / ${total}`;
-      document.getElementById('quizProgressBar').style.width = `${(currentQuizIndex / total) * 100}%`;
-      document.getElementById('quizStreak').textContent = currentStreak;
-      document.getElementById('quizScore').textContent = currentScore;
-
-      document.getElementById('quizWordId').textContent = `No. ${q.id}`;
-      document.getElementById('quizWordZh').textContent = q.zh;
-
-      const input = document.getElementById('inputSpelling');
-      input.value = '';
-      input.className = 'input-spell';
-      input.disabled = false;
-      input.focus();
-
-      document.getElementById('quizFeedback').textContent = '';
-      document.getElementById('quizFeedback').className = 'feedback-tip';
-      document.getElementById('btnSubmitOrNext').textContent = '送出答案 (Enter)';
-      document.getElementById('btnSkip').style.display = 'inline-block';
-
-      speakCurrentWord();
-    }
-
-    function handleQuizAction() {
-      if (!isCurrentAnswerSubmitted) {
-        checkAnswer();
-      } else {
-        nextQuestion();
-      }
-    }
-
-    function checkAnswer() {
-      const q = currentQuizList[currentQuizIndex];
-      const input = document.getElementById('inputSpelling');
-      const userVal = input.value.trim().toLowerCase();
-
-      if (!userVal) {
-        showToast("請先輸入單字拼寫！");
-        input.focus();
-        return;
-      }
-
-      isCurrentAnswerSubmitted = true;
-      input.disabled = true;
-
-      const cleanTarget = q.word.replace(/\s*\(.*?\)\s*/g, '').trim().toLowerCase();
-      const isCorrect = userVal === cleanTarget;
-      const feedback = document.getElementById('quizFeedback');
-
-      if (isCorrect) {
-        currentStreak++;
-        if (currentStreak > maxStreak) maxStreak = currentStreak;
-        correctCount++;
-
-        const bonus = (currentStreak > 1) ? (currentStreak - 1) * 10 : 0;
-        currentScore += (100 + bonus);
-
-        input.classList.add('correct');
-        feedback.className = 'feedback-tip correct';
-        feedback.textContent = `🎉 答對了！(+${100 + bonus} 分)`;
-      } else {
-        currentStreak = 0;
-        input.classList.add('wrong');
-        feedback.className = 'feedback-tip wrong';
-        feedback.textContent = `❌ 答錯了！正確拼法為：${q.word}`;
-        recordMistakeItem(q);
-      }
-
-      document.getElementById('quizStreak').textContent = currentStreak;
-      document.getElementById('quizScore').textContent = currentScore;
-      document.getElementById('btnSubmitOrNext').textContent = '下一題 → (Enter)';
-      document.getElementById('btnSkip').style.display = 'none';
-      document.getElementById('btnSubmitOrNext').focus();
-    }
-
-    function skipCurrentQuestion() {
-      const q = currentQuizList[currentQuizIndex];
-      isCurrentAnswerSubmitted = true;
-      currentStreak = 0;
-      recordMistakeItem(q);
-
-      const input = document.getElementById('inputSpelling');
-      input.disabled = true;
-      input.classList.add('wrong');
-
-      const feedback = document.getElementById('quizFeedback');
-      feedback.className = 'feedback-tip wrong';
-      feedback.textContent = `已跳過！正確答案為：${q.word}`;
-
-      document.getElementById('quizStreak').textContent = currentStreak;
-      document.getElementById('btnSubmitOrNext').textContent = '下一題 → (Enter)';
-      document.getElementById('btnSkip').style.display = 'none';
-      document.getElementById('btnSubmitOrNext').focus();
-    }
-
-    function nextQuestion() {
-      currentQuizIndex++;
-      if (currentQuizIndex < currentQuizList.length) {
-        loadQuestion();
-      } else {
-        finishQuiz();
-      }
-    }
-
-    function finishQuiz() {
-      const total = currentQuizList.length;
-      const accuracy = total > 0 ? Math.round((correctCount / total) * 100) : 0;
-
-      // 儲存至對應題數的排行榜
-      saveRecordToCategory(currentQuestionCount, currentScore, accuracy, correctCount, total);
-
-      // 結算畫面呈現
-      document.getElementById('resAccuracy').textContent = `${accuracy}%`;
-      document.getElementById('resScore').textContent = currentScore;
-      document.getElementById('resCorrect').textContent = `${correctCount} / ${total}`;
-      document.getElementById('resStreak').textContent = `${maxStreak} 🔥`;
-
-      // 錯題清單處理 (只帶入英文單字及字義)
-      const listEl = document.getElementById('resMistakeList');
-      listEl.innerHTML = '';
-      document.getElementById('resMistakeCount').textContent = currentMistakes.length;
-
-      if (currentMistakes.length === 0) {
-        document.getElementById('resultMistakesBox').style.display = 'none';
-        document.getElementById('resultSubtitle').textContent = "全對無錯題！滿分登錄榮譽排行榜！";
-      } else {
-        document.getElementById('resultMistakesBox').style.display = 'block';
-        document.getElementById('resultSubtitle').textContent = "測驗完成！錯題已記錄，可隨時匯出純淨複習本。";
-        currentMistakes.forEach(item => {
-          const li = document.createElement('li');
-          li.className = 'simple-mistake-item';
-          li.innerHTML = `
-            <div>
-              <span style="font-size:0.75rem; color:var(--text-muted); margin-right:4px;">No. ${item.id}</span>
-              <span class="w-en">${escapeHtml(item.word)}</span>
-            </div>
-            <span class="w-zh">${escapeHtml(item.zh)}</span>
-          `;
-          listEl.appendChild(li);
-        });
-      }
-
-      showView('viewResult');
-    }
-
-    function retryQuiz() {
-      startQuiz(currentQuizMode, currentUnitNum, currentQuestionCount);
-    }
-
-    function confirmQuitQuiz() {
-      if (confirm("確定要中止本次測驗並返回首頁嗎？目前的進度不會列入計算。")) {
-        goHome();
-      }
-    }
-
-    /* ==========================================================================
-       6. 排行榜 (依 10 / 20 / 30 題三分流)
-       ========================================================================== */
-    function getAllLeaderboardRecords() {
-      const str = localStorage.getItem(STORAGE_KEY_LEADERBOARD);
-      return str ? JSON.parse(str) : { "10": [], "20": [], "30": [] };
-    }
-
-    function saveRecordToCategory(qCount, score, accuracy, corrCount, totalCount) {
-      const records = getAllLeaderboardRecords();
-      const catKey = String(qCount);
-      if (!records[catKey]) records[catKey] = [];
-
-      const now = new Date();
-      const dateStr = `${now.getMonth() + 1}/${now.getDate()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-
-      records[catKey].push({
-        id: Date.now(),
-        nickname: getPlayerNickname(),
-        unit: currentQuizTitle,
-        score: score,
-        accuracy: accuracy,
-        corr: `${corrCount}/${totalCount}`,
-        date: dateStr
-      });
-
-      // 依分數與答對率降序排列
-      records[catKey].sort((a, b) => b.score - a.score || b.accuracy - a.accuracy);
-      localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(records));
-    }
-
-    function openLeaderboardModal(categoryCount) {
-      activeLeaderboardTab = categoryCount || 10;
-      switchLeaderboardTab(activeLeaderboardTab);
-      document.getElementById('modalLeaderboard').classList.add('open');
-    }
-
-    function closeLeaderboardModal() {
-      document.getElementById('modalLeaderboard').classList.remove('open');
-    }
-
-    function switchLeaderboardTab(categoryCount) {
-      activeLeaderboardTab = categoryCount;
-      [10, 20, 30].forEach(num => {
-        const btn = document.getElementById(`tabRank${num}`);
-        if (num === categoryCount) btn.classList.add('active');
-        else btn.classList.remove('active');
-      });
-
-      const records = getAllLeaderboardRecords();
-      const list = records[String(categoryCount)] || [];
-      const tbody = document.getElementById('leaderboardTbody');
-      tbody.innerHTML = '';
-
-      if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 2rem; color: var(--text-muted);">${categoryCount} 題組目前尚無紀錄，歡迎前來搶頭香！</td></tr>`;
-        return;
-      }
-
-      list.forEach((item, idx) => {
-        let rankBadge = idx + 1;
-        if (idx === 0) rankBadge = '🥇';
-        else if (idx === 1) rankBadge = '🥈';
-        else if (idx === 2) rankBadge = '🥉';
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td style="text-align:center; font-weight:800;">${rankBadge}</td>
-          <td style="font-weight:700;">${escapeHtml(item.nickname)}</td>
-          <td><span class="unit-tag" style="font-size:0.7rem;">${escapeHtml(item.unit)}</span></td>
-          <td style="font-weight:800; color:var(--primary);">${item.score}</td>
-          <td>${item.accuracy}%</td>
-          <td style="color:var(--text-muted); font-size:0.75rem;">${item.date}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function clearCurrentCategoryLeaderboard() {
-      if (confirm(`確定要清空「${activeLeaderboardTab} 題組」的排行榜紀錄嗎？`)) {
-        const records = getAllLeaderboardRecords();
-        records[String(activeLeaderboardTab)] = [];
-        localStorage.setItem(STORAGE_KEY_LEADERBOARD, JSON.stringify(records));
-        switchLeaderboardTab(activeLeaderboardTab);
-        showToast(`已清空 ${activeLeaderboardTab} 題組排行榜！`);
-      }
-    }
-
-    /* ==========================================================================
-       7. 錯題本 (只保留英文單字與字義) & 純淨 TXT 匯出
-       ========================================================================== */
-    function recordMistakeItem(q) {
-      const entry = { id: q.id, word: q.word, zh: q.zh };
-      currentMistakes.push(entry);
-
-      let stored = getStoredMistakes();
-      if (!stored.some(x => x.id === q.id)) {
-        stored.unshift(entry);
-        localStorage.setItem(STORAGE_KEY_MISTAKES, JSON.stringify(stored));
-        updateNavMistakeCount();
-      }
-    }
-
-    function getStoredMistakes() {
-      const str = localStorage.getItem(STORAGE_KEY_MISTAKES);
-      return str ? JSON.parse(str) : [];
-    }
-
-    function updateNavMistakeCount() {
-      document.getElementById('navMistakeCount').textContent = getStoredMistakes().length;
-    }
-
-    function openMistakesModal() {
-      const list = getStoredMistakes();
-      const ul = document.getElementById('globalMistakeList');
-      ul.innerHTML = '';
-
-      if (list.length === 0) {
-        ul.innerHTML = `<li style="text-align:center; padding:1.5rem; color:var(--text-muted);">目前沒有任何錯題紀錄，非常棒！</li>`;
-      } else {
-        list.forEach(item => {
-          const li = document.createElement('li');
-          li.className = 'simple-mistake-item';
-          li.innerHTML = `
-            <div>
-              <span style="font-size:0.75rem; color:var(--text-muted); margin-right:4px;">No. ${item.id}</span>
-              <span class="w-en">${escapeHtml(item.word)}</span>
-            </div>
-            <span class="w-zh">${escapeHtml(item.zh)}</span>
-          `;
-          ul.appendChild(li);
-        });
-      }
-
-      document.getElementById('modalMistakes').classList.add('open');
-    }
-
-    function closeMistakesModal() {
-      document.getElementById('modalMistakes').classList.remove('open');
-    }
-
-    function clearGlobalMistakes() {
-      if (confirm("確定要清空筆記本中所有的錯題嗎？")) {
-        localStorage.removeItem(STORAGE_KEY_MISTAKES);
-        updateNavMistakeCount();
-        openMistakesModal();
-        showToast("錯題筆記已清空！");
-      }
-    }
-
-    // 核心功能：只匯出英文單字與字義為 .txt 檔案
-    function exportWordListToTxt(list, titleName) {
-      if (!list || list.length === 0) {
-        showToast("目前沒有錯題可以匯出！");
-        return;
-      }
-
-      const nickname = getPlayerNickname();
-      const now = new Date();
-      const timeStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-
-      let content = "==================================================\r\n";
-      content += `  教育部國中小英語 1200 字測驗 - 錯題筆記本\r\n`;
-      content += `  測驗選手：${nickname}\r\n`;
-      content += `  測驗單元：${titleName}\r\n`;
-      content += `  匯出時間：${timeStr}\r\n`;
-      content += `  錯題總計：共 ${list.length} 題\r\n`;
-      content += "==================================================\r\n\r\n";
-
-      list.forEach((item, index) => {
-        content += `${index + 1}. ${item.word} : ${item.zh}\r\n`;
-      });
-
-      content += "\r\n==================================================\r\n";
-
-      const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `英語錯題本_${nickname}_${titleName}_${now.toISOString().slice(0, 10)}.txt`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
-      showToast("錯題本 (.txt) 下載完成！");
-    }
-
-    function exportCurrentMistakesTxt() {
-      exportWordListToTxt(currentMistakes, currentQuizTitle);
-    }
-
-    function exportGlobalMistakesTxt() {
-      const stored = getStoredMistakes();
-      exportWordListToTxt(stored, "全部累積錯題");
-    }
-
-    /* ==========================================================================
-       8. 語音朗讀與工具函式
-       ========================================================================== */
-    function speakCurrentWord() {
-      const q = currentQuizList[currentQuizIndex];
-      if (!q || !('speechSynthesis' in window)) return;
-      window.speechSynthesis.cancel();
-      const clean = q.word.replace(/\s*\(.*?\)\s*/g, '').trim();
-      const u = new SpeechSynthesisUtterance(clean);
-      u.lang = 'en-US';
-      u.rate = 0.9;
-      window.speechSynthesis.speak(u);
-    }
-
-    function showView(id) {
-      document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-      const target = document.getElementById(id);
-      if (target) target.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function goHome() {
-      window.speechSynthesis.cancel();
-      updateNavMistakeCount();
-      showView('viewHome');
-    }
-
-    function shuffleArray(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
-
-    function showToast(text) {
-      const t = document.getElementById('toast');
-      t.textContent = text;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2200);
-    }
-
-    function escapeHtml(s) {
-      if (!s) return '';
-      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-    }
-  </script>
-</body>
-</html>
+        </div>
+        <!-- 範例單元 2 -->
+        <div class="unit-card">
