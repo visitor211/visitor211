@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高雄中學 113 學年度第一學期 第一次段考 數學科 一年級試卷</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts Inter & Noto Serif / Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- MathJax Configuration -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <style>
+    body {
+      font-family: 'Noto Sans TC', 'Inter', sans-serif;
+    }
+    .serif-title {
+      font-family: 'Noto Serif TC', serif;
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Print Styles: A4 Exam Paper Layout */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 13pt;
+        line-height: 1.5;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-only {
+        display: block !important;
+      }
+      .exam-container {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+      .question-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        border-bottom: 1px solid #cbd5e1 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        padding: 14px 0 !important;
+        margin-bottom: 12px !important;
+      }
+      .print-input-line {
+        display: inline-block !important;
+        min-width: 160px;
+        border-bottom: 1.5px solid #000 !important;
+        height: 24px;
+      }
+      .interactive-input-group {
+        display: none !important;
+      }
+      .solution-box {
+        display: none !important;
+      }
+      .solution-box.print-show {
+        display: block !important;
+        border-left: 3px solid #64748b !important;
+        background: #f8fafc !important;
+        page-break-inside: avoid;
+      }
+      @page {
+        size: A4;
+        margin: 1.8cm 1.5cm;
+      }
+    }
+    
+    .print-only {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen antialiased flex flex-col">
+
+  <!-- Header / Navigation Bar -->
+  <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-40 border-b border-slate-700">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-lg bg-red-700 text-white flex items-center justify-center font-bold text-lg shadow-inner border border-red-500">
+          雄
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold tracking-wide flex items-center gap-2">
+            高雄中學 113-1 高一第一次段考
+            <span class="text-xs bg-red-600/80 text-white font-medium px-2 py-0.5 rounded-full">數學科</span>
+          </h1>
+          <p class="text-xs text-slate-400">標準試卷與全解析互動系統 (高一上)</p>
+        </div>
+      </div>
+
+      <!-- Action & Mode Controllers -->
+      <div class="flex items-center flex-wrap gap-2.5">
+        <!-- Mode Switcher -->
+        <div class="flex bg-slate-800 p-1 rounded-lg border border-slate-700 text-xs font-medium">
+          <button id="modeExamBtn" onclick="switchMode('exam')" class="px-3 py-1.5 rounded-md transition-all bg-indigo-600 text-white shadow">
+            <i class="fa-solid fa-stopwatch mr-1"></i> 模擬考試
+          </button>
+          <button id="modePracticeBtn" onclick="switchMode('practice')" class="px-3 py-1.5 rounded-md text-slate-300 hover:text-white transition-all">
+            <i class="fa-solid fa-book-open-reader mr-1"></i> 練習與全解
+          </button>
+        </div>
+
+        <!-- Timer Controls (Visible in Exam mode) -->
+        <div id="timerContainer" class="flex items-center bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200">
+          <i class="fa-regular fa-clock text-amber-400 mr-2 text-sm"></i>
+          <span id="timerText" class="font-mono font-bold text-sm text-amber-300">70:00</span>
+          <button id="toggleTimerBtn" onclick="toggleTimer()" title="暫停/繼續計時" class="ml-2 text-slate-400 hover:text-white transition">
+            <i class="fa-solid fa-pause"></i>
+          </button>
+        </div>
+
+        <!-- Print Action -->
+        <button onclick="handlePrintDialog()" class="px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium transition flex items-center gap-1.5 shadow">
+          <i class="fa-solid fa-print"></i> 列印試卷
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto w-full px-4 sm:px-6 py-6 flex-grow">
+    
+    <!-- Printable Formal Exam Header -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6 exam-container">
+      <div class="text-center pb-5 border-b-2 border-slate-800">
+        <h2 class="serif-title text-2xl sm:text-3xl font-bold tracking-wider text-slate-900 mb-1">
+          高雄市立高雄高級中學 113 學年度第一學期 第一次段考
+        </h2>
+        <div class="flex items-center justify-center gap-4 text-sm font-semibold text-slate-700 mt-2">
+          <span>考科：數學科</span>
+          <span>•</span>
+          <span>適用年級：高一</span>
+          <span>•</span>
+          <span>考試時間：70 分鐘</span>
+        </div>
+      </div>
+
+      <!-- Student & Score meta panel -->
+      <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm bg-slate-50 p-3.5 rounded-lg border border-slate-200">
+        <div class="flex items-center gap-2">
+          <label class="text-slate-600 font-medium whitespace-nowrap">班級：</label>
+          <input type="text" id="studentClass" placeholder="例如：1年1班" class="w-full bg-white border border-slate-300 rounded px-2.5 py-1 text-sm focus:outline-none focus:border-indigo-500">
+        </div>
+        <div class="flex items-center gap-2">
+          <label class="text-slate-600 font-medium whitespace-nowrap">座號：</label>
+          <input type="text" id="studentSeat" placeholder="例如：25" class="w-full bg-white border border-slate-300 rounded px-2.5 py-1 text-sm focus:outline-none focus:border-indigo-500">
+        </div>
+        <div class="flex items-center gap-2">
+          <label class="text-slate-600 font-medium whitespace-nowrap">姓名：</label>
+          <input type="text" id="studentName" placeholder="請輸入姓名" class="w-full bg-white border border-slate-300 rounded px-2.5 py-1 text-sm focus:outline-none focus:border-indigo-500">
+        </div>
+      </div>
+
+      <!-- Notice for Exam -->
+      <div class="mt-3 text-xs text-slate-500 space-y-1">
+        <p class="font-medium text-slate-600">考試說明：</p>
+        <p>1. 本試卷共計：填充題 14 大題（共 18 小格，每格 5 分，計 90 分）、計算證明題 1 題（共 3 小題，計 10 分），滿分 100 分。</p>
+        <p>2. 所有分數請化為最簡分數；作答時請將正確答案填入對應題號中。</p>
+      </div>
+
+      <!-- Quick Control Row for Interactive Mode -->
+      <div class="no-print mt-5 pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200" id="currentModeBadge">
+            <i class="fa-solid fa-clock"></i> 模式：模擬考試測驗中
+          </span>
+          <span class="text-xs text-slate-500" id="answeredCounter">已作答 0 / 19 題</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button onclick="toggleAllSolutions()" id="toggleAllBtn" class="hidden text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 transition flex items-center gap-1">
+            <i class="fa-solid fa-chevron-down mr-1"></i> 全部解析展開
+          </button>
+          <button onclick="submitExam()" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-4 py-1.5 rounded-lg shadow transition flex items-center gap-1.5">
+            <i class="fa-solid fa-paper-plane"></i> 交卷批改並評分
+          </button>
+          <button onclick="resetExam()" class="text-xs bg-slate-200 hover:bg-slate-300 text-slate-700 font-medium px-3 py-1.5 rounded-lg transition flex items-center gap-1">
+            <i class="fa-solid fa-rotate-left"></i> 重置試卷
+          </button>
+        </div>
+      </div>
+
+      <!-- Score Result Card (Initially Hidden) -->
+      <div id="scoreReport" class="hidden mt-5 p-4 rounded-xl bg-gradient-to-r from-indigo-900 to-slate-900 text-white shadow-md">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <div class="text-xs text-indigo-200 font-medium">測驗成績結算報告</div>
+            <div class="text-3xl font-bold mt-0.5 flex items-baseline gap-2">
+              <span id="finalScore" class="text-yellow-400">0</span>
+              <span class="text-sm font-normal text-slate-300">/ 100 分</span>
+            </div>
+          </div>
+          <div class="text-xs sm:text-sm text-slate-300 space-y-1">
+            <p><i class="fa-regular fa-circle-check text-emerald-400 mr-1.5"></i>答對格數：<span id="correctCount" class="font-bold text-white">0</span> 格</p>
+            <p><i class="fa-regular fa-circle-xmark text-rose-400 mr-1.5"></i>答錯格數：<span id="wrongCount" class="font-bold text-white">0</span> 格</p>
+            <p><i class="fa-regular fa-clock text-amber-400 mr-1.5"></i>作答耗時：<span id="timeSpent" class="font-bold text-white">0 分 0 秒</span></p>
+          </div>
+          <button onclick="switchMode('practice')" class="text-xs bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-bold px-4 py-2 rounded-lg transition shadow">
+            查看所有題目詳細解答與步驟
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section I: 填充題 Header -->
+    <div class="flex items-center justify-between mb-4 mt-8">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-6 bg-red-700 rounded-full inline-block"></span>
+        <h3 class="serif-title text-xl font-bold text-slate-900">一、填充題（14 題，共 90 分）</h3>
+      </div>
+      <span class="text-xs font-medium text-slate-500 bg-white px-2.5 py-1 rounded-md border border-slate-200 shadow-sm">
+        每格 5 分
+      </span>
+    </div>
+
+    <!-- Questions Container -->
+    <div class="space-y-5" id="questionsContainer">
+
+      <!-- Q1 -->
+      <div class="question-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition hover:border-slate-300" id="qcard-1">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-grow">
+            <div class="flex items-baseline gap-2">
+              <span class="font-bold text-indigo-700 text-lg">1.</span>
+              <p class="text-base text-slate-800 leading-relaxed font-normal">
+                下列哪些可為實數系 $\mathbb{R}$ 的子集之表示式？（多選）
+              </p>
+            </div>
+            <!-- Options list -->
+            <div class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-sm">
+              <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-50 hover:bg-slate-100 cursor-pointer border border-slate-200">
+                <input type="checkbox" name="q1_opt" value="A" class="w-4 h-4 text-indigo-600 rounded">
+                <span>$(A)\;(0, 1)$</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-50 hover:bg-slate-100 cursor-pointer border border-slate-200">
+                <input type="checkbox" name="q1_opt" value="B" class="w-4 h-4 text-indigo-600 rounded">
+                <span>$(B)\;[1, 0]$</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-50 hover:bg-slate-100 cursor-pointer border border-slate-200">
+                <input type="checkbox" name="q1_opt" value="C" class="w-4 h-4 text-indigo-600 rounded">
+                <span>$(C)\;\{1, 0\}$</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-50 hover:bg-slate-100 cursor-pointer border border-slate-200">
+                <input type="checkbox" name="q1_opt" value="D" class="w-4 h-4 text-indigo-600 rounded">
+                <span>$(D)\;\{1 < x < 5\}$</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-50 hover:bg-slate-100 cursor-pointer border border-slate-200">
+                <input type="checkbox" name="q1_opt" value="E" class="w-4 h-4 text-indigo-600 rounded">
+                <span>$(E)\;\{\phi\}$</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-50 hover:bg-slate-100 cursor-pointer border border-slate-200">
+                <input type="checkbox" name="q1_opt" value="F" class="w-4 h-4 text-indigo-600 rounded">
+                <span>$(F)\;[\frac{13}{6}]$</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-50 hover:bg-slate-100 cursor-pointer border border-slate-200">
+                <input type="checkbox" name="q1_opt" value="G" class="w-4 h-4 text-indigo-600 rounded">
+                <span>$(G)\;|\frac{13}{6}|$</span>
+              </label>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="status-badge hidden text-xs font-semibold px-2 py-0.5 rounded"></span>
+            <span class="text-xs text-slate-400">配分: 5分</span>
+          </div>
+        </div>
+
+        <!-- Answer / Input Row -->
+        <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <div class="interactive-input-group flex items-center gap-2">
+            <label class="text-xs font-medium text-slate-600">作答填寫：</label>
+            <input type="text" id="input-q1" placeholder="填入選項代號，如 ABC" class="bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-sm uppercase font-mono w-44 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+          </div>
+          <div class="print-only">
+            作答：<span class="print-input-line"></span>
+          </div>
+          <button onclick="toggleSingleSolution('sol-1')" class="solution-toggle-btn text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition">
+            <i class="fa-solid fa-lightbulb"></i> <span>查看解析</span>
+          </button>
+        </div>
+
+        <!-- Solution Box -->
+        <div id="sol-1" class="solution-box hidden mt-3 p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm space-y-2">
+          <div class="font-bold text-slate-900 flex items-center gap-2">
+            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs">官方正解</span>
+            <span>$A, B, C$ (或 $ABC$)</span>
+          </div>
+          <div class="text-slate-700 leading-relaxed space-y-1">
+            <p><strong>解析與觀念：</strong></p>
+            <p>• $(A)\;(0, 1)$：為開區間，代表實數集合 $\{x \in \mathbb{R} \mid 0 < x < 1\}$，是實數系的子集。(正確)</p>
+            <p>• $(B)\;[1, 0]$：閉區間定義為 $\{x \in \mathbb{R} \mid 1 \le x \le 0\}$，因為不存在實數同時滿足 $x \ge 1$ 且 $x \le 0$，故此區間為空集合 $\emptyset$。而空集合是任意集合的子集（包含實數系 $\mathbb{R}$）。(正確)</p>
+            <p>• $(C)\;\{1, 0\}$：以條列法表示包含元素 $1$ 與 $0$ 的雙元素集合，此兩元素皆為實數，故為實數子集。(正確)</p>
+            <p>• $(D)\;\{1 < x < 5\}$：集合建構式缺乏變數宣告（正確格式應寫為 $\{x \in \mathbb{R} \mid 1 < x < 5\}$），語法不完整。(不選)</p>
+            <p>• $(E)\;\{\phi\}$：代表元素為空集合 $\emptyset$ 的單元素集合，其元素不是實數，非實數子集。(不選)</p>
+            <p>• $(F), (G)$：高斯符號 $[\frac{13}{6}] = 2$、絕對值 $|\frac{13}{6}| = \frac{13}{6}$ 均為單一「數值」，並非「集合」。(不選)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="question-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition hover:border-slate-300" id="qcard-2">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-grow">
+            <div class="flex items-baseline gap-2">
+              <span class="font-bold text-indigo-700 text-lg">2.</span>
+              <p class="text-base text-slate-800 leading-relaxed font-normal">
+                $p, q$ 為兩敘述，已知複合敘述 $p \lor q$、$p \rightarrow q$ 以及 $p \rightarrow \sim q$ 皆為真，試判斷 $p, q$ 之真偽，請選出正確的選項：
+              </p>
+            </div>
+            <!-- Options list -->
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+              <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-50 hover:bg-slate-100 cursor-pointer border border-slate-200">
+                <input type="radio" name="q2_opt" value="A" class="w-4 h-4 text-indigo-600">
+                <span>(A) $p$ 為真、$q$ 為真</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-50 hover:bg-slate-100 cursor-pointer border border-slate-200">
+                <input type="radio" name="q2_opt" value="B" class="w-4 h-4 text-indigo-600">
+                <span>(B) $p$ 為真、$q$ 為假</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-50 hover:bg-slate-100 cursor-pointer border border-slate-200">
+                <input type="radio" name="q2_opt" value="C" class="w-4 h-4 text-indigo-600">
+                <span>(C) $p$ 為假、$q$ 為真</span>
+              </label>
+              <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-50 hover:bg-slate-100 cursor-pointer border border-slate-200">
+                <input type="radio" name="q2_opt" value="D" class="w-4 h-4 text-indigo-600">
+                <span>(D) $p$ 為假、$q$ 為假</span>
+              </label>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="status-badge hidden text-xs font-semibold px-2 py-0.5 rounded"></span>
+            <span class="text-xs text-slate-400">配分: 5分</span>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <div class="interactive-input-group flex items-center gap-2">
+            <label class="text-xs font-medium text-slate-600">作答填寫：</label>
+            <input type="text" id="input-q2" placeholder="填入單選代號 (如 C)" class="bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-sm uppercase font-mono w-40 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+          </div>
+          <div class="print-only">
+            作答：<span class="print-input-line"></span>
+          </div>
+          <button onclick="toggleSingleSolution('sol-2')" class="solution-toggle-btn text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition">
+            <i class="fa-solid fa-lightbulb"></i> <span>查看解析</span>
+          </button>
+        </div>
+
+        <div id="sol-2" class="solution-box hidden mt-3 p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm space-y-2">
+          <div class="font-bold text-slate-900 flex items-center gap-2">
+            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs">官方正解</span>
+            <span>$C$</span>
+          </div>
+          <div class="text-slate-700 leading-relaxed space-y-1">
+            <p><strong>詳細步驟解析：</strong></p>
+            <p>1. 考慮條件敘述之真值：$p \rightarrow q$ 為真，且 $p \rightarrow \sim q$ 為真。</p>
+            <p>2. 若 $p$ 為真，則依定義其後項 $q$ 必須為真，同時 $\sim q$ 也必須為真，這產生矛盾（一個敘述不能同時為真又為假）。因此前提 $p$ 絕不可能為真，故 <strong>$p$ 必為「假」</strong>。</p>
+            <p>3. 已知複合敘述 $p \lor q$ 為真。既然 $p$ 為假，則選言「或者」要成立，<strong>$q$ 必須為「真」</strong>。</p>
+            <p>4. 綜合以上，判定為：$p$ 為假、$q$ 為真。故選 <strong>(C)</strong>。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="question-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition hover:border-slate-300" id="qcard-3">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-grow">
+            <div class="flex items-baseline gap-2">
+              <span class="font-bold text-indigo-700 text-lg">3.</span>
+              <p class="text-base text-slate-800 leading-relaxed font-normal">
+                已知 $(3+2\sqrt{2})^{3}=x+y\sqrt{2}$，其中 $x, y$ 均為有理數，試求數對 $(x, y)$。
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="status-badge hidden text-xs font-semibold px-2 py-0.5 rounded"></span>
+            <span class="text-xs text-slate-400">配分: 5分</span>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <div class="interactive-input-group flex items-center gap-2">
+            <label class="text-xs font-medium text-slate-600">$(x, y) =$</label>
+            <input type="text" id="input-q3" placeholder="例如：(99, 70)" class="bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-sm font-mono w-44 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+          </div>
+          <div class="print-only">
+            作答：$(x, y) = $<span class="print-input-line"></span>
+          </div>
+          <button onclick="toggleSingleSolution('sol-3')" class="solution-toggle-btn text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition">
+            <i class="fa-solid fa-lightbulb"></i> <span>查看解析</span>
+          </button>
+        </div>
+
+        <div id="sol-3" class="solution-box hidden mt-3 p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm space-y-2">
+          <div class="font-bold text-slate-900 flex items-center gap-2">
+            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs">官方正解</span>
+            <span>$(99, 70)$</span>
+          </div>
+          <div class="text-slate-700 leading-relaxed space-y-1">
+            <p><strong>立方展開公式：</strong> $(a+b)^3 = a^3 + 3a^2b + 3ab^2 + b^3$</p>
+            <p>代入 $a = 3$，$b = 2\sqrt{2}$：</p>
+            <p>$$\begin{aligned}
+              (3+2\sqrt{2})^3 &= 3^3 + 3(3^2)(2\sqrt{2}) + 3(3)(2\sqrt{2})^2 + (2\sqrt{2})^3 \\
+              &= 27 + 3(9)(2\sqrt{2}) + 9(8) + 16\sqrt{2} \\
+              &= 27 + 54\sqrt{2} + 72 + 16\sqrt{2} \\
+              &= (27 + 72) + (54 + 16)\sqrt{2} \\
+              &= 99 + 70\sqrt{2}
+            \end{aligned}$$</p>
+            <p>由於 $x, y$ 均為有理數，$\sqrt{2}$ 為無理數，依有理數相等性質得 $x = 99, y = 70$。</p>
+            <p>故數對 $(x, y) = (99, 70)$。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="question-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition hover:border-slate-300" id="qcard-4">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-grow">
+            <div class="flex items-baseline gap-2">
+              <span class="font-bold text-indigo-700 text-lg">4.</span>
+              <p class="text-base text-slate-800 leading-relaxed font-normal">
+                將 $\frac{6}{13}$ 化成循環小數後，令小數點後第 $113$ 位的數字為 $a$、小數點後第 $2024$ 位的數字為 $b$，試將循環小數 $0.a\overline{b}$（循環節只有 1 位）化成最簡分數。
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="status-badge hidden text-xs font-semibold px-2 py-0.5 rounded"></span>
+            <span class="text-xs text-slate-400">配分: 5分</span>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <div class="interactive-input-group flex items-center gap-2">
+            <label class="text-xs font-medium text-slate-600">最簡分數：</label>
+            <input type="text" id="input-q4" placeholder="例如：11/30" class="bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-sm font-mono w-44 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+          </div>
+          <div class="print-only">
+            作答：最簡分數 = <span class="print-input-line"></span>
+          </div>
+          <button onclick="toggleSingleSolution('sol-4')" class="solution-toggle-btn text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition">
+            <i class="fa-solid fa-lightbulb"></i> <span>查看解析</span>
+          </button>
+        </div>
+
+        <div id="sol-4" class="solution-box hidden mt-3 p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm space-y-2">
+          <div class="font-bold text-slate-900 flex items-center gap-2">
+            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs">官方正解</span>
+            <span>$\frac{11}{30}$</span>
+          </div>
+          <div class="text-slate-700 leading-relaxed space-y-1">
+            <p><strong>詳細步驟解析：</strong></p>
+            <p>1. 透過長除法計算 $\frac{6}{13}$：</p>
+            <p>$$\frac{6}{13} = 0.\overline{461538}$$</p>
+            <p>其循環節為 $\langle 4, 6, 1, 5, 3, 8 \rangle$，循環長度為 6 位。</p>
+            <p>2. 求小數點後第 $113$ 位數字 $a$：</p>
+            <p>$$113 \div 6 = 18 \dots \text{餘 } 5$$</p>
+            <p>餘數為 5，對應循環節的第 5 位數字，故 $a = 3$。</p>
+            <p>3. 求小數點後第 $2024$ 位數字 $b$：</p>
+            <p>$$2024 \div 6 = 337 \dots \text{餘 } 2$$</p>
+            <p>餘數為 2，對應循環節的第 2 位數字，故 $b = 6$。</p>
+            <p>4. 將 $0.a\overline{b} = 0.3\overline{6}$ 化為最簡分數：</p>
+            <p>$$0.3\overline{6} = \frac{36 - 3}{90} = \frac{33}{90} = \frac{11}{30}$$</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="question-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition hover:border-slate-300" id="qcard-5">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-grow">
+            <div class="flex items-baseline gap-2">
+              <span class="font-bold text-indigo-700 text-lg">5.</span>
+              <p class="text-base text-slate-800 leading-relaxed font-normal">
+                有甲、乙、丙三處山坡，甲山坡測得水平距離為 $13$、垂直距離為 $5$；乙山坡測得水平距離為 $\sqrt{182+26\sqrt{13}}$、垂直距離為 $\sqrt{38+10\sqrt{13}}$；丙山坡測得水平距離為 $\sqrt{197+52\sqrt{7}}$、垂直距離為 $\sqrt{53+20\sqrt{7}}$，試比較三山坡的坡度大小。（坡度 $= \frac{\text{垂直距離}}{\text{水平距離}} \times 100\%$）
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="status-badge hidden text-xs font-semibold px-2 py-0.5 rounded"></span>
+            <span class="text-xs text-slate-400">配分: 5分</span>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <div class="interactive-input-group flex items-center gap-2">
+            <label class="text-xs font-medium text-slate-600">坡度大小排序：</label>
+            <input type="text" id="input-q5" placeholder="例如：丙>乙>甲" class="bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-sm font-mono w-44 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+          </div>
+          <div class="print-only">
+            作答：<span class="print-input-line"></span>
+          </div>
+          <button onclick="toggleSingleSolution('sol-5')" class="solution-toggle-btn text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition">
+            <i class="fa-solid fa-lightbulb"></i> <span>查看解析</span>
+          </button>
+        </div>
+
+        <div id="sol-5" class="solution-box hidden mt-3 p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm space-y-2">
+          <div class="font-bold text-slate-900 flex items-center gap-2">
+            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs">官方正解</span>
+            <span>丙 > 乙 > 甲</span>
+          </div>
+          <div class="text-slate-700 leading-relaxed space-y-1">
+            <p><strong>雙重根號化簡與斜率函數觀念：</strong></p>
+            <p>• 甲山坡坡度比：$m_{\text{甲}} = \frac{5}{13}$</p>
+            <p>• 乙山坡雙重根號化簡：</p>
+            <p>$$\text{水平} = \sqrt{182 + 2\sqrt{169 \times 13}} = \sqrt{(13+\sqrt{13})^2} = 13 + \sqrt{13}$$</p>
+            <p>$$\text{垂直} = \sqrt{38 + 2\sqrt{25 \times 13}} = \sqrt{(5+\sqrt{13})^2} = 5 + \sqrt{13}$$</p>
+            <p>故 $m_{\text{乙}} = \frac{5+\sqrt{13}}{13+\sqrt{13}}$</p>
+            <p>• 丙山坡雙重根號化簡：</p>
+            <p>$$\text{水平} = \sqrt{197 + 52\sqrt{7}} = \sqrt{169 + 28 + 2(13)(2\sqrt{7})} = 13 + 2\sqrt{7}$$</p>
+            <p>$$\text{垂直} = \sqrt{53 + 20\sqrt{7}} = \sqrt{25 + 28 + 2(5)(2\sqrt{7})} = 5 + 2\sqrt{7}$$</p>
+            <p>故 $m_{\text{丙}} = \frac{5+2\sqrt{7}}{13+2\sqrt{7}}$</p>
+            <p>• 函數單調性分析：考慮函數 $f(t) = \frac{5+t}{13+t} = 1 - \frac{8}{13+t}$。</p>
+            <p>當 $t > 0$ 時，$13+t$ 隨 $t$ 增大，因此 $\frac{8}{13+t}$ 遞減，從而 $f(t)$ 為嚴格遞增函數。</p>
+            <p>比較 $t$ 值：$t_{\text{甲}} = 0$，$t_{\text{乙}} = \sqrt{13} \approx 3.61$，$t_{\text{丙}} = 2\sqrt{7} = \sqrt{28} \approx 5.29$。</p>
+            <p>因為 $0 < \sqrt{13} < 2\sqrt{7}$，故 $f(0) < f(\sqrt{13}) < f(2\sqrt{7})$，即坡度大小：<strong>丙 > 乙 > 甲</strong>。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="question-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition hover:border-slate-300" id="qcard-6">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-grow">
+            <div class="flex items-baseline gap-2">
+              <span class="font-bold text-indigo-700 text-lg">6.</span>
+              <p class="text-base text-slate-800 leading-relaxed font-normal">
+                一等比數列，已知末項是 $4$，公比是 $-\frac{1}{2}$，總和是 $684$，則求此級數的首項。
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="status-badge hidden text-xs font-semibold px-2 py-0.5 rounded"></span>
+            <span class="text-xs text-slate-400">配分: 5分</span>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <div class="interactive-input-group flex items-center gap-2">
+            <label class="text-xs font-medium text-slate-600">首項 $a_1 =$</label>
+            <input type="text" id="input-q6" placeholder="例如：1024" class="bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-sm font-mono w-44 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+          </div>
+          <div class="print-only">
+            作答：首項 = <span class="print-input-line"></span>
+          </div>
+          <button onclick="toggleSingleSolution('sol-6')" class="solution-toggle-btn text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition">
+            <i class="fa-solid fa-lightbulb"></i> <span>查看解析</span>
+          </button>
+        </div>
+
+        <div id="sol-6" class="solution-box hidden mt-3 p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm space-y-2">
+          <div class="font-bold text-slate-900 flex items-center gap-2">
+            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs">官方正解</span>
+            <span>$1024$</span>
+          </div>
+          <div class="text-slate-700 leading-relaxed space-y-1">
+            <p><strong>等比級數求和公式應用：</strong></p>
+            <p>設首項為 $a_1$，項數為 $n$，末項 $a_n = a_1 r^{n-1} = 4$，公比 $r = -\frac{1}{2}$。</p>
+            <p>等比級數和公式：</p>
+            <p>$$S_n = \frac{a_1(1-r^n)}{1-r} = \frac{a_1 - a_1 r^n}{1-r} = \frac{a_1 - r \cdot a_n}{1-r}$$</p>
+            <p>將已知數值代入：</p>
+            <p>$$684 = \frac{a_1 - \left(-\frac{1}{2}\right)(4)}{1 - \left(-\frac{1}{2}\right)} = \frac{a_1 + 2}{\frac{3}{2}} = \frac{2(a_1 + 2)}{3}$$</p>
+            <p>$$684 \times 3 = 2(a_1 + 2) \implies 2052 = 2a_1 + 4$$</p>
+            <p>$$2a_1 = 2048 \implies a_1 = 1024$$</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="question-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition hover:border-slate-300" id="qcard-7">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-grow">
+            <div class="flex items-baseline gap-2">
+              <span class="font-bold text-indigo-700 text-lg">7.</span>
+              <p class="text-base text-slate-800 leading-relaxed font-normal">
+                設二等差數列 $\langle a_n \rangle, \langle b_n \rangle$，兩數列前 $n$ 項和之比為 $(7n+1) : (4n+27)$，試求第 7 項之比 $a_7 : b_7 = ?$
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="status-badge hidden text-xs font-semibold px-2 py-0.5 rounded"></span>
+            <span class="text-xs text-slate-400">配分: 5分</span>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <div class="interactive-input-group flex items-center gap-2">
+            <label class="text-xs font-medium text-slate-600">比值（或比）：</label>
+            <input type="text" id="input-q7" placeholder="例如：92:79" class="bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-sm font-mono w-44 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+          </div>
+          <div class="print-only">
+            作答：$a_7 : b_7 = $<span class="print-input-line"></span>
+          </div>
+          <button onclick="toggleSingleSolution('sol-7')" class="solution-toggle-btn text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition">
+            <i class="fa-solid fa-lightbulb"></i> <span>查看解析</span>
+          </button>
+        </div>
+
+        <div id="sol-7" class="solution-box hidden mt-3 p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm space-y-2">
+          <div class="font-bold text-slate-900 flex items-center gap-2">
+            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs">官方正解</span>
+            <span>$92 : 79$</span>
+          </div>
+          <div class="text-slate-700 leading-relaxed space-y-1">
+            <p><strong>等差中項性質妙解：</strong></p>
+            <p>對於任意等差數列，前 $2k-1$ 項的總和等於「項數 $\times$ 第 $k$ 項（等差中項）」：</p>
+            <p>$$S_{2k-1} = (2k-1) \cdot a_k$$</p>
+            <p>要求第 $7$ 項之比 $a_7 : b_7$，取 $k = 7$，則 $2k - 1 = 13$。</p>
+            <p>因此兩數列前 13 項和之比即為其第 7 項之比：</p>
+            <p>$$\frac{a_7}{b_7} = \frac{13 \cdot a_7}{13 \cdot b_7} = \frac{S_{13}}{S'_{13}}$$</p>
+            <p>將 $n = 13$ 代入前 $n$ 項和之比：</p>
+            <p>$$\frac{a_7}{b_7} = \frac{7(13) + 1}{4(13) + 27} = \frac{91 + 1}{52 + 27} = \frac{92}{79}$$</p>
+            <p>故 $a_7 : b_7 = 92 : 79$。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="question-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition hover:border-slate-300" id="qcard-8">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-grow">
+            <div class="flex items-baseline gap-2">
+              <span class="font-bold text-indigo-700 text-lg">8.</span>
+              <p class="text-base text-slate-800 leading-relaxed font-normal">
+                令 $x = \sqrt{2} + \sqrt{3}$，試化簡下列各式之值：
+              </p>
+            </div>
+            <div class="mt-2 text-sm text-slate-700 space-y-1 pl-6">
+              <p>(1) $x^2 + \frac{1}{x^2} = ?$</p>
+              <p>(2) $\frac{x^5 - x^3 + x}{x^6 + 1} = ?$</p>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="status-badge hidden text-xs font-semibold px-2 py-0.5 rounded"></span>
+            <span class="text-xs text-slate-400">配分: 10分 (各5分)</span>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
+          <div class="interactive-input-group flex flex-wrap items-center gap-4">
+            <div class="flex items-center gap-1.5">
+              <label class="text-xs font-medium text-slate-600">(1)：</label>
+              <input type="text" id="input-q8_1" placeholder="例如：10" class="bg-slate-50 border border-slate-300 rounded px-2.5 py-1.5 text-sm font-mono w-28 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+            </div>
+            <div class="flex items-center gap-1.5">
+              <label class="text-xs font-medium text-slate-600">(2)：</label>
+              <input type="text" id="input-q8_2" placeholder="例如：\sqrt{3}/6" class="bg-slate-50 border border-slate-300 rounded px-2.5 py-1.5 text-sm font-mono w-36 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+            </div>
+          </div>
+          <div class="print-only">
+            (1) <span class="print-input-line" style="min-width: 80px;"></span> &nbsp;&nbsp; (2) <span class="print-input-line" style="min-width: 100px;"></span>
+          </div>
+          <button onclick="toggleSingleSolution('sol-8')" class="solution-toggle-btn text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition">
+            <i class="fa-solid fa-lightbulb"></i> <span>查看解析</span>
+          </button>
+        </div>
+
+        <div id="sol-8" class="solution-box hidden mt-3 p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm space-y-2">
+          <div class="font-bold text-slate-900 flex items-center gap-2">
+            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs">官方正解</span>
+            <span>(1) $10$　(2) $\frac{\sqrt{3}}{6}$</span>
+          </div>
+          <div class="text-slate-700 leading-relaxed space-y-2">
+            <p><strong>對稱式化簡技巧：</strong></p>
+            <p>有理化計算：</p>
+            <p>$$\frac{1}{x} = \frac{1}{\sqrt{3}+\sqrt{2}} = \sqrt{3}-\sqrt{2}$$</p>
+            <p>因此兩者之和為：</p>
+            <p>$$x + \frac{1}{x} = (\sqrt{3}+\sqrt{2}) + (\sqrt{3}-\sqrt{2}) = 2\sqrt{3}$$</p>
+            <p><strong>(1) 小題：</strong></p>
+            <p>$$x^2 + \frac{1}{x^2} = \left(x+\frac{1}{x}\right)^2 - 2 = (2\sqrt{3})^2 - 2 = 12 - 2 = 10$$</p>
+            <p><strong>(2) 小題：</strong></p>
+            <p>將分子分母同時除以 $x^3$：</p>
+            <p>$$\frac{x^5 - x^3 + x}{x^6 + 1} = \frac{\frac{x^5 - x^3 + x}{x^3}}{\frac{x^6 + 1}{x^3}} = \frac{x^2 - 1 + \frac{1}{x^2}}{x^3 + \frac{1}{x^3}}$$</p>
+            <p>其中分子為 $\left(x^2 + \frac{1}{x^2}\right) - 1 = 10 - 1 = 9$。</p>
+            <p>分母展開：</p>
+            <p>$$x^3 + \frac{1}{x^3} = \left(x+\frac{1}{x}\right)^3 - 3\left(x+\frac{1}{x}\right) = (2\sqrt{3})^3 - 3(2\sqrt{3}) = 24\sqrt{3} - 6\sqrt{3} = 18\sqrt{3}$$</p>
+            <p>故原式值為：</p>
+            <p>$$\frac{9}{18\sqrt{3}} = \frac{1}{2\sqrt{3}} = \frac{\sqrt{3}}{6}$$</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q9 -->
+      <div class="question-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition hover:border-slate-300" id="qcard-9">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-grow">
+            <div class="flex items-baseline gap-2">
+              <span class="font-bold text-indigo-700 text-lg">9.</span>
+              <p class="text-base text-slate-800 leading-relaxed font-normal">
+                已知三實數 $a, b, c$ 成等比數列，且滿足 $a+b+c = \frac{9}{2}$ 及 $a^2+b^2+c^2 = \frac{189}{4}$。試求 $a, c$ 的等差中項。
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="status-badge hidden text-xs font-semibold px-2 py-0.5 rounded"></span>
+            <span class="text-xs text-slate-400">配分: 5分</span>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <div class="interactive-input-group flex items-center gap-2">
+            <label class="text-xs font-medium text-slate-600">等差中項 $\frac{a+c}{2} =$</label>
+            <input type="text" id="input-q9" placeholder="例如：15/4" class="bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-sm font-mono w-44 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+          </div>
+          <div class="print-only">
+            作答：等差中項 = <span class="print-input-line"></span>
+          </div>
+          <button onclick="toggleSingleSolution('sol-9')" class="solution-toggle-btn text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition">
+            <i class="fa-solid fa-lightbulb"></i> <span>查看解析</span>
+          </button>
+        </div>
+
+        <div id="sol-9" class="solution-box hidden mt-3 p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm space-y-2">
+          <div class="font-bold text-slate-900 flex items-center gap-2">
+            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs">官方正解</span>
+            <span>$\frac{15}{4}$</span>
+          </div>
+          <div class="text-slate-700 leading-relaxed space-y-1">
+            <p><strong>詳細步驟解析：</strong></p>
+            <p>1. 因為 $a, b, c$ 成等比數列，故其等比中項性質為 $ac = b^2$。</p>
+            <p>2. 利用三項和的平方展開公式：</p>
+            <p>$$(a+b+c)^2 = a^2+b^2+c^2 + 2(ab+bc+ca)$$</p>
+            <p>將已知值代入：</p>
+            <p>$$\left(\frac{9}{2}\right)^2 = \frac{189}{4} + 2\left(ab + bc + b^2\right) \quad (\because ac = b^2)$$</p>
+            <p>$$\frac{81}{4} = \frac{189}{4} + 2b(a+c+b)$$</p>
+            <p>3. 已知 $a+b+c = \frac{9}{2}$，代入上式：</p>
+            <p>$$\frac{81 - 189}{4} = 2b \cdot \frac{9}{2} \implies -\frac{108}{4} = 9b \implies -27 = 9b \implies b = -3$$</p>
+            <p>4. 題目要求 $a, c$ 的等差中項，即 $\frac{a+c}{2}$：</p>
+            <p>由 $a+b+c = \frac{9}{2} \implies a+c = \frac{9}{2} - b = \frac{9}{2} - (-3) = \frac{15}{2}$</p>
+            <p>故等差中項為 $\frac{a+c}{2} = \frac{\frac{15}{2}}{2} = \frac{15}{4}$。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q10 -->
+      <div class="question-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition hover:border-slate-300" id="qcard-10">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-grow">
+            <div class="flex items-baseline gap-2">
+              <span class="font-bold text-indigo-700 text-lg">10.</span>
+              <p class="text-base text-slate-800 leading-relaxed font-normal">
+                實數 $a, b$ 滿足下列條件：
+              </p>
+            </div>
+            <div class="mt-2 text-sm text-slate-700 space-y-1 font-mono pl-6 bg-slate-50 p-2.5 rounded border border-slate-200">
+              <p>① $|a-7|+|a-5|=2$</p>
+              <p>② $|a-b|+|a-5|=|b-5|$</p>
+              <p>③ $|a-7|+|b-7|=|a-b|$</p>
+              <p>④ $|b-26|+19=|b-7|$</p>
+            </div>
+            <div class="mt-2 text-sm text-slate-700 pl-6 space-y-1">
+              <p>(1) 試找出 $a$ 的最大範圍。</p>
+              <p>(2) 試找出 $b$ 的最大範圍。</p>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="status-badge hidden text-xs font-semibold px-2 py-0.5 rounded"></span>
+            <span class="text-xs text-slate-400">配分: 10分 (各5分)</span>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
+          <div class="interactive-input-group flex flex-wrap items-center gap-4">
+            <div class="flex items-center gap-1.5">
+              <label class="text-xs font-medium text-slate-600">(1) $a$ 的範圍：</label>
+              <input type="text" id="input-q10_1" placeholder="例如：5<=a<=7" class="bg-slate-50 border border-slate-300 rounded px-2.5 py-1.5 text-sm font-mono w-32 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+            </div>
+            <div class="flex items-center gap-1.5">
+              <label class="text-xs font-medium text-slate-600">(2) $b$ 的範圍：</label>
+              <input type="text" id="input-q10_2" placeholder="例如：b>=26" class="bg-slate-50 border border-slate-300 rounded px-2.5 py-1.5 text-sm font-mono w-32 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+            </div>
+          </div>
+          <div class="print-only">
+            (1) <span class="print-input-line" style="min-width: 100px;"></span> &nbsp;&nbsp; (2) <span class="print-input-line" style="min-width: 100px;"></span>
+          </div>
+          <button onclick="toggleSingleSolution('sol-10')" class="solution-toggle-btn text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition">
+            <i class="fa-solid fa-lightbulb"></i> <span>查看解析</span>
+          </button>
+        </div>
+
+        <div id="sol-10" class="solution-box hidden mt-3 p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm space-y-2">
+          <div class="font-bold text-slate-900 flex items-center gap-2">
+            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs">官方正解</span>
+            <span>(1) $5 \le a \le 7$　(2) $b \ge 26$</span>
+          </div>
+          <div class="text-slate-700 leading-relaxed space-y-1">
+            <p><strong>絕對值幾何距離觀念：</strong></p>
+            <p>數線上 $|x - y|$ 代表點 $x$ 與點 $y$ 的距離。</p>
+            <p>• 分析條件 ④：$|b-26| + 19 = |b-7|$</p>
+            <p>因為 $|26 - 7| = 19$，故式子為 $|b-26| + |26-7| = |b-7|$。</p>
+            <p>這表示點 $26$ 位在點 $b$ 與點 $7$ 之間。因 $7 < 26$，故必有 <strong>$b \ge 26$</strong>。（第(2)題解）</p>
+            <p>• 分析條件 ①：$|a-7| + |a-5| = 2$</p>
+            <p>因為點 $7$ 與點 $5$ 的距離正好為 $2$，距離和等於線段長，代表點 $a$ 介於 $5$ 與 $7$ 之間，即 <strong>$5 \le a \le 7$</strong>。（第(1)題解）</p>
+            <p>• 檢驗條件 ② 與 ③：</p>
+            <p>② $|a-b| + |a-5| = |b-5|$：代表 $a$ 介於 $5$ 與 $b$ 之間，由於 $5 \le a \le 7$ 且 $b \ge 26$，顯然成立。</p>
+            <p>③ $|a-7| + |b-7| = |a-b|$：代表 $7$ 介於 $a$ 與 $b$ 之間，由於 $a \le 7$ 且 $b \ge 26 > 7$，完全吻合！</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q11 -->
+      <div class="question-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition hover:border-slate-300" id="qcard-11">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-grow">
+            <div class="flex items-baseline gap-2">
+              <span class="font-bold text-indigo-700 text-lg">11.</span>
+              <p class="text-base text-slate-800 leading-relaxed font-normal">
+                $S = \sqrt{(110+2\sqrt{2})(111+2\sqrt{2})(112+2\sqrt{2})(113+2\sqrt{2})+1}$，試求 $S$ 的近似值（四捨五入到整數，$\sqrt{2} \approx 1.414$）。
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="status-badge hidden text-xs font-semibold px-2 py-0.5 rounded"></span>
+            <span class="text-xs text-slate-400">配分: 5分</span>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <div class="interactive-input-group flex items-center gap-2">
+            <label class="text-xs font-medium text-slate-600">近似值（整數）：</label>
+            <input type="text" id="input-q11" placeholder="例如：13070" class="bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-sm font-mono w-44 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+          </div>
+          <div class="print-only">
+            作答：$S \approx $<span class="print-input-line"></span>
+          </div>
+          <button onclick="toggleSingleSolution('sol-11')" class="solution-toggle-btn text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition">
+            <i class="fa-solid fa-lightbulb"></i> <span>查看解析</span>
+          </button>
+        </div>
+
+        <div id="sol-11" class="solution-box hidden mt-3 p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm space-y-2">
+          <div class="font-bold text-slate-900 flex items-center gap-2">
+            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs">官方正解</span>
+            <span>$13070$</span>
+          </div>
+          <div class="text-slate-700 leading-relaxed space-y-1">
+            <p><strong>四個連續項乘積加 1 的完全平方結構：</strong></p>
+            <p>令 $t = 110 + 2\sqrt{2}$，則根號內為：</p>
+            <p>$$t(t+1)(t+2)(t+3) + 1$$</p>
+            <p>將首尾兩兩分組相乘：</p>
+            <p>$$[t(t+3)][(t+1)(t+2)] + 1 = (t^2+3t)(t^2+3t+2) + 1$$</p>
+            <p>令 $u = t^2+3t$，則上式為 $u(u+2)+1 = u^2+2u+1 = (u+1)^2$。</p>
+            <p>因此開根號後恰好等於整式：</p>
+            <p>$$S = u + 1 = t^2 + 3t + 1$$</p>
+            <p>代回 $t = 110 + 2\sqrt{2}$：</p>
+            <p>$$t^2 = (110+2\sqrt{2})^2 = 12100 + 440\sqrt{2} + 8 = 12108 + 440\sqrt{2}$$</p>
+            <p>$$3t = 3(110+2\sqrt{2}) = 330 + 6\sqrt{2}$$</p>
+            <p>$$S = (12108 + 440\sqrt{2}) + (330 + 6\sqrt{2}) + 1 = 12439 + 446\sqrt{2}$$</p>
+            <p>代入 $\sqrt{2} \approx 1.4142$：</p>
+            <p>$$446 \times 1.4142 = 630.7332$$</p>
+            <p>$$S \approx 12439 + 630.7332 = 13069.7332 \approx 13070$$</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q12 -->
+      <div class="question-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition hover:border-slate-300" id="qcard-12">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-grow">
+            <div class="flex items-baseline gap-2">
+              <span class="font-bold text-indigo-700 text-lg">12.</span>
+              <p class="text-base text-slate-800 leading-relaxed font-normal">
+                解不等式 $|x+1|+|x-2|+|x-5| \le 6$。
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="status-badge hidden text-xs font-semibold px-2 py-0.5 rounded"></span>
+            <span class="text-xs text-slate-400">配分: 5分</span>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <div class="interactive-input-group flex items-center gap-2">
+            <label class="text-xs font-medium text-slate-600">解為：</label>
+            <input type="text" id="input-q12" placeholder="例如：x=2 或 2" class="bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-sm font-mono w-44 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+          </div>
+          <div class="print-only">
+            作答：<span class="print-input-line"></span>
+          </div>
+          <button onclick="toggleSingleSolution('sol-12')" class="solution-toggle-btn text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition">
+            <i class="fa-solid fa-lightbulb"></i> <span>查看解析</span>
+          </button>
+        </div>
+
+        <div id="sol-12" class="solution-box hidden mt-3 p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm space-y-2">
+          <div class="font-bold text-slate-900 flex items-center gap-2">
+            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs">官方正解</span>
+            <span>$x = 2$</span>
+          </div>
+          <div class="text-slate-700 leading-relaxed space-y-1">
+            <p><strong>三角不等式邊界分析法：</strong></p>
+            <p>由絕對值三角不等式：</p>
+            <p>$$|x+1| + |x-5| = |x+1| + |5-x| \ge |(x+1) + (5-x)| = 6$$</p>
+            <p>等號成立的充要條件為 $(x+1)(5-x) \ge 0$，即 $-1 \le x \le 5$。</p>
+            <p>現在加上中間項 $|x-2|$：</p>
+            <p>$$|x+1| + |x-2| + |x-5| \ge 6 + |x-2|$$</p>
+            <p>題目要求此式 $\le 6$，因此：</p>
+            <p>$$6 + |x-2| \le |x+1| + |x-2| + |x-5| \le 6 \implies |x-2| \le 0$$</p>
+            <p>因為絕對值必大於等於 0，故唯有 $|x-2| = 0 \implies x = 2$。</p>
+            <p>檢驗 $x = 2$：$|2+1| + |2-2| + |2-5| = 3 + 0 + 3 = 6 \le 6$ 恰好成立。故唯一解為 <strong>$x = 2$</strong>。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q13 -->
+      <div class="question-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition hover:border-slate-300" id="qcard-13">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-grow">
+            <div class="flex items-baseline gap-2">
+              <span class="font-bold text-indigo-700 text-lg">13.</span>
+              <p class="text-base text-slate-800 leading-relaxed font-normal">
+                $x$ 為任意實數，試求 $\frac{(x^{2}+2x+1)(x^{2}+2x-5)}{x^{2}+2x+3}$ 的最小值。
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="status-badge hidden text-xs font-semibold px-2 py-0.5 rounded"></span>
+            <span class="text-xs text-slate-400">配分: 5分</span>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+          <div class="interactive-input-group flex items-center gap-2">
+            <label class="text-xs font-medium text-slate-600">最小值為：</label>
+            <input type="text" id="input-q13" placeholder="例如：-2" class="bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-sm font-mono w-44 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+          </div>
+          <div class="print-only">
+            作答：最小值 = <span class="print-input-line"></span>
+          </div>
+          <button onclick="toggleSingleSolution('sol-13')" class="solution-toggle-btn text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition">
+            <i class="fa-solid fa-lightbulb"></i> <span>查看解析</span>
+          </button>
+        </div>
+
+        <div id="sol-13" class="solution-box hidden mt-3 p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm space-y-2">
+          <div class="font-bold text-slate-900 flex items-center gap-2">
+            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs">官方正解</span>
+            <span>$-2$</span>
+          </div>
+          <div class="text-slate-700 leading-relaxed space-y-1">
+            <p><strong>換元法與算幾不等式精解：</strong></p>
+            <p>觀察式子各部分皆含有二次項 $x^2+2x$。為使分母簡潔，令分母為變數：</p>
+            <p>$$t = x^2 + 2x + 3 = (x+1)^2 + 2$$</p>
+            <p>因為對於任意實數 $x$，$(x+1)^2 \ge 0$，所以 <strong>$t \ge 2 > 0$</strong>。</p>
+            <p>將分子以 $t$ 表示：</p>
+            <p>$$x^2+2x+1 = t - 2$$</p>
+            <p>$$x^2+2x-5 = t - 8$$</p>
+            <p>原式代入得：</p>
+            <p>$$\frac{(t-2)(t-8)}{t} = \frac{t^2 - 10t + 16}{t} = t + \frac{16}{t} - 10$$</p>
+            <p>由於 $t > 0$，利用算幾不等式：</p>
+            <p>$$t + \frac{16}{t} \ge 2\sqrt{t \cdot \frac{16}{t}} = 2\sqrt{16} = 8$$</p>
+            <p>等號成立條件為 $t = \frac{16}{t} \implies t^2 = 16 \implies t = 4$（符合 $t \ge 2$ 的範圍）。</p>
+            <p>當 $t = 4$ 時，$(x+1)^2 + 2 = 4 \implies (x+1)^2 = 2 \implies x = -1 \pm \sqrt{2}$ 為實數解，保證最小值存在！</p>
+            <p>故原式最小值 $= 8 - 10 = -2$。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q14 -->
+      <div class="question-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition hover:border-slate-300" id="qcard-14">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex-grow">
+            <div class="flex items-baseline gap-2">
+              <span class="font-bold text-indigo-700 text-lg">14.</span>
+              <p class="text-base text-slate-800 leading-relaxed font-normal">
+                設集合 $S=\{k \mid k \text{ 為自然數}, 1 \le k \le 500, \text{且 } k \text{ 不是 } 3 \text{ 或 } 4 \text{ 的倍數}\}$：
+              </p>
+            </div>
+            <div class="mt-2 text-sm text-slate-700 pl-6 space-y-1">
+              <p>(1) 試求 $n(S)$。</p>
+              <p>(2) 將 $S$ 內的元素由小排到大，試求第 $53$ 個元素是哪一個正整數？</p>
+              <p>(3) 設集合 $A=\{\sqrt{k} \mid k \in S\}$，$\mathbb{Q}$ 為所有有理數所成集合。試求 $n(A \cap \mathbb{Q})$。</p>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+            <span class="status-badge hidden text-xs font-semibold px-2 py-0.5 rounded"></span>
+            <span class="text-xs text-slate-400">配分: 15分 (各5分)</span>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
+          <div class="interactive-input-group flex flex-wrap items-center gap-4">
+            <div class="flex items-center gap-1.5">
+              <label class="text-xs font-medium text-slate-600">(1) $n(S) =$</label>
+              <input type="text" id="input-q14_1" placeholder="例如：250" class="bg-slate-50 border border-slate-300 rounded px-2.5 py-1.5 text-sm font-mono w-28 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+            </div>
+            <div class="flex items-center gap-1.5">
+              <label class="text-xs font-medium text-slate-600">(2) 第 53 個數：</label>
+              <input type="text" id="input-q14_2" placeholder="例如：106" class="bg-slate-50 border border-slate-300 rounded px-2.5 py-1.5 text-sm font-mono w-28 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+            </div>
+            <div class="flex items-center gap-1.5">
+              <label class="text-xs font-medium text-slate-600">(3) $n(A \cap \mathbb{Q}) =$</label>
+              <input type="text" id="input-q14_3" placeholder="例如：7" class="bg-slate-50 border border-slate-300 rounded px-2.5 py-1.5 text-sm font-mono w-28 focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+            </div>
+          </div>
+          <div class="print-only">
+            (1) <span class="print-input-line" style="min-width: 70px;"></span> &nbsp;&nbsp; (2) <span class="print-input-line" style="min-width: 70px;"></span> &nbsp;&nbsp; (3) <span class="print-input-line" style="min-width: 70px;"></span>
+          </div>
+          <button onclick="toggleSingleSolution('sol-14')" class="solution-toggle-btn text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition">
+            <i class="fa-solid fa-lightbulb"></i> <span>查看解析</span>
+          </button>
+        </div>
+
+        <div id="sol-14" class="solution-box hidden mt-3 p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm space-y-2">
+          <div class="font-bold text-slate-900 flex items-center gap-2">
+            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs">官方正解</span>
+            <span>(1) $250$　(2) $106$　(3) $7$</span>
+          </div>
+          <div class="text-slate-700 leading-relaxed space-y-2">
+            <p><strong>(1) 取捨原理（排容原理）：</strong></p>
+            <p>宇集 $U = \{1, 2, \dots, 500\}$，$n(U) = 500$。</p>
+            <p>• 3 的倍數個數：$n(A_3) = \lfloor 500/3 \rfloor = 166$</p>
+            <p>• 4 的倍數個數：$n(A_4) = \lfloor 500/4 \rfloor = 125$</p>
+            <p>• 12 的倍數個數：$n(A_{12}) = \lfloor 500/12 \rfloor = 41$</p>
+            <p>是 3 或 4 的倍數總數為 $166 + 125 - 41 = 250$。</p>
+            <p>故不是 3 且不是 4 的倍數：$n(S) = 500 - 250 = 250$。</p>
+
+            <p><strong>(2) 尋找第 53 個元素：</strong></p>
+            <p>以最小公倍數 $[3, 4] = 12$ 為一個週期。在每個週期 $12k+1 \sim 12k+12$ 內，排除 3 的倍數 $\{3, 6, 9, 12\}$ 與 4 的倍數 $\{4, 8, 12\}$，剩下的元素為：</p>
+            <p>$$\{1, 2, 5, 7, 10, 11\}$$</p>
+            <p>每個週期恰有 6 個元素屬於 $S$。</p>
+            <p>除法計算週期：$53 \div 6 = 8 \dots \text{餘 } 5$。</p>
+            <p>前 8 個完整週期包含 $8 \times 6 = 48$ 個元素，最大整數為 $8 \times 12 = 96$。</p>
+            <p>第 9 個週期的前 5 個元素依序為：</p>
+            <p>第 49 個：$96 + 1 = 97$；第 50 個：$96 + 2 = 98$；第 51 個：$96 + 5 = 101$；第 52 個：$96 + 7 = 103$；第 53 個：$96 + 10 = 106$。</p>
+            <p>故第 53 個元素為 <strong>$106$</strong>。</p>
+
+            <p><strong>(3) 求 $n(A \cap \mathbb{Q})$：</strong></p>
+            <p>$\sqrt{k} \in \mathbb{Q}$ 即表示 $k$ 必須是完全平方數。設 $k = m^2$。</p>
+            <p>已知 $1 \le k \le 500$，故 $1 \le m \le 22$（因為 $22^2 = 484 \le 500$，$23^2 = 529 > 500$）。</p>
+            <p>要求 $k = m^2 \in S$：</p>
+            <p>① $m^2$ 不是 3 的倍數 $\iff m$ 不是 3 的倍數。</p>
+            <p>② $m^2$ 不是 4 的倍數 $\iff m$ 不能是偶數（偶數平方必為 4 的倍數），故 $m$ 必須是奇數。</p>
+            <p>在 $1 \le m \le 22$ 中找出「不是 3 的倍數之奇數」：</p>
+            <p>全體奇數為：$1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21$（共 11 個）。</p>
+            <p>扣除其中 3 的倍數 $\{3, 9, 15, 21\}$（共 4 個）。</p>
+            <p>剩餘的 $m$ 值為：$\{1, 5, 7, 11, 13, 17, 19\}$，共 $11 - 4 = 7$ 個。</p>
+            <p>故 $n(A \cap \mathbb{Q}) = 7$。</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Section II: 計算證明題 Header -->
+    <div class="flex items-center justify-between mb-4 mt-12">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-6 bg-red-700 rounded-full inline-block"></span>
+        <h3 class="serif-title text-xl font-bold text-slate-900">二、計算證明題（1 題，共 10 分）</h3>
+      </div>
+      <span class="text-xs font-medium text-slate-500 bg-white px-2.5 py-1 rounded-md border border-slate-200 shadow-sm">
+        共 10 分
+      </span>
+    </div>
+
+    <!-- Question Proof 1 -->
+    <div class="question-card bg-white rounded-xl border border-slate-200 p-5 shadow-sm transition hover:border-slate-300" id="qcard-15">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex-grow">
+          <div class="flex items-baseline gap-2">
+            <span class="font-bold text-indigo-700 text-lg">1.</span>
+            <div class="text-base text-slate-800 leading-relaxed font-normal">
+              設數線上三點 $A(a), B(b), C(c)$，其中 $c = (2\sqrt{5}-4)a + (5-2\sqrt{5})b$，$a, b$ 為有理數且 $a < b$。
+            </div>
+          </div>
+          <div class="mt-3 text-sm text-slate-700 pl-6 space-y-2">
+            <p>(1) 試比較 $a, b, c$ 之大小。（3 分）</p>
+            <p>(2) 試求 $\frac{\overline{AC}}{\overline{BC}}$ 之比值並化簡。（3 分）</p>
+            <p>(3) 已知 $\sqrt{5}$ 是無理數，試證明 $c$ 是無理數。（4 分）</p>
+          </div>
+        </div>
+        <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+          <span class="status-badge hidden text-xs font-semibold px-2 py-0.5 rounded"></span>
+          <span class="text-xs text-slate-400">配分: 10分</span>
+        </div>
+      </div>
+
+      <!-- Proof Inputs / Interactive Checklist -->
+      <div class="mt-4 pt-3 border-t border-slate-100 space-y-3">
+        <div class="interactive-input-group grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="flex items-center gap-2">
+            <label class="text-xs font-medium text-slate-600">(1) 大小關係：</label>
+            <input type="text" id="input-q15_1" placeholder="例如：a < c < b" class="bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-sm font-mono w-full focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs font-medium text-slate-600">(2) 比值 $\frac{\overline{AC}}{\overline{BC}} =$</label>
+            <input type="text" id="input-q15_2" placeholder="例如：\sqrt{5}/2" class="bg-slate-50 border border-slate-300 rounded px-3 py-1.5 text-sm font-mono w-full focus:ring-1 focus:ring-indigo-500 focus:outline-none">
+          </div>
+        </div>
+
+        <div class="interactive-input-group flex items-center justify-between gap-3 bg-slate-50 p-3 rounded-lg border border-slate-200">
+          <div class="flex items-center gap-2 text-xs text-slate-700">
+            <input type="checkbox" id="input-q15_3" class="w-4 h-4 text-indigo-600 rounded">
+            <label for="input-q15_3" class="cursor-pointer font-medium">我已完成第 (3) 小題的完整反證法論述，核對官方步驟正確可得 4 分</label>
+          </div>
+          <button onclick="toggleSingleSolution('sol-15')" class="solution-toggle-btn text-xs text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-1 transition flex-shrink-0">
+            <i class="fa-solid fa-lightbulb"></i> <span>查看完整證明</span>
+          </button>
+        </div>
+
+        <!-- Print-only blank spaces -->
+        <div class="print-only text-sm text-slate-600 space-y-4 pt-2">
+          <div>(1) 大小關係：<span class="print-input-line" style="min-width: 200px;"></span></div>
+          <div>(2) $\frac{\overline{AC}}{\overline{BC}} =$ <span class="print-input-line" style="min-width: 200px;"></span></div>
+          <div class="pt-2">
+            <p>(3) 證明過程：（請詳列推導與反證步驟）</p>
+            <div class="border border-dashed border-slate-400 rounded-lg h-36 mt-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Solution for Proof -->
+      <div id="sol-15" class="solution-box hidden mt-3 p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm space-y-3">
+        <div class="font-bold text-slate-900 flex items-center gap-2">
+          <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded text-xs">官方正解與嚴謹證明</span>
+          <span>(1) $a < c < b$　(2) $\frac{\sqrt{5}}{2}$　(3) 詳見證明</span>
+        </div>
+        <div class="text-slate-700 leading-relaxed space-y-3">
+          <div>
+            <p class="font-bold text-slate-800">【第 (1) 小題解析】</p>
+            <p>觀察 $c$ 的線性組合係數和：</p>
+            <p>$$(2\sqrt{5}-4) + (5-2\sqrt{5}) = 1$$</p>
+            <p>因為 $2\sqrt{5} = \sqrt{20}$，且 $4 = \sqrt{16} < \sqrt{20} < \sqrt{25} = 5$，可知：</p>
+            <p>$$2\sqrt{5}-4 > 0 \quad \text{且} \quad 5-2\sqrt{5} > 0$$</p>
+            <p>兩係數皆為正數且和為 1，依分點公式性質，點 $C$ 必落在線段 $\overline{AB}$ 的內部（內分點）。</p>
+            <p>已知 $a < b$，因此大小關係為 <strong>$a < c < b$</strong>。</p>
+          </div>
+
+          <div>
+            <p class="font-bold text-slate-800">【第 (2) 小題解析】</p>
+            <p>依內分點公式：若 $c = \frac{n a + m b}{m+n}$，則 $\overline{AC} : \overline{BC} = m : n$。</p>
+            <p>此處 $m = 5-2\sqrt{5}$，$n = 2\sqrt{5}-4$，故：</p>
+            <p>$$\frac{\overline{AC}}{\overline{BC}} = \frac{5-2\sqrt{5}}{2\sqrt{5}-4}$$</p>
+            <p>分子分母同乘以 $(2\sqrt{5}+4)$ 進行有理化：</p>
+            <p>$$\frac{\overline{AC}}{\overline{BC}} = \frac{(5-2\sqrt{5})(2\sqrt{5}+4)}{(2\sqrt{5}-4)(2\sqrt{5}+4)} = \frac{10\sqrt{5} + 20 - 20 - 8\sqrt{5}}{(2\sqrt{5})^2 - 4^2} = \frac{2\sqrt{5}}{20 - 16} = \frac{2\sqrt{5}}{4} = \frac{\sqrt{5}}{2}$$</p>
+          </div>
+
+          <div>
+            <p class="font-bold text-slate-800">【第 (3) 小題證明】</p>
+            <p><strong>反證法（Proof by Contradiction）：</strong></p>
+            <p>假設 $c$ 為有理數（即 $c \in \mathbb{Q}$）。</p>
+            <p>將 $c$ 的表示式按有無 $\sqrt{5}$ 重新整理：</p>
+            <p>$$c = (2a-2b)\sqrt{5} + (-4a+5b)$$</p>
+            <p>移項可得：</p>
+            <p>$$2(a-b)\sqrt{5} = c + 4a - 5b$$</p>
+            <p>因為已知 $a < b$，所以 $a - b \neq 0$，等號兩端同除以 $2(a-b)$：</p>
+            <p>$$\sqrt{5} = \frac{c + 4a - 5b}{2(a-b)}$$</p>
+            <p>由於已知 $a, b$ 均為有理數，而假設 $c$ 亦為有理數，根據有理數的加減乘除運算封閉性，等號右式的分子 $c+4a-5b$ 與分母 $2(a-b)$ 皆為有理數，且分母不為 0。</p>
+            <p>因此右式必為有理數。這導出「$\sqrt{5}$ 為有理數」的推論，與已知題目「$\sqrt{5}$ 是無理數」產生矛盾！</p>
+            <p>故假設不成立，$c$ 必為<strong>無理數</strong>。<span class="font-mono">（得證 Q.E.D.）</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Toast Notification Message Box (No alert()) -->
+  <div id="toastBox" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 border border-slate-700">
+      <i id="toastIcon" class="fa-solid fa-circle-info text-indigo-400"></i>
+      <span id="toastMsg" class="text-sm font-medium">通知訊息</span>
+    </div>
+  </div>
+
+  <!-- Print Dialog Choice Modal -->
+  <div id="printModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200">
+      <div class="flex items-center justify-between mb-4">
+        <h4 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-print text-indigo-600"></i> 列印試卷選項
+        </h4>
+        <button onclick="closePrintModal()" class="text-slate-400 hover:text-slate-600">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <p class="text-sm text-slate-600 mb-5">請選擇您需要輸出的列印版本（支援另存為 A4 PDF）：</p>
+      
+      <div class="space-y-3">
+        <button onclick="executePrint(false)" class="w-full text-left p-3.5 rounded-xl border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/50 transition flex items-center justify-between group">
+          <div>
+            <div class="font-bold text-sm text-slate-800 group-hover:text-indigo-700">空白測驗試卷</div>
+            <div class="text-xs text-slate-500">標準高雄中學考卷排版，隱藏所有解答與解析</div>
+          </div>
+          <i class="fa-solid fa-file-pen text-slate-400 group-hover:text-indigo-600"></i>
+        </button>
+
+        <button onclick="executePrint(true)" class="w-full text-left p-3.5 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/50 transition flex items-center justify-between group">
+          <div>
+            <div class="font-bold text-sm text-slate-800 group-hover:text-emerald-700">試卷全詳解版</div>
+            <div class="text-xs text-slate-500">包含所有題目的官方答案與詳細解題步驟</div>
+          </div>
+          <i class="fa-solid fa-book text-slate-400 group-hover:text-emerald-600"></i>
+        </button>
+      </div>
+
+      <div class="mt-5 text-right">
+        <button onclick="closePrintModal()" class="px-4 py-1.5 text-xs text-slate-500 hover:text-slate-800">
+          取消
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* Exam & Scoring Data Specification */
+    const EXAM_DATA = {
+      title: "高雄中學 113 學年度第一學期 第一次段考 數學科 一年級試卷",
+      totalTimeSeconds: 70 * 60,
+      questions: [
+        { id: "q1", title: "1", type: "text", points: 5, check: (val) => {
+          const cleaned = val.replace(/[\s,]/g, '').toUpperCase();
+          return cleaned === "ABC" || cleaned === "BCA" || cleaned === "CAB" || cleaned === "ACB";
+        }},
+        { id: "q2", title: "2", type: "text", points: 5, check: (val) => val.trim().toUpperCase() === "C" },
+        { id: "q3", title: "3", type: "text", points: 5, check: (val) => {
+          const v = val.replace(/[\s\(\)]/g, '');
+          return v === "99,70";
+        }},
+        { id: "q4", title: "4", type: "text", points: 5, check: (val) => val.replace(/\s/g, '') === "11/30" },
+        { id: "q5", title: "5", type: "text", points: 5, check: (val) => {
+          const v = val.replace(/\s/g, '').replace(/＞/g, '>');
+          return v === "丙>乙>甲";
+        }},
+        { id: "q6", title: "6", type: "text", points: 5, check: (val) => val.trim() === "1024" },
+        { id: "q7", title: "7", type: "text", points: 5, check: (val) => {
+          const v = val.replace(/\s/g, '');
+          return v === "92:79" || v === "92/79";
+        }},
+        { id: "q8_1", title: "8(1)", type: "text", points: 5, check: (val) => val.trim() === "10" },
+        { id: "q8_2", title: "8(2)", type: "text", points: 5, check: (val) => {
+          const v = val.replace(/\s/g, '').toLowerCase();
+          return v === "\\sqrt{3}/6" || v === "sqrt(3)/6" || v === "√3/6" || v === "\\frac{\\sqrt{3}}{6}";
+        }},
+        { id: "q9", title: "9", type: "text", points: 5, check: (val) => {
+          const v = val.replace(/\s/g, '');
+          return v === "15/4" || v === "3.75";
+        }},
+        { id: "q10_1", title: "10(1)", type: "text", points: 5, check: (val) => {
+          const v = val.replace(/\s/g, '').replace(/<=/g, '≤');
+          return v === "5≤a≤7" || v === "5<=a<=7" || v === "[5,7]";
+        }},
+        { id: "q10_2", title: "10(2)", type: "text", points: 5, check: (val) => {
+          const v = val.replace(/\s/g, '').replace(/>=/g, '≥');
+          return v === "b≥26" || v === "b>=26" || v === "b>26";
+        }},
+        { id: "q11", title: "11", type: "text", points: 5, check: (val) => val.trim() === "13070" },
+        { id: "q12", title: "12", type: "text", points: 5, check: (val) => {
+          const v = val.replace(/\s/g, '').toLowerCase();
+          return v === "x=2" || v === "2";
+        }},
+        { id: "q13", title: "13", type: "text", points: 5, check: (val) => val.trim() === "-2" },
+        { id: "q14_1", title: "14(1)", type: "text", points: 5, check: (val) => val.trim() === "250" },
+        { id: "q14_2", title: "14(2)", type: "text", points: 5, check: (val) => val.trim() === "106" },
+        { id: "q14_3", title: "14(3)", type: "text", points: 5, check: (val) => val.trim() === "7" },
+        { id: "q15_1", title: "二(1)", type: "text", points: 3, check: (val) => {
+          const v = val.replace(/\s/g, '');
+          return v === "a<c<b" || v === "a＜c＜b";
+        }},
+        { id: "q15_2", title: "二(2)", type: "text", points: 3, check: (val) => {
+          const v = val.replace(/\s/g, '').toLowerCase();
+          return v === "\\sqrt{5}/2" || v === "sqrt(5)/2" || v === "√5/2" || v === "\\frac{\\sqrt{5}}{2}";
+        }},
+        { id: "q15_3", title: "二(3)", type: "checkbox", points: 4, check: (checked) => !!checked }
+      ]
+    };
+
+    /* App State */
+    let currentMode = 'exam'; // 'exam' or 'practice'
+    let timerRemaining = EXAM_DATA.totalTimeSeconds;
+    let timerInterval = null;
+    let timerRunning = true;
+    let areAllSolutionsOpen = false;
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      startTimer();
+      bindInputListeners();
+      updateAnsweredCount();
+    });
+
+    // Timer Functions
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (timerRunning && timerRemaining > 0) {
+          timerRemaining--;
+          updateTimerDisplay();
+          if (timerRemaining === 300) { // 5 mins reminder
+            showToast("考試時間僅剩最後 5 分鐘，請注意作答節奏！", "warning");
+          }
+          if (timerRemaining <= 0) {
+            clearInterval(timerInterval);
+            timerRemaining = 0;
+            updateTimerDisplay();
+            showToast("考試時間已到，系統為您自動交卷！", "info");
+            submitExam();
+          }
+        }
+      }, 1000);
+    }
+
+    function toggleTimer() {
+      timerRunning = !timerRunning;
+      const btn = document.getElementById('toggleTimerBtn');
+      if (timerRunning) {
+        btn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        showToast("計時器已繼續", "info");
+      } else {
+        btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+        showToast("計時器已暫停", "info");
+      }
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timerRemaining / 60);
+      const seconds = timerRemaining % 60;
+      const str = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      const elem = document.getElementById('timerText');
+      if (elem) elem.textContent = str;
+    }
+
+    // Toast Message Implementation
+    function showToast(msg, type = "info") {
+      const toast = document.getElementById('toastBox');
+      const text = document.getElementById('toastMsg');
+      const icon = document.getElementById('toastIcon');
+
+      text.textContent = msg;
+      if (type === 'success') {
+        icon.className = "fa-solid fa-circle-check text-emerald-400";
+      } else if (type === 'warning') {
+        icon.className = "fa-solid fa-triangle-exclamation text-amber-400";
+      } else {
+        icon.className = "fa-solid fa-circle-info text-indigo-400";
+      }
+
+      toast.classList.remove('opacity-0', 'translate-y-20', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-20', 'pointer-events-none');
+      }, 3500);
+    }
+
+    // Switch between Exam Mode and Practice Mode
+    function switchMode(mode) {
+      currentMode = mode;
+      const examBtn = document.getElementById('modeExamBtn');
+      const practiceBtn = document.getElementById('modePracticeBtn');
+      const timerBox = document.getElementById('timerContainer');
+      const badge = document.getElementById('currentModeBadge');
+      const toggleAllBtn = document.getElementById('toggleAllBtn');
+
+      if (mode === 'exam') {
+        examBtn.className = "px-3 py-1.5 rounded-md transition-all bg-indigo-600 text-white shadow";
+        practiceBtn.className = "px-3 py-1.5 rounded-md text-slate-300 hover:text-white transition-all";
+        timerBox.classList.remove('hidden');
+        badge.innerHTML = '<i class="fa-solid fa-clock"></i> 模式：模擬考試測驗中';
+        badge.className = "inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200";
+        toggleAllBtn.classList.add('hidden');
+        closeAllSolutions();
+        showToast("已切換為「模擬考試模式」：解答已隱藏", "info");
+      } else {
+        practiceBtn.className = "px-3 py-1.5 rounded-md transition-all bg-indigo-600 text-white shadow";
+        examBtn.className = "px-3 py-1.5 rounded-md text-slate-300 hover:text-white transition-all";
+        timerBox.classList.add('hidden');
+        badge.innerHTML = '<i class="fa-solid fa-book-open"></i> 模式：練習與全解析';
+        badge.className = "inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200";
+        toggleAllBtn.classList.remove('hidden');
+        openAllSolutions();
+        showToast("已切換為「練習解析模式」：展開所有詳細推導步驟", "success");
+      }
+    }
+
+    function toggleSingleSolution(solId) {
+      const sol = document.getElementById(solId);
+      if (!sol) return;
+      const isHidden = sol.classList.contains('hidden');
+      if (isHidden) {
+        sol.classList.remove('hidden');
+        if (window.MathJax) MathJax.typesetPromise([sol]);
+      } else {
+        sol.classList.add('hidden');
+      }
+    }
+
+    function openAllSolutions() {
+      document.querySelectorAll('.solution-box').forEach(el => {
+        el.classList.remove('hidden');
+      });
+      if (window.MathJax) MathJax.typesetPromise();
+      const btn = document.getElementById('toggleAllBtn');
+      btn.innerHTML = '<i class="fa-solid fa-chevron-up mr-1"></i> 全部解析收合';
+      areAllSolutionsOpen = true;
+    }
+
+    function closeAllSolutions() {
+      document.querySelectorAll('.solution-box').forEach(el => {
+        el.classList.add('hidden');
+      });
+      const btn = document.getElementById('toggleAllBtn');
+      btn.innerHTML = '<i class="fa-solid fa-chevron-down mr-1"></i> 全部解析展開';
+      areAllSolutionsOpen = false;
+    }
+
+    function toggleAllSolutions() {
+      if (areAllSolutionsOpen) {
+        closeAllSolutions();
+      } else {
+        openAllSolutions();
+      }
+    }
+
+    // Input syncing for Checkbox and Radios
+    function bindInputListeners() {
+      // Q1 Checkboxes to input-q1 text
+      const q1Checkboxes = document.querySelectorAll('input[name="q1_opt"]');
+      q1Checkboxes.forEach(cb => {
+        cb.addEventListener('change', () => {
+          const selected = Array.from(q1Checkboxes).filter(c => c.checked).map(c => c.value);
+          document.getElementById('input-q1').value = selected.join('');
+          updateAnsweredCount();
+        });
+      });
+
+      // Q2 Radios to input-q2 text
+      const q2Radios = document.querySelectorAll('input[name="q2_opt"]');
+      q2Radios.forEach(rb => {
+        rb.addEventListener('change', () => {
+          if (rb.checked) {
+            document.getElementById('input-q2').value = rb.value;
+            updateAnsweredCount();
+          }
+        });
+      });
+
+      // Text input listeners to update count
+      document.querySelectorAll('input[id^="input-"]').forEach(inp => {
+        inp.addEventListener('input', updateAnsweredCount);
+      });
+    }
+
+    function updateAnsweredCount() {
+      let count = 0;
+      EXAM_DATA.questions.forEach(q => {
+        const elem = document.getElementById('input-' + q.id);
+        if (elem) {
+          if (q.type === 'checkbox' && elem.checked) count++;
+          else if (q.type === 'text' && elem.value.trim().length > 0) count++;
+        }
+      });
+      document.getElementById('answeredCounter').textContent = `已作答 ${count} / ${EXAM_DATA.questions.length} 題`;
+    }
+
+    // Submit Exam & Auto-Grading
+    function submitExam() {
+      let score = 0;
+      let correct = 0;
+      let wrong = 0;
+
+      EXAM_DATA.questions.forEach((q) => {
+        const inputElem = document.getElementById('input-' + q.id);
+        if (!inputElem) return;
+
+        let userVal = q.type === 'checkbox' ? inputElem.checked : inputElem.value;
+        const isCorrect = q.check(userVal);
+
+        // Find status badge for current question card
+        const cardElem = inputElem.closest('.question-card');
+        const badgeElem = cardElem ? cardElem.querySelector('.status-badge') : null;
+
+        if (isCorrect) {
+          score += q.points;
+          correct++;
+          if (badgeElem) {
+            badgeElem.textContent = `+${q.points} 正確`;
+            badgeElem.className = "status-badge text-xs font-semibold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800";
+            badgeElem.classList.remove('hidden');
+          }
+        } else {
+          wrong++;
+          if (badgeElem) {
+            badgeElem.textContent = `0分 錯誤`;
+            badgeElem.className = "status-badge text-xs font-semibold px-2 py-0.5 rounded bg-rose-100 text-rose-800";
+            badgeElem.classList.remove('hidden');
+          }
+        }
+      });
+
+      // Time spent
+      const spentSec = EXAM_DATA.totalTimeSeconds - timerRemaining;
+      const spentMin = Math.floor(spentSec / 60);
+      const spentRemSec = spentSec % 60;
+
+      // Populate score report
+      document.getElementById('finalScore').textContent = score;
+      document.getElementById('correctCount').textContent = correct;
+      document.getElementById('wrongCount').textContent = wrong;
+      document.getElementById('timeSpent').textContent = `${spentMin} 分 ${spentRemSec} 秒`;
+
+      const scoreBox = document.getElementById('scoreReport');
+      scoreBox.classList.remove('hidden');
+      scoreBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      showToast(`交卷完成！您的總得分為 ${score} 分`, score >= 60 ? "success" : "warning");
+    }
+
+    function resetExam() {
+      document.querySelectorAll('input[id^="input-"]').forEach(inp => {
+        if (inp.type === 'checkbox') inp.checked = false;
+        else inp.value = '';
+      });
+      document.querySelectorAll('input[name="q1_opt"]').forEach(cb => cb.checked = false);
+      document.querySelectorAll('input[name="q2_opt"]').forEach(rb => rb.checked = false);
+      document.querySelectorAll('.status-badge').forEach(b => b.classList.add('hidden'));
+
+      document.getElementById('scoreReport').classList.add('hidden');
+      timerRemaining = EXAM_DATA.totalTimeSeconds;
+      timerRunning = true;
+      updateTimerDisplay();
+      updateAnsweredCount();
+      closeAllSolutions();
+      showToast("試卷已成功重置！", "info");
+    }
+
+    // Print Handling
+    function handlePrintDialog() {
+      document.getElementById('printModal').classList.remove('hidden');
+    }
+
+    function closePrintModal() {
+      document.getElementById('printModal').classList.add('hidden');
+    }
+
+    function executePrint(includeSolutions) {
+      closePrintModal();
+      const solutions = document.querySelectorAll('.solution-box');
+      if (includeSolutions) {
+        solutions.forEach(s => s.classList.add('print-show'));
+      } else {
+        solutions.forEach(s => s.classList.remove('print-show'));
+      }
+
+      // Allow MathJax to typeset thoroughly before triggering print
+      if (window.MathJax) {
+        MathJax.typesetPromise().then(() => {
+          setTimeout(() => {
+            window.print();
+          }, 300);
+        });
+      } else {
+        window.print();
+      }
+    }
+  </script>
+</body>
+</html>
